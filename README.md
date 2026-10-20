@@ -6,7 +6,7 @@
 
 用专业名称、动态示例与完整 Prompt 向 AI 描述视觉需求。沿用原项目的 HTML/CSS/JavaScript 和多语言架构，默认简体中文，可切换 ZH / EN / JA。144 个效果全部具备中文名称、解释、提问示例、表现、规格及适用场景，保留英文名称与标签。
 
-**在线体验预定地址**：[rainman016.github.io/motion-prompt-zh](https://rainman016.github.io/motion-prompt-zh/)。本次仅在本地准备，尚未创建或发布远程仓库与 Pages；发布前请使用本地预览。
+**在线体验**：[rainman016.github.io/motion-prompt-zh](https://rainman016.github.io/motion-prompt-zh/) · **公开仓库**：[rainman016/motion-prompt-zh](https://github.com/rainman016/motion-prompt-zh)。已通过 GitHub Pages 部署，144 项中文资料、独立 Skill 安装及网页多选发送回本地 CLI 均已实际验证。
 
 ![动态图形示例](assets/preview-motion.gif)
 
@@ -61,7 +61,7 @@ node skills/motion-prompt-zh/scripts/motion-prompt.mjs pick --local --lang zh-Ha
 
 让 Codex 在另一个本地项目中识别技能时，将完整 `skills/motion-prompt-zh` 目录复制到该项目的 `.agents/skills/motion-prompt-zh`，保留 `scripts/site-config.json`、`config.mjs` 和 `references/`。这是项目级安装；无需改全局配置或覆盖原版。Codex 按 [官方 Skill 规范](https://learn.chatgpt.com/docs/build-skills) 读取 `SKILL.md`；安装后若未出现，重启该项目的 Codex 会话。
 
-发布前，复制出来的独立技能没有网站源码，也不能假设预定站点已经上线。可在启动 Codex 的终端中指定本地数据，并先验证：
+独立安装的技能默认读取已部署的中文 Pages API，并打开线上中文动效库。需要改用本地数据时，可在启动 Codex 的终端中指定路径并验证：
 
 ```powershell
 $env:MOTION_PROMPT_BASE='C:\你的路径\motion-prompt-zh\api\v1'
@@ -69,14 +69,15 @@ node .agents/skills/motion-prompt-zh/scripts/motion-prompt.mjs info
 node .agents/skills/motion-prompt-zh/scripts/motion-prompt.mjs get 059 --lang zh-Hans
 ```
 
-发布前需要浏览器选择时，使用完整源码的 CLI 运行 `pick --local`，把回传结果交给目标项目中的 Codex；或将项目级 Skill 链接到完整源码中的技能目录（Codex 支持符号链接）。仅复制技能时，`--local` 会明确提示缺少网站源码。
+需要完全使用本地动效库时，使用完整源码的 CLI 运行 `pick --local`，把回传结果交给目标项目中的 Codex；或将项目级 Skill 链接到完整源码中的技能目录（Codex 支持符号链接）。仅复制技能时，`--local` 会明确提示缺少网站源码；不加 `--local` 即使用线上站点。
 
-公开仓库发布后，其他用户可在目标项目中安装（`npx skills` 安装器当前要求 Node.js 22.20+，网站构建及本仓库 CLI 仍支持 Node.js 18+；见[安装器官方说明](https://github.com/vercel-labs/skills)）：
+其他用户可在目标项目中安装（`npx skills` 安装器当前要求 Node.js 22.20+，网站构建及本仓库 CLI 仍支持 Node.js 18+；见[安装器官方说明](https://github.com/vercel-labs/skills)）：
 
 ```sh
 npx skills add rainman016/motion-prompt-zh --skill motion-prompt-zh --agent codex
 node .agents/skills/motion-prompt-zh/scripts/motion-prompt.mjs info
 node .agents/skills/motion-prompt-zh/scripts/motion-prompt.mjs search 文字 入场 --lang zh-Hans
+node .agents/skills/motion-prompt-zh/scripts/motion-prompt.mjs pick --lang zh-Hans
 ```
 
 默认安装到当前项目，确认目录为 `.agents/skills/motion-prompt-zh`。验证命令应显示 144 个元素及实际来源。默认中文；`--lang zh` 等价于 `zh-Hans`，`--lang en`、`--lang ja` 保留原语言。
@@ -103,7 +104,7 @@ Codex 应先检查项目，再读取选中编号的 `get` 与对应 `kit`，完�
 4. 首次发布、目标 Fork 尚未创建且 `origin` 仍指向上游时，创建 Fork，再保留 `upstream` 并将 `origin` 指向自己的 Fork。若目标或远程已存在，先检查再继续，不重复创建或覆盖：
 
 ```sh
-gh repo fork showheyohtaki/motion-prompt --fork-name motion-prompt-zh --clone=false --remote=false
+gh repo fork showheyohtaki/motion-prompt --fork-name motion-prompt-zh --clone=false
 git remote rename origin upstream
 git remote add origin https://github.com/rainman016/motion-prompt-zh.git
 git push -u origin HEAD:main
@@ -116,7 +117,7 @@ gh api repos/rainman016/motion-prompt-zh/pages --method POST --input .github/pag
 ```
 
 也可在仓库 **Settings → Pages → Build and deployment** 选择 **Deploy from a branch**，分支 `main`、目录 `/(root)`。项目自带 `.nojekyll` 与已生成静态文件，无需框架或额外部署密钥。参见 [GitHub 官方发布源说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)及 [Pages API](https://docs.github.com/en/rest/pages/pages#create-a-github-pages-site)。
-6. 部署成功后检查首页、`?lang=zh-Hans#144`、中文资源、分享和 Skill 远程读取，再移除本文“尚未发布”提示。
+6. 每次部署后检查首页、`?lang=zh-Hans#144`、中文资源、分享和 Skill 远程读取，确认 Pages 构建对应最新提交。
 
 发布内容检查、完整验收范围及上线后的验证清单见 [发布说明](docs/PUBLISHING.md)。后续更新只需重新构建、检查、提交并推送 `main`，Pages 会按已配置来源更新。
 
