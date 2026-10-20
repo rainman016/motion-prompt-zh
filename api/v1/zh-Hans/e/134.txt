@@ -1,0 +1,37 @@
+// Motion Prompt #134 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#134
+//
+// 图形重复器 / Repeater
+// 分类包: motion2 (动态图形进阶) · element 14 · 子分类: 文字与图形
+// 动画表现: 图形沿圆周复制，各副本略微错开地旋转与脉动。
+// 运动规格:
+//   - 24 × 60、圆角 12 的圆角条最多复制12 份，围绕中央半径 58 的圆排列，每份朝向外侧，即角度 + 90°。
+//   - 数量在 0.35–1.7 秒从 1→12，3.6–4.45 秒从 12→1，二次缓入缓出；每个新副本从前一位置滑到自身位置，多转 30°，采用三次缓出。
+//   - 整圈每 4.7 秒转一周；各副本每 4.7 秒脉动两次，尺寸为 1 ± 0.22，相邻错开 0.55 rad，形成环形波。
+//   - 颜色依次蓝、珊瑚、黄、薄荷；原始副本带白色轮廓，右上角显示“×N”计数。
+// 适用场景: 适合加载环、背景纹样、花朵、光线等重复图形。
+// 标签: repeater, duplicate, radial, array, clone, pattern, loader
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#134
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 14
+// 14 リピーター（1つの図形が複製されて円に並び、少しずつずれながら回る）
+CELLS[13] = (k, w, h, u) => {
+  u = snapU(u);
+  stage(k);
+  const N = 12, X = w / 2, Y = h / 2, R = 58, spin = 2 * Math.PI * u / CYC;
+  const cnt = 1 + (N - 1) * (eIOs(P(u, 0.35, 1.7)) - eIOs(P(u, 3.6, 4.45)));
+  for (let i = N - 1; i >= 0; i--) {
+    const vis = i === 0 ? 1 : clamp(cnt - i); if (vis <= 0) continue;
+    const ang = spin + (i === 0 ? 0 : (i - 1 + eOut(vis))) * 2 * Math.PI / N;
+    const pul = (1 + 0.22 * Math.sin(2 * Math.PI * 2 * u / CYC - i * 0.55)) * (0.55 + 0.45 * vis);
+    k.save(); k.translate(X + Math.cos(ang) * R, Y + Math.sin(ang) * R); k.rotate(ang + Math.PI / 2); k.scale(pul, pul);
+    k.fillStyle = PAL[i % 4]; rr(k, -12, -30, 24, 60, 12); k.fill();
+    if (i === 0) { k.strokeStyle = '#fff'; k.lineWidth = 4; rr(k, -12, -30, 24, 60, 12); k.stroke(); }
+    k.restore();
+  }
+  txt(k, '×' + Math.round(cnt), w - 34, 46, `800 40px ${DISP}`, C.yel, 'right', 'middle');
+};

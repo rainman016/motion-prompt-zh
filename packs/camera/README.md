@@ -2,7 +2,7 @@
 
 # Camera moves & transitions
 
-24 names · #025–048 · pack `camera` · Languages: [日本語](README.ja.md)
+24 names · #025–048 · pack `camera` · Languages: [日本語](README.ja.md) / [简体中文](README.zh-Hans.md)
 
 Find the name, then say it to your AI. Add how long, how strong and what moves, and the result gets closer to what you had in mind.
 
@@ -12,40 +12,40 @@ Find the name, then say it to your AI. Add how long, how strong and what moves, 
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#025](https://showheyohtaki.github.io/motion-prompt/#025) | **Pan** | Pivot the camera left or right | Slow pan from left to right across the skyline, camera fixed in place, over 5 seconds. |
-| [#026](https://showheyohtaki.github.io/motion-prompt/#026) | **Tilt** | Pivot the camera up or down | Slow tilt up from the person's feet to the top of the tower. |
-| [#027](https://showheyohtaki.github.io/motion-prompt/#027) | **Dolly in** | Move the camera toward the subject | Slow dolly in toward her face; move the camera, do not zoom. |
-| [#028](https://showheyohtaki.github.io/motion-prompt/#028) | **Zoom in** | Magnify with the lens (camera stays put) | The camera stays still; zoom in on the person at the window over 3 seconds. |
-| [#029](https://showheyohtaki.github.io/motion-prompt/#029) | **Tracking shot** | Move along with the subject | Tracking shot from the side, moving along with the walking person at the same speed. |
-| [#030](https://showheyohtaki.github.io/motion-prompt/#030) | **Orbit (Arc shot)** | Circle around the subject | Half orbit around the standing person, keeping them in the center of the frame. |
-| [#031](https://showheyohtaki.github.io/motion-prompt/#031) | **Crane up** | Lift the camera up | Crane up from eye level until the whole town comes into view. |
-| [#032](https://showheyohtaki.github.io/motion-prompt/#032) | **Dolly zoom (Vertigo)** | Subject stays, background warps | Dolly zoom on his face at the moment he realizes: he stays the same size while the background stretches away. |
+| [#025](https://rainman016.github.io/motion-prompt-zh/#025) | **Pan** | Pivot the camera left or right | Slow pan from left to right across the skyline, camera fixed in place, over 5 seconds. |
+| [#026](https://rainman016.github.io/motion-prompt-zh/#026) | **Tilt** | Pivot the camera up or down | Slow tilt up from the person's feet to the top of the tower. |
+| [#027](https://rainman016.github.io/motion-prompt-zh/#027) | **Dolly in** | Move the camera toward the subject | Slow dolly in toward her face; move the camera, do not zoom. |
+| [#028](https://rainman016.github.io/motion-prompt-zh/#028) | **Zoom in** | Magnify with the lens (camera stays put) | The camera stays still; zoom in on the person at the window over 3 seconds. |
+| [#029](https://rainman016.github.io/motion-prompt-zh/#029) | **Tracking shot** | Move along with the subject | Tracking shot from the side, moving along with the walking person at the same speed. |
+| [#030](https://rainman016.github.io/motion-prompt-zh/#030) | **Orbit (Arc shot)** | Circle around the subject | Half orbit around the standing person, keeping them in the center of the frame. |
+| [#031](https://rainman016.github.io/motion-prompt-zh/#031) | **Crane up** | Lift the camera up | Crane up from eye level until the whole town comes into view. |
+| [#032](https://rainman016.github.io/motion-prompt-zh/#032) | **Dolly zoom (Vertigo)** | Subject stays, background warps | Dolly zoom on his face at the moment he realizes: he stays the same size while the background stretches away. |
 
 ## Shooting Style & Time
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#033](https://showheyohtaki.github.io/motion-prompt/#033) | **Rack focus** | Shift focus between near and far | Rack focus from the cup in the foreground to the person behind it, in 1 second. |
-| [#034](https://showheyohtaki.github.io/motion-prompt/#034) | **Handheld** | A slight shake, as if the camera were held by hand | Handheld shot following behind the walking person, with only a slight shake. |
-| [#035](https://showheyohtaki.github.io/motion-prompt/#035) | **FPV drone shot** | Fast, immersive fly-through | FPV drone shot weaving between the trees and out over the river. |
-| [#036](https://showheyohtaki.github.io/motion-prompt/#036) | **Dutch angle** | Tilt the frame diagonally | Use a Dutch angle of about 15 degrees for this uneasy scene. |
-| [#037](https://showheyohtaki.github.io/motion-prompt/#037) | **Slow motion** | Play the action slower | Show the moment of the splash in slow motion. |
-| [#038](https://showheyohtaki.github.io/motion-prompt/#038) | **Speed ramp** | Change speed mid-shot | Speed ramp: normal speed, slowing at the top of the jump, then back to normal. |
-| [#039](https://showheyohtaki.github.io/motion-prompt/#039) | **Time-lapse** | Compress hours into seconds | Time-lapse of the city from dusk to night as the lights come on. |
-| [#040](https://showheyohtaki.github.io/motion-prompt/#040) | **Freeze frame** | Pause the action for a beat | Freeze frame at the moment she turns around; hold for 1 second and show her name. |
+| [#033](https://rainman016.github.io/motion-prompt-zh/#033) | **Rack focus** | Shift focus between near and far | Rack focus from the cup in the foreground to the person behind it, in 1 second. |
+| [#034](https://rainman016.github.io/motion-prompt-zh/#034) | **Handheld** | A slight shake, as if the camera were held by hand | Handheld shot following behind the walking person, with only a slight shake. |
+| [#035](https://rainman016.github.io/motion-prompt-zh/#035) | **FPV drone shot** | Fast, immersive fly-through | FPV drone shot weaving between the trees and out over the river. |
+| [#036](https://rainman016.github.io/motion-prompt-zh/#036) | **Dutch angle** | Tilt the frame diagonally | Use a Dutch angle of about 15 degrees for this uneasy scene. |
+| [#037](https://rainman016.github.io/motion-prompt-zh/#037) | **Slow motion** | Play the action slower | Show the moment of the splash in slow motion. |
+| [#038](https://rainman016.github.io/motion-prompt-zh/#038) | **Speed ramp** | Change speed mid-shot | Speed ramp: normal speed, slowing at the top of the jump, then back to normal. |
+| [#039](https://rainman016.github.io/motion-prompt-zh/#039) | **Time-lapse** | Compress hours into seconds | Time-lapse of the city from dusk to night as the lights come on. |
+| [#040](https://rainman016.github.io/motion-prompt-zh/#040) | **Freeze frame** | Pause the action for a beat | Freeze frame at the moment she turns around; hold for 1 second and show her name. |
 
 ## Transitions
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#041](https://showheyohtaki.github.io/motion-prompt/#041) | **Jump cut** | Same framing, skip ahead in time | Use jump cuts from the same framing to move quickly through the preparation. |
-| [#042](https://showheyohtaki.github.io/motion-prompt/#042) | **Match cut** | Cut on a matching shape or motion | Match cut from the round coffee cup to a full moon in the same position. |
-| [#043](https://showheyohtaki.github.io/motion-prompt/#043) | **Whip pan** | Fast pan blur into the next shot | Whip pan to the right and land in the next location. |
-| [#044](https://showheyohtaki.github.io/motion-prompt/#044) | **Cross dissolve** | Blend one shot into the next | Cross dissolve from the room in the morning to the same room at night, 1 second. |
-| [#045](https://showheyohtaki.github.io/motion-prompt/#045) | **Wipe** | A moving edge replaces the shot | Wipe from left to right into the next scene. |
-| [#046](https://showheyohtaki.github.io/motion-prompt/#046) | **Smash cut** | Abrupt cut to a contrasting scene | Smash cut from the quiet bedroom to a noisy intersection. |
-| [#047](https://showheyohtaki.github.io/motion-prompt/#047) | **J-cut** | Next scene's audio starts first | J-cut: let the sound of waves from the next scene start before cutting to the sea. |
-| [#048](https://showheyohtaki.github.io/motion-prompt/#048) | **L-cut** | Previous scene's audio carries over | L-cut: keep her voice going while cutting to the listener's face. |
+| [#041](https://rainman016.github.io/motion-prompt-zh/#041) | **Jump cut** | Same framing, skip ahead in time | Use jump cuts from the same framing to move quickly through the preparation. |
+| [#042](https://rainman016.github.io/motion-prompt-zh/#042) | **Match cut** | Cut on a matching shape or motion | Match cut from the round coffee cup to a full moon in the same position. |
+| [#043](https://rainman016.github.io/motion-prompt-zh/#043) | **Whip pan** | Fast pan blur into the next shot | Whip pan to the right and land in the next location. |
+| [#044](https://rainman016.github.io/motion-prompt-zh/#044) | **Cross dissolve** | Blend one shot into the next | Cross dissolve from the room in the morning to the same room at night, 1 second. |
+| [#045](https://rainman016.github.io/motion-prompt-zh/#045) | **Wipe** | A moving edge replaces the shot | Wipe from left to right into the next scene. |
+| [#046](https://rainman016.github.io/motion-prompt-zh/#046) | **Smash cut** | Abrupt cut to a contrasting scene | Smash cut from the quiet bedroom to a noisy intersection. |
+| [#047](https://rainman016.github.io/motion-prompt-zh/#047) | **J-cut** | Next scene's audio starts first | J-cut: let the sound of waves from the next scene start before cutting to the sea. |
+| [#048](https://rainman016.github.io/motion-prompt-zh/#048) | **L-cut** | Previous scene's audio carries over | L-cut: keep her voice going while cutting to the listener's face. |
 
 Each number opens the moving sample in the gallery. Timings, easing values and reference code for one name: `api/v1/en/e/<id>.txt` ([#025](../../api/v1/en/e/025.txt)).
 

@@ -1,0 +1,50 @@
+// Motion Prompt #139 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#139
+//
+// 立方体转场 / Cube transition
+// 分类包: motion2 (动态图形进阶) · element 19 · 子分类: 转场与强调
+// 动画表现: 像立方体旋转一样，正面转走，下一面转入。
+// 运动规格:
+//   - A 面为珊瑚色底字母 A，B 面为薄荷色底字母 B，各为 250 × 146；各占 2.35 秒，A→B→A。
+//   - 0.45–1.6 秒旋转 0→90°，持续 1.15 秒，三次缓入缓出；绕立方体中心竖轴，深度等于面宽 250。
+//   - 透视相机距离 820 px，各面按宽 2 px 的竖条绘制，根据透视系数设置尺寸和位置。
+//   - 转出面最多变暗 55%，公式 0.55·sinφ；转入面从 55% 暗度逐渐变亮，公式 0.55·cosφ；地面阴影跟随可见宽度。
+// 适用场景: 适合有纵深感地依次展示产品、方案或界面。
+// 标签: cube, cube-transition, 3d, rotate, transition, perspective
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#139
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 19
+// 19 キューブ（立方体が回るように、前の面が奥へ倒れて次の面が現れる）
+const CFW = 250, CFH = 146, CF = [mkCanvas(CFW, CFH), mkCanvas(CFW, CFH)];
+function cubeFace(i) {
+  const g = CF[i].getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, CFW, CFH);
+  g.fillStyle = i ? C.mint : C.coral; g.fillRect(0, 0, CFW, CFH);
+  g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 4; g.strokeRect(12, 12, CFW - 24, CFH - 24);
+  txt(g, i ? 'B' : 'A', 78, CFH / 2 + 4, `800 104px ${DISP}`, i ? C.navy : '#fff', 'center', 'middle');
+  g.fillStyle = i ? C.navy : '#fff'; g.globalAlpha = 0.8; rr(g, 140, 46, 78, 14, 7); g.fill(); g.globalAlpha = 0.45; rr(g, 140, 72, 60, 12, 6); g.fill(); rr(g, 140, 94, 70, 12, 6); g.fill(); g.globalAlpha = 1;
+  return CF[i];
+}
+CELLS[18] = abCell((k, w, h, u, a, b) => {
+  stage(k);
+  const phi = (Math.PI / 2) * eIO(P(u, TA - 0.05, TB + 0.1)), c = Math.cos(phi), s = Math.sin(phi), HW = CFW / 2, D = 820, X = w / 2, Y = h / 2 - 4;
+  const rot = (x, z) => [x * c - z * s, x * s + z * c];
+  const FL = rot(-HW, HW), FR = rot(HW, HW), BR = rot(HW, -HW);
+  const pj = p => { const f = D / (D - (p[1] - HW)); return [X + p[0] * f, f]; };
+  k.fillStyle = 'rgba(0,0,0,.3)'; k.beginPath(); k.ellipse(X, h - 16, HW * (c + s) * 0.95, 7, 0, 0, 7); k.fill();
+  const face = (img, P0, P1, shade) => {
+    const A0 = pj(P0), A1 = pj(P1); if (A1[0] - A0[0] < 1) return;
+    const STEP = 2;
+    for (let sx = 0; sx < CFW; sx += STEP) {
+      const t0 = sx / CFW, t1 = Math.min(1, (sx + STEP) / CFW);
+      const q0 = pj([lerp(P0[0], P1[0], t0), lerp(P0[1], P1[1], t0)]), q1 = pj([lerp(P0[0], P1[0], t1), lerp(P0[1], P1[1], t1)]);
+      const hh = CFH * q0[1]; k.drawImage(img, sx, 0, STEP, CFH, q0[0], Y - hh / 2, q1[0] - q0[0] + 0.7, hh);
+    }
+    if (shade > 0.01) { k.fillStyle = `rgba(8,14,40,${shade})`; k.beginPath(); k.moveTo(A0[0], Y - CFH * A0[1] / 2); k.lineTo(A1[0], Y - CFH * A1[1] / 2); k.lineTo(A1[0], Y + CFH * A1[1] / 2); k.lineTo(A0[0], Y + CFH * A0[1] / 2); k.closePath(); k.fill(); }
+  };
+  face(cubeFace(a), FL, FR, 0.55 * s);
+  face(cubeFace(b), FR, BR, 0.55 * c);
+});

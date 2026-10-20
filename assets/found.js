@@ -10,7 +10,29 @@
   var WIDGETS = 'https://platform.twitter.com/widgets.js';
 
   var I18N = {
+    'zh-Hans': {
+      localizationNotice: '本项目是 Motion Prompt 的非官方简体中文本地化版本，基于 Shohei Ohtaki 的开源项目开发。', sourceLink: '原始项目',
+      title: '社区案例｜Motion Prompt',
+      description: '社区作者用专业名称和动态示例建立共同语言的案例，保留原帖链接与作者归属。',
+      skip: '跳转到案例列表', navLabel: '站点导航', navGallery: '效果库', navFound: '社区案例', langLabel: '语言',
+      themeToDark: '切换深色模式', themeToLight: '切换浅色模式', eyebrow: '社区案例',
+      h1: '用名称和示例，建立共同语言',
+      lead: '这些作者整理了向 AI 描述需求的专业名称，配有动态示例或速查表，领域、语言和风格各不相同。我们选择包含作者自制示例的帖子，内容与权利属于各位作者。',
+      leadNote: '收录不代表作者认可或支持本站，案例介绍由本站编写。', noteH: '关于嵌入内容',
+      noteP: '本页通过 X（原 Twitter）官方嵌入展示帖子。打开后将从 X 服务器加载内容并使用其 Cookie，X 可能记录浏览并用于广告。嵌入请求带有 dnt 设置，要求 X 不将其用于个性化。',
+      notePrivacy: 'X 隐私政策', noteCookies: 'X 的 Cookie 使用说明', listH: '案例列表', loadListFailed: '案例列表加载失败。',
+      count: '{n} 个帖子', postLang: { ja: '日语', en: '英语' }, postLangLabel: '帖子语言：{l}',
+      viewOnX: '在 X 查看', viewOnXLabel: '在 X 查看 {a} 的帖子', loading: '正在加载…',
+      gone: '无法显示此帖，可能已被删除。', failed: '无法从 X 加载，可能受到网络或内容拦截影响。仍可点击“在 X 查看”打开原帖。', shown: '已显示 {a} 的帖子',
+      moreH: '推荐你发现的案例', recH: '推荐帖子，也欢迎自荐',
+      recP: '如果发现配有示例的专业术语帖子，可以通过 GitHub Issue 推荐。本站仅嵌入和链接，不复制图片或视频。', recLink: '推荐案例（GitHub Issue）',
+      rmH: '申请移除或更正', rmP: '如需移除自己的帖子或更正介绍，请通过 Issue 表单提交，维护者核实后处理。', rmLink: '申请删除或更正（GitHub Issue）',
+      author: '原作者', authorName: 'Shohei Ohtaki', whyLink: '原作者的创作缘起', makeLink: '制作自己的领域或语言版本', addLink: '贡献专业术语', listLink: '中文名称列表（GitHub）',
+      removeP1: '如需删除或更正本站介绍，请通过', removeLink: 'GitHub Issue 表单', removeP2: '提交，维护者核实后处理。',
+      thanks1: '动态示例与可复制 Prompt 相结合的形式，受到', thanks2: '的启发，谨致谢意。',
+    },
     ja: {
+      localizationNotice: 'Shohei Ohtaki のオープンソースプロジェクトを基にした、Motion Prompt の非公式簡体字中国語版です。', sourceLink: '元のプロジェクト',
       title: '見つけた事例｜Motion Prompt',
       skip: '事例の一覧へ移動', navLabel: 'サイト内', navGallery: '見本', navFound: '事例', langLabel: '言語',
       themeToDark: 'ダークモードに切り替える', themeToLight: 'ライトモードに切り替える',
@@ -44,6 +66,7 @@
       thanks1: '動く見本を並べて、プロンプトをコピーして使う形は', thanks2: 'から着想を得ました。ありがとうございます。',
     },
     en: {
+      localizationNotice: 'An unofficial Simplified Chinese localization of Motion Prompt, based on the open-source project by Shohei Ohtaki.', sourceLink: 'Original project',
       title: 'Examples — Motion Prompt',
       skip: 'Skip to the examples', navLabel: 'Site', navGallery: 'Gallery', navFound: 'Examples', langLabel: 'Language',
       themeToDark: 'Switch to dark mode', themeToLight: 'Switch to light mode',
@@ -84,12 +107,12 @@
     del: function (k) { try { localStorage.removeItem(k); } catch (e) { /* ignore */ } },
   };
   var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : { matches: false };
-  var state = { lang: root.lang === 'en' ? 'en' : 'ja', data: null };
+  var state = { lang: window.MP_LANGUAGE.normalize(root.lang) || 'zh-Hans', data: null };
   var cards = [];   // { item, el, box, status, shown, token }
 
   function t(key, vars) {
     var s = I18N[state.lang][key];
-    if (s == null) s = I18N.ja[key];
+    if (s == null) s = I18N.en[key];
     if (s == null) s = key;
     if (vars && typeof s === 'string') Object.keys(vars).forEach(function (k) { s = s.split('{' + k + '}').join(vars[k]); });
     return s;
@@ -148,7 +171,7 @@
     return loadWidgets().then(function (tw) {
       if (c.token !== token) return;
       return tw.widgets.createTweet(c.item.id, c.box, {
-        lang: state.lang, theme: isDark() ? 'dark' : 'light', dnt: true, conversation: 'none', align: 'center',
+        lang: state.lang === 'zh-Hans' ? 'zh-cn' : state.lang, theme: isDark() ? 'dark' : 'light', dnt: true, conversation: 'none', align: 'center',
       }).then(function (el) {
         if (c.token !== token) return;
         if (el) { setStatus(c, null); c.el.classList.remove('is-gone'); }
@@ -228,6 +251,7 @@
     var lang = state.lang;
     root.lang = lang;
     document.title = t('title');
+    window.MP_LOCALIZE_PAGE(t('title'), I18N[lang].description || I18N[lang].lead);
     $$('[data-t]').forEach(function (n) { n.textContent = t(n.getAttribute('data-t')); });
     $$('[data-t-attr]').forEach(function (n) {
       n.getAttribute('data-t-attr').split(',').forEach(function (pair) {
@@ -245,6 +269,7 @@
       if (lang === state.lang) return;
       state.lang = lang;
       store.set('mp-lang', lang);
+      window.MP_LANGUAGE.updateUrl(lang);
       applyText();
       if (state.data) build();  // rebuild redraws the embeds in the new language
     });

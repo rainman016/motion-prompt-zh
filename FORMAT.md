@@ -1,3 +1,5 @@
+> 本仓库是非官方简体中文本地化版本。部署配置源为 `site.config.json`；下方原项目地址用于来源说明，实际资源地址以配置与生成目录为准。
+
 # Motion Prompt — pack and API format
 
 Motion Prompt is a library of names: the words a field uses for the things you ask an AI to make, each
@@ -20,7 +22,8 @@ packs/<pack>/pack.js  packs/<pack>/meta.json  (optional fonts/)   source of trut
 packs/README.md  packs/<pack>/README.md  README.<lang>.md*   the name lists, readable on GitHub (* = generated)
 api/v1/…                                   generated static API (committed)
 tools/build.mjs  tools/check.mjs           generators / checks
-skills/motion-prompt/{SKILL.md,scripts/motion-prompt.mjs,references/}   the agent skill
+skills/motion-prompt-zh/{SKILL.md,scripts/,references/,agents/}   the Chinese agent skill
+skills/motion-prompt/scripts/motion-prompt.mjs                  legacy CLI entry point
 .claude-plugin/{plugin.json,marketplace.json}
 dev/preview.html                           per-pack preview
 make-your-own/                             prompts, render script and two example sets for making your own
@@ -133,7 +136,7 @@ A field without the new language shows its English text in that list. The headin
 list ("Name", "What it is", …) are English unless you add a block for the language to `DOC` in
 `tools/build.mjs`; add its display name to `LANG_NAME` there too.
 
-The gallery, `api/v1/<lang>/` and the copyable prompt are served in `ja` and `en` only (`LANGS` in
+The gallery, `api/v1/<lang>/` and the copyable prompt are served in `zh-Hans`, `ja` and `en` (`LANGS` in
 `tools/build.mjs`). In those, a pack with no Japanese shows its English text. Other languages are
 carried in `api/v1/catalog.json` and shown in the generated lists.
 
@@ -141,7 +144,7 @@ carried in `api/v1/catalog.json` and shown in the generated lists.
 
 ```
 api/v1/catalog.json                 { version, count, packs:[…], elements:[{ id, pack, no, slug, category, width, height, cycle, name, meaning, ask, summary, spec, use, tags }] }
-api/v1/<lang>/catalog.tsv           header comment line, then: id  pack  category  title  tags  summary      (lang = ja | en)
+api/v1/<lang>/catalog.tsv           header comment line, then: id  pack  category  title  tags  summary      (lang = zh-Hans | ja | en)
 api/v1/<lang>/e/<id>.txt            one element: license line, info header (name, what it shows, spec, use, size, cycle, "Needs: kit <pack>", live demo URL), then the element code block
 api/v1/<lang>/p/<id>.txt            the copy-paste prompt for that element (same text the site's "copy prompt" button copies)
 api/v1/kit/<pack>.js                @kit + all @shared blocks of the pack, plus a short header showing how to run one element standalone
@@ -150,7 +153,7 @@ api/v1/kit/<pack>.js                @kit + all @shared blocks of the pack, plus 
 First line of every `e/<id>.txt` and `kit/<pack>.js`:
 `// Motion Prompt #<id> · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#<id>`
 
-Live demo deep link: `https://showheyohtaki.github.io/motion-prompt/#<id>`.
+中文版 Live demo deep link 由 `site.config.json` 的 `site` 派生为 `<site>?lang=<lang>#<id>`；上面的原站链接仅保留在版权行中。
 
 ## Tooling
 
@@ -163,3 +166,11 @@ Live demo deep link: `https://showheyohtaki.github.io/motion-prompt/#<id>`.
   `dev/preview.html?pack=<pack>` (playing), `&t=1.2` (frozen) or `&only=5` (one element).
 - A pack's `cycle` may be longer than one pass of the motion (camera uses 9.4s).
 - The kit's first line uses the pack's ID range, e.g. `#001-024`.
+
+## 中文版扩展约定
+
+- `zh-Hans` 是唯一中文目录，`zh` 只作 URL 和 CLI 输入别名。全部正式条目必须具备完整中文字段，不能依赖英语回退作为翻译。
+- `aliases` 为可选的语言到字符串数组映射，例如 `{"zh-Hans":["弹入","弹性"]}`，构建透传到 catalog，网页和 CLI 在全语言中搜索；英文 tags 原样保留。
+- 默认中文；有效 URL 优先于本地偏好。规范站点与仓库读 `site.config.json`，本地网页资源与分享按当前地址解析。
+- 修改内容后运行构建，不手改生成 API。构建验证中文规格行数和数值，语义与非数值约束仍需复核。
+- 英文和日文文档是保留的上游说明；中文 README 和 docs/LOCALIZATION.md 记录本版行为。

@@ -10,6 +10,6 @@ Motion Prompt #134
 - 色は青・コーラル・黄・ミントの順。元の1個には白いふち。右上に「×個数」
 使いどころ: ローディング・背景の模様・花や光の放射など、同じ形をくり返して並べたいとき。
 
-参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://showheyohtaki.github.io/motion-prompt/api/v1/ja/e/134.txt
-共通の補助コード: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://rainman016.github.io/motion-prompt-zh/api/v1/ja/e/134.txt
+共通の補助コード: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 参考実装の形・タイミング・イージングの数値はそのまま使い、中の文字・色・素材だけ、いま作っている物に合わせてください。

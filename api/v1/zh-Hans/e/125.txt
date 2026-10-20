@@ -1,0 +1,35 @@
+// Motion Prompt #125 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#125
+//
+// 脉冲缩放 / Pulse
+// 分类包: motion2 (动态图形进阶) · element 05 · 子分类: 运动技法
+// 动画表现: 心形以双拍节奏跳动，并向外扩散心形轮廓。
+// 运动规格:
+//   - 珊瑚色心形，每 1.175 秒一拍，每 4.7 秒四拍；每拍都是“咚咚”双拍。
+//   - 缩放 = 1 + 0.26·G(0.2 秒, 宽度 0.065) + 0.15·G(0.44 秒, 宽度 0.07)，G = e^(−((t − centre) ÷ width)²)，迅速膨胀后立即回落。
+//   - 两条心形轮廓分别从 0.16 秒和 0.40 秒开始扩散，在 0.8 秒内由缩放 1.2→2.4，采用三次缓出。
+//   - 扩散时透明度 0.75→0，第二条为此值的 60%；线宽 8.5→1.5 px。
+// 适用场景: 适合点赞、录制或直播指示、重点按钮，增加生命感。
+// 标签: pulse, heartbeat, throb, scale, loop, like, attention
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#125
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 05
+// 05 パルス（ハートが鼓動のように、ドクン・ドクンと大きさを脈打たせる）
+CELLS[4] = (k, w, h, u) => {
+  stage(k);
+  const T = CYC / 4, lu = mod(u, T), X = w / 2, Y = h / 2 + 10;
+  const g = (c, s) => Math.exp(-Math.pow((lu - c) / s, 2));
+  const b = 0.26 * g(0.2, 0.065) + 0.15 * g(0.44, 0.07) + 0.26 * Math.exp(-Math.pow((lu - T - 0.2) / 0.065, 2));
+  for (const [t0, s] of [[0.16, 1], [0.4, 0.6]]) {
+    const q = P(lu, t0, t0 + 0.8); if (q <= 0 || q >= 1) continue;
+    k.save(); k.translate(X, Y); const sc = 1.2 + 1.2 * eOut(q); k.scale(sc, sc); heartPath(k, 44);
+    k.strokeStyle = C.coral; k.globalAlpha = (1 - q) * 0.75 * s; k.lineWidth = (7 * (1 - q) + 1.5) / sc; k.stroke(); k.restore();
+  }
+  k.globalAlpha = 1;
+  k.save(); k.translate(X, Y); k.scale(1 + b, 1 + b); heartPath(k, 44); k.fillStyle = C.coral; k.fill();
+  k.fillStyle = 'rgba(255,255,255,.75)'; k.beginPath(); k.ellipse(-30, -28, 9, 6, -0.7, 0, 7); k.fill(); k.restore();
+};

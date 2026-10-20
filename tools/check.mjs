@@ -128,7 +128,7 @@ const packs = catalog.packs.filter(p => !ONLY || p.pack === ONLY);
 if (!packs.length) { console.error(`no pack "${ONLY}" in the catalog`); process.exit(2); }
 
 const port = await freePort();
-const server = spawn('python3', ['-m', 'http.server', String(port), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' });
+const server = spawn(process.env.MP_PYTHON || (process.platform === 'win32' ? 'python' : 'python3'), ['-m', 'http.server', String(port), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore', windowsHide: true });
 let browser, fails = 0, warns = 0, total = 0;
 try {
   const base = `http://127.0.0.1:${port}`;

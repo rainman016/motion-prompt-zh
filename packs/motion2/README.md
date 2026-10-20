@@ -2,7 +2,7 @@
 
 # Motion graphics moves, part 2
 
-24 names · #121–144 · pack `motion2` · Languages: [日本語](README.ja.md)
+24 names · #121–144 · pack `motion2` · Languages: [日本語](README.ja.md) / [简体中文](README.zh-Hans.md)
 
 Find the name, then say it to your AI. Add how long, how strong and what moves, and the result gets closer to what you had in mind.
 
@@ -12,40 +12,40 @@ Find the name, then say it to your AI. Add how long, how strong and what moves, 
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#121](https://showheyohtaki.github.io/motion-prompt/#121) | **Anticipation** | Pulls back briefly before moving forward | Add anticipation before the button shoots off to the right: pull back slightly for 0.3 s, squash, then go. |
-| [#122](https://showheyohtaki.github.io/motion-prompt/#122) | **Follow-through** | Parts keep swinging after the body stops | Give the hair and the flag follow-through after the character stops: they keep swinging for about 0.5 s, then settle. |
-| [#123](https://showheyohtaki.github.io/motion-prompt/#123) | **Bounce** | Falls and bounces lower until it stops | Drop the ball from the top with a bounce: three bounces, each lower than the last. |
-| [#124](https://showheyohtaki.github.io/motion-prompt/#124) | **Wiggle** | Shakes in small, random, continuous jitters | Add a subtle wiggle to the notification bell, up to about 10°, for as long as it rings. |
-| [#125](https://showheyohtaki.github.io/motion-prompt/#125) | **Pulse** | Its size throbs like a heartbeat | Make the heart icon pulse: about 10% larger and back, every 1.2 s. |
-| [#126](https://showheyohtaki.github.io/motion-prompt/#126) | **Motion path** | Moves along a curve that you define | Fly the paper plane along this curve as a motion path in 4 s, turning it to face the direction of travel. |
-| [#127](https://showheyohtaki.github.io/motion-prompt/#127) | **Ping-pong loop** | Plays forward, then backward, over and over | Move the loading dot back and forth as a ping-pong loop, 1 s each way. |
-| [#128](https://showheyohtaki.github.io/motion-prompt/#128) | **Stop-motion style** | Moves in choppy steps, with frames dropped | Make this move stop-motion style: 8 frames per second, with a slight jitter on every frame. |
+| [#121](https://rainman016.github.io/motion-prompt-zh/#121) | **Anticipation** | Pulls back briefly before moving forward | Add anticipation before the button shoots off to the right: pull back slightly for 0.3 s, squash, then go. |
+| [#122](https://rainman016.github.io/motion-prompt-zh/#122) | **Follow-through** | Parts keep swinging after the body stops | Give the hair and the flag follow-through after the character stops: they keep swinging for about 0.5 s, then settle. |
+| [#123](https://rainman016.github.io/motion-prompt-zh/#123) | **Bounce** | Falls and bounces lower until it stops | Drop the ball from the top with a bounce: three bounces, each lower than the last. |
+| [#124](https://rainman016.github.io/motion-prompt-zh/#124) | **Wiggle** | Shakes in small, random, continuous jitters | Add a subtle wiggle to the notification bell, up to about 10°, for as long as it rings. |
+| [#125](https://rainman016.github.io/motion-prompt-zh/#125) | **Pulse** | Its size throbs like a heartbeat | Make the heart icon pulse: about 10% larger and back, every 1.2 s. |
+| [#126](https://rainman016.github.io/motion-prompt-zh/#126) | **Motion path** | Moves along a curve that you define | Fly the paper plane along this curve as a motion path in 4 s, turning it to face the direction of travel. |
+| [#127](https://rainman016.github.io/motion-prompt-zh/#127) | **Ping-pong loop** | Plays forward, then backward, over and over | Move the loading dot back and forth as a ping-pong loop, 1 s each way. |
+| [#128](https://rainman016.github.io/motion-prompt-zh/#128) | **Stop-motion style** | Moves in choppy steps, with frames dropped | Make this move stop-motion style: 8 frames per second, with a slight jitter on every frame. |
 
 ## Text & shapes
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#129](https://showheyohtaki.github.io/motion-prompt/#129) | **Text scramble** | Letters shuffle at random, then settle | Bring the headline in with a text scramble: random characters for about 1 s, settling from left to right. |
-| [#130](https://showheyohtaki.github.io/motion-prompt/#130) | **Wave text** | Letters rise and fall in turn, like a wave | Animate the logo letters as wave text, each letter slightly behind the last, about 20 px up and down. |
-| [#131](https://showheyohtaki.github.io/motion-prompt/#131) | **Text on a path** | Text flows along a line or curve | Run the tagline as text on a path along a wavy line, scrolling left to right, one full pass every 5 s. |
-| [#132](https://showheyohtaki.github.io/motion-prompt/#132) | **Variable font animation** | The weight of the letters changes smoothly | Use a variable font animation on the title: from Thin to Black (weight 100 to 900) in 1 s. |
-| [#133](https://showheyohtaki.github.io/motion-prompt/#133) | **Text mask** | Letters cut out to show a picture inside | Use the word OCEAN as a text mask with ocean footage inside, and reveal the whole footage in the last second. |
-| [#134](https://showheyohtaki.github.io/motion-prompt/#134) | **Repeater** | Duplicates a shape and turns the copies | Use a repeater to make 12 copies of this petal in a circle, turning once every 4 s. |
-| [#135](https://showheyohtaki.github.io/motion-prompt/#135) | **Kaleidoscope** | Mirrored patterns spread out symmetrically | Put a kaleidoscope behind the logo: 8-way mirror symmetry, turning slowly as it spreads out. |
-| [#136](https://showheyohtaki.github.io/motion-prompt/#136) | **Line boil** | Hand-drawn lines wobble frame to frame | Add line boil to the hand-drawn illustration: 10 frames per second, with the lines shifting only 2–3 px. |
+| [#129](https://rainman016.github.io/motion-prompt-zh/#129) | **Text scramble** | Letters shuffle at random, then settle | Bring the headline in with a text scramble: random characters for about 1 s, settling from left to right. |
+| [#130](https://rainman016.github.io/motion-prompt-zh/#130) | **Wave text** | Letters rise and fall in turn, like a wave | Animate the logo letters as wave text, each letter slightly behind the last, about 20 px up and down. |
+| [#131](https://rainman016.github.io/motion-prompt-zh/#131) | **Text on a path** | Text flows along a line or curve | Run the tagline as text on a path along a wavy line, scrolling left to right, one full pass every 5 s. |
+| [#132](https://rainman016.github.io/motion-prompt-zh/#132) | **Variable font animation** | The weight of the letters changes smoothly | Use a variable font animation on the title: from Thin to Black (weight 100 to 900) in 1 s. |
+| [#133](https://rainman016.github.io/motion-prompt-zh/#133) | **Text mask** | Letters cut out to show a picture inside | Use the word OCEAN as a text mask with ocean footage inside, and reveal the whole footage in the last second. |
+| [#134](https://rainman016.github.io/motion-prompt-zh/#134) | **Repeater** | Duplicates a shape and turns the copies | Use a repeater to make 12 copies of this petal in a circle, turning once every 4 s. |
+| [#135](https://rainman016.github.io/motion-prompt-zh/#135) | **Kaleidoscope** | Mirrored patterns spread out symmetrically | Put a kaleidoscope behind the logo: 8-way mirror symmetry, turning slowly as it spreads out. |
+| [#136](https://rainman016.github.io/motion-prompt-zh/#136) | **Line boil** | Hand-drawn lines wobble frame to frame | Add line boil to the hand-drawn illustration: 10 frames per second, with the lines shifting only 2–3 px. |
 
 ## Transitions & highlights
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#137](https://showheyohtaki.github.io/motion-prompt/#137) | **Push transition** | The next scene pushes the current one out | Go to the next slide with a push transition from the right, 0.8 s. |
-| [#138](https://showheyohtaki.github.io/motion-prompt/#138) | **Blinds transition** | The next scene opens through thin strips | Change scenes with a blinds transition: seven horizontal strips that open over 1 s. |
-| [#139](https://showheyohtaki.github.io/motion-prompt/#139) | **Cube transition** | Changes scenes like a turning cube | Switch the product shots with a cube transition, turning 90° to the left in 0.8 s. |
-| [#140](https://showheyohtaki.github.io/motion-prompt/#140) | **Page curl** | Peels back like paper to show the next page | Go to the next chapter with a page curl from the bottom-right corner, 1.2 s. |
-| [#141](https://showheyohtaki.github.io/motion-prompt/#141) | **Pixelate** | Turns into coarse blocks, then switches | Use a pixelate transition: the mosaic gets coarser over 0.6 s and the scene changes at the coarsest point. |
-| [#142](https://showheyohtaki.github.io/motion-prompt/#142) | **Shatter** | Breaks like glass and the shards fly off | Before the title appears, break the previous scene with a shatter: cracks first, then the shards fall away in about 1 s. |
-| [#143](https://showheyohtaki.github.io/motion-prompt/#143) | **Exploded view** | Parts separate to show the structure inside | Show an exploded view of the product: four parts spread apart in 1 s, each with a name label. |
-| [#144](https://showheyohtaki.github.io/motion-prompt/#144) | **Split screen** | Divides the frame to show scenes side by side | Show three scenes at once with a split screen: from one panel to two, then three, 0.5 s each. |
+| [#137](https://rainman016.github.io/motion-prompt-zh/#137) | **Push transition** | The next scene pushes the current one out | Go to the next slide with a push transition from the right, 0.8 s. |
+| [#138](https://rainman016.github.io/motion-prompt-zh/#138) | **Blinds transition** | The next scene opens through thin strips | Change scenes with a blinds transition: seven horizontal strips that open over 1 s. |
+| [#139](https://rainman016.github.io/motion-prompt-zh/#139) | **Cube transition** | Changes scenes like a turning cube | Switch the product shots with a cube transition, turning 90° to the left in 0.8 s. |
+| [#140](https://rainman016.github.io/motion-prompt-zh/#140) | **Page curl** | Peels back like paper to show the next page | Go to the next chapter with a page curl from the bottom-right corner, 1.2 s. |
+| [#141](https://rainman016.github.io/motion-prompt-zh/#141) | **Pixelate** | Turns into coarse blocks, then switches | Use a pixelate transition: the mosaic gets coarser over 0.6 s and the scene changes at the coarsest point. |
+| [#142](https://rainman016.github.io/motion-prompt-zh/#142) | **Shatter** | Breaks like glass and the shards fly off | Before the title appears, break the previous scene with a shatter: cracks first, then the shards fall away in about 1 s. |
+| [#143](https://rainman016.github.io/motion-prompt-zh/#143) | **Exploded view** | Parts separate to show the structure inside | Show an exploded view of the product: four parts spread apart in 1 s, each with a name label. |
+| [#144](https://rainman016.github.io/motion-prompt-zh/#144) | **Split screen** | Divides the frame to show scenes side by side | Show three scenes at once with a split screen: from one panel to two, then three, 0.5 s each. |
 
 Each number opens the moving sample in the gallery. Timings, easing values and reference code for one name: `api/v1/en/e/<id>.txt` ([#121](../../api/v1/en/e/121.txt)).
 

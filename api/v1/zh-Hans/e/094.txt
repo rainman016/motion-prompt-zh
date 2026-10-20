@@ -1,0 +1,38 @@
+// Motion Prompt #094 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#094
+//
+// 无缝跑马灯 / Marquee
+// 分类包: lp (落地页与网页动效) · element 22 · 子分类: 加载、导航与循环动效
+// 动画表现: 深蓝色条带中，大号服务名称以橙点分隔，持续向左移动，没有空隙。
+// 运动规格:
+//   - 条带高 58、深蓝、视口全宽；文字为 30 px 粗体、字距 1 px、白色。
+//   - 一组为四个词 WEB DESIGN / BRANDING / MOTION / UI/UX，间隔 64 px，每个间隙有半径 6 的橙点。
+//   - 每 4.8 秒匀速左移一组的宽度，本例约 881 px；测量组宽并按组宽循环偏移，避免可见接缝。
+//   - 重复整组直到铺满视口宽度。
+// 适用场景: 适合有动感地展示服务名称、客户标志或标语。
+// 标签: marquee, ticker, infinite-loop, scrolling-text, logo-strip, band, loop
+// 尺寸: 539x208 px · 周期: 4.8 s
+// 依赖: kit lp -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#094
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 22
+// 22 マーキー（文字の帯が、途切れずに横へ流れ続ける）
+CELLS[21] = (k, w, h, u) => {
+  frame(k);
+  const WORDS = ['WEB DESIGN', 'BRANDING', 'MOTION', 'UI/UX'], F = `800 30px ${EN}`, GAPW = 64;
+  view(k, () => {
+    bars(k, 34, 20, 180, 1, C.ink, 10); bars(k, 34, 38, 300, 1);
+    k.fillStyle = C.ink; k.fillRect(0, 58, VW, 58);
+    k.font = F; k.letterSpacing = '1px'; const ws = WORDS.map(s => k.measureText(s).width); k.letterSpacing = '0px';
+    const unit = ws.reduce((a, b) => a + b + GAPW, 0);
+    let x = -mod(u / CYC, 1) * unit;                 // 1周期で1組ぶん左へ
+    for (let rep = 0; x < VW; rep++) WORDS.forEach((s, i) => {
+      txt(k, s, x, 88, F, '#fff', 'left', 'middle', '1px');
+      k.fillStyle = C.acc; k.beginPath(); k.arc(x + ws[i] + GAPW / 2, 88, 6, 0, 7); k.fill();
+      x += ws[i] + GAPW;
+    });
+    for (let i = 0; i < 3; i++) { k.fillStyle = C.soft; rr(k, 34 + i * 152, 130, 136, 30, 6); k.fill(); bars(k, 46 + i * 152, 142, 90, 1, C.faint); }
+  });
+};

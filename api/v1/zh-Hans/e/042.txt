@@ -1,0 +1,44 @@
+// Motion Prompt #042 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#042
+//
+// 匹配剪辑 / Match cut
+// 分类包: camera (镜头运动与剪辑) · element 18 · 子分类: 剪辑与转场
+// 动画表现: 抛出的球在下一镜头变为同位置、同尺寸的太阳，以相似形状连接不同场景。
+// 运动规格:
+//   - 2.3 秒直接硬切，0 帧过渡；切点两侧蓝色圆的位置均为中心右侧 120 px、上方 46 px，半径 17 px。
+//   - 前镜头为 0–2.3 秒，机位固定、高 1.4 m；人物位于左侧 1.2 m、距离 7 m，从 0.5 秒开始抛球，采用三次缓出，约 cubic-bezier(0.33,1,0.68,1)。
+//   - 球从人物头上 2.3 m 高处移到匹配点，半径从 5 px → 17 px，弧线最多向上隆起 30 px。
+//   - 后镜头为 2.3–4.7 秒，换到无建筑的场地，机位高 1.2 m；同位置的蓝圆成为太阳，在 2.4 秒内下沉 14 px。
+//   - 切点前后各 0.7 秒内，半径 26 px 的蓝色虚线圆淡入淡出。
+//   - 右上角显示“SHOT 1”→“SHOT 2”；4.7 秒时直接切回 SHOT 1。
+// 适用场景: 适合以共同形状或动作连接时空相距较远的场景。
+// 标签: match cut, graphic match, shape match, cut, transition, edit
+// 尺寸: 539x208 px · 周期: 9.4 s
+// 依赖: kit camera -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/camera.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#042
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 18
+// 18 マッチカット（投げたボール → 同じ位置・大きさの太陽）
+CELLS[17] = shot((k, w, h, u) => {
+  const cut = 2.3;
+  const BX = 120, BY = -46, BR = 17;
+  if (u < cut) {
+    const q = eOut(P(u, 0.5, cut));
+    world(k, w, h, cam({ y: 1.4 }), {
+      person: { x: -1.2, z: 7, armUp: q > 0.05 }, sun: null,
+      after: (kk, cc) => { const s = proj(cc, -1.2, 2.3, 7); const x = lerp(s.x, BX, q), y = lerp(s.y, BY, q) - Math.sin(q * Math.PI) * 30, r = lerp(5, BR, q); kk.fillStyle = C.blue; kk.beginPath(); kk.arc(x, y, r, 0, 7); kk.fill(); }
+    });
+  } else {
+    const q = P(u, cut, CYC);
+    world(k, w, h, cam({ y: 1.2 }), {
+      buildings: false, sun: null, trees: true,
+      after: (kk) => { kk.fillStyle = C.blue; kk.beginPath(); kk.arc(BX, BY + q * 14, BR, 0, 7); kk.fill(); }
+    });
+  }
+  // 形がそろっていることを示す点線の円
+  const g = Math.max(0, 1 - Math.abs(u - cut) / 0.7);
+  if (g > 0) { k.save(); k.translate(w / 2, h / 2); k.globalAlpha = g; k.strokeStyle = C.blue; k.lineWidth = 2; k.setLineDash([5, 4]); k.beginPath(); k.arc(BX, BY + (u > cut ? P(u, cut, CYC) * 14 : 0), BR + 9, 0, 7); k.stroke(); k.restore(); }
+  return u < cut ? 'SHOT 1' : 'SHOT 2';
+});

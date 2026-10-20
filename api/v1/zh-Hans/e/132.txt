@@ -1,0 +1,32 @@
+// Motion Prompt #132 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#132
+//
+// 可变字重动画 / Variable font animation
+// 分类包: motion2 (动态图形进阶) · element 12 · 子分类: 文字与图形
+// 动画表现: 同一单词由细到极粗再变细，下方滑块显示当前字重。
+// 运动规格:
+//   - “MOTION”为 112 px、system-ui、字距 2 px；每 4.7 秒字重往返两次，v = 0.5 − 0.5·cos(2π × 2 × time ÷ 4.7)，两端自然减速。
+//   - 字重 = round(100 + 800v)，从 100 到 900，直接设置 font-weight。
+//   - 下方滑轨 x = 112→427、y = 180，左标细、右标粗；黄色滑块半径 14，跟随 v，上方显示当前字重。
+// 适用场景: 适合标题、标志或单词，用字体本身表达音量或情绪。
+// 标签: variable-font, font-weight, typography, text, weight, kinetic-type
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#132
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 12
+// 12 可変フォントアニメーション（同じ単語の太さが、細→極太→細となめらかに変わる）
+CELLS[11] = (k, w, h, u) => {
+  stage(k);
+  const v = 0.5 - 0.5 * Math.cos(2 * Math.PI * 2 * u / CYC), wt = Math.round(100 + 800 * v);
+  txt(k, 'MOTION', w / 2, 80, `${wt} 112px system-ui`, '#fff', 'center', 'middle', '2px');
+  const x0 = 112, x1 = w - 112, y = 180, kx = x0 + (x1 - x0) * v;
+  txt(k, '細', x0 - 34, y + 1, `300 30px ${JP}`, C.dim, 'center', 'middle');
+  txt(k, '太', x1 + 34, y + 1, `900 30px ${JP}`, C.dim, 'center', 'middle');
+  k.fillStyle = C.navy3; rr(k, x0, y - 5, x1 - x0, 10, 5); k.fill();
+  k.fillStyle = C.blue; rr(k, x0, y - 5, Math.max(10, kx - x0), 10, 5); k.fill();
+  k.fillStyle = C.yel; k.beginPath(); k.arc(kx, y, 14, 0, 7); k.fill();
+  txt(k, String(wt), kx, y - 30, `800 24px ${DISP}`, C.yel, 'center', 'middle');
+};

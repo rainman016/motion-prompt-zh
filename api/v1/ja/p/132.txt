@@ -9,6 +9,6 @@ Motion Prompt #132
 - 下にスライダー（x=112→427・y=180）。左に「細」、右に「太」。つまみ（黄・半径14）が v に合わせて動き、上に今の太さの数字を出す
 使いどころ: タイトル・ロゴ・強調したい一語に。文字の形そのものを動かして、音や感情の強弱を見せたいとき。
 
-参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://showheyohtaki.github.io/motion-prompt/api/v1/ja/e/132.txt
-共通の補助コード: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://rainman016.github.io/motion-prompt-zh/api/v1/ja/e/132.txt
+共通の補助コード: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 参考実装の形・タイミング・イージングの数値はそのまま使い、中の文字・色・素材だけ、いま作っている物に合わせてください。

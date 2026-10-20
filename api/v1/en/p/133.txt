@@ -10,6 +10,6 @@ Spec:
 - Outside the letters the scene shows at 12% opacity; it rises to 100% at 3.45–3.85 s and returns to 12% at 4.25–4.65 s (smoothstep).
 When to use it: Use it to show a photo or footage inside a title or brand name, putting the word and the picture together.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/133.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/133.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

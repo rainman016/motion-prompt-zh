@@ -1,0 +1,17 @@
+请使用“滚动吸附（Scroll snap）”，属于“落地页与网页动效”。
+Motion Prompt #078
+
+效果解释：滚动后准确停在下一分区边缘
+动画表现：轻微滚动后，页面自动补完剩余距离，将下一分区顶边与视口顶部对齐。
+实现规格与关键运动参数：
+- 每个分区与视口等高，为 168 px；第一屏浅蓝，第二屏深蓝。
+- 每 2.4 秒吸附一次；0.45–0.85 秒用户仅滚动 34 px，采用三次缓出。
+- 0.9–1.5 秒页面自动补完剩余 134 px，对齐下一分区顶部，采用三次缓出。
+- 第二个 2.4 秒同样向上返回首屏，对应 scroll-snap-type: y mandatory。
+适用场景：适合像幻灯片一样逐屏阅读的页面。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#078
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/078.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

@@ -1,0 +1,18 @@
+请使用“吸顶页头（Sticky header）”，属于“落地页与网页动效”。
+Motion Prompt #075
+
+效果解释：页面滚动时页头固定在顶部
+动画表现：公告条滚出后，下方页头停在顶部，正文从其下方滚过。
+实现规格与关键运动参数：
+- 滚动：0.4–1.3 秒为 0→110 px，1.9–2.8 秒为 110→250 px，3.4–4.4 秒为 250→0，采用三次缓入缓出。
+- 顶部深蓝公告条高 22 px，其下页头高 34 px，含标志、三个菜单项和按钮。
+- 页头位置 = max(22 − scroll, 0)；公告条离开后固定在顶边，对应 position: sticky; top: 0。
+- 随后 24 px 的滚动范围内，页头下方 12 px 阴影透明度从 0 增至 0.16。
+- 照片、标题和三张卡片在页头下方正常滚动。
+适用场景：适合长页面中持续保留导航和行动按钮。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#075
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/075.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

@@ -11,6 +11,6 @@ Spec:
 - A bar under each slot: blue when locked, yellow for the next one to lock, navy otherwise.
 When to use it: Use it to bring in a headline, a number or a code name with a decoding, hacker or tech feel.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/129.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/129.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

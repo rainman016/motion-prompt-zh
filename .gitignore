@@ -4,3 +4,20 @@ node_modules/
 out/
 frames*/
 *.tmp.mp4
+
+# Local agent installs, caches and verification output
+.agents/
+.codex/
+.cache/
+output/
+*.log
+
+# Local credentials (examples may be committed intentionally)
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx

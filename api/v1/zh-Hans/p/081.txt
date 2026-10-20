@@ -1,0 +1,17 @@
+请使用“悬停抬升（Hover lift）”，属于“落地页与网页动效”。
+Motion Prompt #081
+
+效果解释：悬停时元素上浮，阴影加深
+动画表现：只有光标下的卡片略微上浮、阴影扩散，光标移开后回落。
+实现规格与关键运动参数：
+- 三张卡片为 146 × 128、圆角 10；光标从左到右，在每张上停留约1 秒。
+- 悬停时卡片在 0.3 秒内上移 10 px，三次缓出；移开时同样用 0.3 秒返回，类似 CSS transition。
+- 阴影同步变化：模糊 6→22 px，y 偏移 2→12 px，透明度 0.08→0.22。
+- 浅灰页面、白色卡片，保证阴影清晰可见。
+适用场景：适合让卡片和按钮呈现可点击感。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#081
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/081.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

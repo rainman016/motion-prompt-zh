@@ -13,8 +13,8 @@
 // 使いどころ: 夕日や窓の光を背景に、形とポーズだけで印象を残したいとき。
 // タグ: silhouette, backlit, sunset, contre-jour, black shape, underexposed
 // サイズ: 539x208 px · 1周: 5 s
-// Needs: kit photo -> https://showheyohtaki.github.io/motion-prompt/api/v1/kit/photo.js
-// 動く見本: https://showheyohtaki.github.io/motion-prompt/#099
+// Needs: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 動く見本: https://rainman016.github.io/motion-prompt-zh/?lang=ja#099
 //
 // cells[i](k, w, h, u) … k = CanvasRenderingContext2D（呼ぶ側でクリアと save/restore 済み）、w・h = サイズ、u = 秒（0 以上 1周 未満）。u だけで絵が決まる。
 // ここから要素のコード。CELLS や定数・補助関数は kit にある。

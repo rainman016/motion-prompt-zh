@@ -1,0 +1,43 @@
+// Motion Prompt #109 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#109
+//
+// 镜头眩光 / Lens flare
+// 分类包: photo (摄影光线与风格) · element 13 · 子分类: 镜头与相机效果
+// 动画表现: 太阳从建筑后露出时出现放射光线，圆斑、六边形和光环沿太阳与画面中心连线排列到另一侧。
+// 运动规格:
+//   - 场景 2：街角的建筑、树和路灯位于 y 132–162 的道路后方，路灯 x 114, 292, 494；人物站在左前方，脚底 x 176、y 200，高 124 px。
+//   - 太阳半径 13 px，从建筑后 (x 428, y 74) 移到开阔天空 (x 474, y 30)。
+//   - 8 条光线从距太阳中心 17 px 处向外延伸，终点交替为 26 px 和 44 px，长度为 9 px 与 27 px；琥珀色、宽 1.6 px、透明度 75%。
+//   - 眩光沿太阳至中心的直线放在 t = 0.45, 0.8, 1.15, 1.45, 1.75, 2.0，t = 1 为画面中心；依次是 7 px 圆、13 px 六边形、5 px 圆、22 px 六边形、9 px 圆、30 px 光环，环线宽 3 px。
+//   - 颜色为琥珀 #FFC75A 和 #FFE3A3，透明度 40–70% × 效果强度。
+//   - 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+// 适用场景: 适合增加炫目、夏日阳光或电影光感。
+// 标签: lens flare, flare, ghosting, sun flare, starburst, cinematic
+// 尺寸: 539x208 px · 周期: 5 s
+// 依赖: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#109
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 13
+// レンズフレア: 建物の陰から太陽が出ると、画面の中心をはさんで反対側へ光の玉が並ぶ
+CELLS[12] = cell((k, u) => {
+  const a = env(u), sx = lerp(428, 474, a), sy = lerp(74, 30, a);
+  stageStreet(k, BASE, { sun: [sx, sy, 13, 1] });
+  const cx = CW / 2, cy = CH / 2, dx = cx - sx, dy = cy - sy;
+  k.save();
+  // 太陽の光の筋
+  k.globalAlpha = 0.75 * a; k.strokeStyle = BASE.lit; k.lineWidth = 1.6; k.lineCap = 'round';
+  for (let i = 0; i < 8; i++) { const t = i / 8 * TAU + 0.2, L = i % 2 ? 26 : 44; k.beginPath(); k.moveTo(sx + Math.cos(t) * 17, sy + Math.sin(t) * 17); k.lineTo(sx + Math.cos(t) * L, sy + Math.sin(t) * L); k.stroke(); }
+  // 光の玉: 太陽から中心を通る線の上（t = 0.45〜2.0）
+  const G = [[0.45, 7, 'c', 0.6], [0.8, 13, 'h', 0.55], [1.15, 5, 'c', 0.7], [1.45, 22, 'h', 0.4], [1.75, 9, 'c', 0.55], [2.0, 30, 'r', 0.55]];
+  for (const [t, r, kind, al] of G) {
+    const x = sx + dx * t, y = sy + dy * t;
+    k.globalAlpha = al * a;
+    if (kind === 'r') { k.strokeStyle = BASE.lit; k.lineWidth = 3; k.beginPath(); k.arc(x, y, r, 0, TAU); k.stroke(); continue; }
+    k.fillStyle = kind === 'h' ? BASE.glow : BASE.lit; k.beginPath();
+    if (kind === 'h') for (let i = 0; i < 6; i++) { const t2 = i / 6 * TAU; k.lineTo(x + Math.cos(t2) * r, y + Math.sin(t2) * r); } else k.arc(x, y, r, 0, TAU);
+    k.closePath(); k.fill();
+  }
+  k.restore();
+});

@@ -1,0 +1,17 @@
+请使用“文字遮罩（Text mask）”，属于“动态图形进阶”。
+Motion Prompt #133
+
+效果解释：用文字轮廓裁出内部图像
+动画表现：粗体文字镂空，运动海景只显示在字内，周期接近结束时显露整幅画面。
+实现规格与关键运动参数：
+- “OCEAN”使用字重 900、system-ui、字距 2 px；字号从 172 px 开始，每次减 2 px，直到词宽不超过 500 px。
+- 字内场景持续运动：珊瑚色天空、上下 ±6 px 的黄色太阳、y = 116 以下的蓝海；四条白波纹交替反向，每 4.7 秒漂移 240 px；帆船每 4.7 秒穿过一次，云漂移 60 px。
+- 在离屏画布绘制文字，再用 source-in 合成场景，只保留字内图像；文字外有白色 4 px 描边。
+- 字外场景透明度为 12%，在 3.45–3.85 秒升至 100%，4.25–4.65 秒返回 12%，使用 smoothstep。
+适用场景：适合把照片或视频放进标题、品牌名，让文字与图像结合。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#133
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/133.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

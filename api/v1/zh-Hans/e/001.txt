@@ -1,0 +1,45 @@
+// Motion Prompt #001 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#001
+//
+// 弹性弹入 / Pop-in
+// 分类包: motion (动态图形基础) · element 01 · 子分类: 入场与文字
+// 动画表现: 应用图标弹跳入场，随后通知角标稍晚弹出。
+// 运动规格:
+//   - 每 2.35 秒弹入一次；每个 4.7 秒周期两次，先是珊瑚色底的星形，再是蓝底的心形。
+//   - 图标为 116 px 圆角方形，圆角半径 30。从 0.28 秒起按弹簧公式 1 − e^(−6.5t)·cos(15t) 将缩放从 0→1，峰值约 1.26。
+//   - 同时按弹簧公式 1 − e^(−6t)·cos(11t)，将旋转角度从 −0.35 rad（约 −20°）恢复到 0。
+//   - 角标为半径 25、写有“1”的黄色圆，位于图标右上方（+52, −52）；从 0.62 秒起按弹簧公式 1 − e^(−7t)·cos(17t) 出现。
+//   - 退场为 1.86–2.12 秒；缩放乘以 (1 − backIn, s = 2.2)，先稍微膨胀，再缩至 0。
+//   - 地面阴影为 62 × 8 的椭圆，随图标缩放，缩放值限制在 0–1。
+// 适用场景: 适合图标、按钮、角标等小元素，以轻快的动效吸引注意。
+// 标签: pop, pop-in, spring, bounce, scale, icon, badge, entrance
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#001
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 01
+// 01 ポップイン（アプリのアイコンがポンと弾んで現れ、通知バッジが遅れてポン）
+CELLS[0] = (k, w, h, u) => {
+  stage(k);
+  const T = CYC / 2, n = Math.floor(u / T), lu = u - n * T, X = w / 2, Y = h / 2 + 4, S = 116;
+  const col = n % 2 ? C.blue : C.coral;
+  const out = backIn(P(lu, 1.86, 2.12), 2.2);
+  const sc = spring(lu - 0.28, 15, 6.5) * (1 - out);
+  const rot = (1 - spring(lu - 0.28, 11, 6)) * -0.35;
+  // 床の影
+  k.fillStyle = 'rgba(0,0,0,.28)'; k.beginPath(); k.ellipse(X, Y + 78, 62 * clamp(sc), 8 * clamp(sc), 0, 0, 7); k.fill();
+  if (sc > 0.002) {
+    k.save(); k.translate(X, Y); k.rotate(rot); k.scale(sc, sc);
+    k.fillStyle = col; rr(k, -S / 2, -S / 2, S, S, 30); k.fill();
+    k.fillStyle = 'rgba(255,255,255,.16)'; rr(k, -S / 2, -S / 2, S, S / 2, [30, 30, 0, 0]); k.fill();
+    k.fillStyle = '#fff';
+    if (n % 2) { k.save(); k.translate(0, 2); heartPath(k, 30); k.fill(); k.restore(); }
+    else { star(k, 0, 2, 36, 0, 0.48); k.lineJoin = 'round'; k.strokeStyle = '#fff'; k.lineWidth = 6; k.stroke(); k.fill(); }
+    k.restore();
+    // 通知バッジ
+    const bs = spring(lu - 0.62, 17, 7) * (1 - out);
+    if (bs > 0.002) { k.save(); k.translate(X + 52 * sc, Y - 52 * sc); k.scale(bs, bs); k.fillStyle = C.yel; k.beginPath(); k.arc(0, 0, 25, 0, 7); k.fill(); k.strokeStyle = C.navy; k.lineWidth = 5; k.stroke(); txt(k, '1', 0, 2, `800 30px ${DISP}`, C.navy, 'center', 'middle'); k.restore(); }
+  }
+};

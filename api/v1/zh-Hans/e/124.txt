@@ -1,0 +1,43 @@
+// Motion Prompt #124 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#124
+//
+// 不规则抖动 / Wiggle
+// 分类包: motion2 (动态图形进阶) · element 04 · 子分类: 运动技法
+// 动画表现: 铃铛持续不规则颤动，是不断发生的小幅摇晃，而非单次冲击。
+// 运动规格:
+//   - 黄色铃铛以顶部为旋转支点，水平居中、y = 34，始终保持运动。
+//   - 角度叠加四个正弦波，每 4.7 秒分别为 23, 31, 43, 59 周期，约 4.9, 6.6, 9.1, 12.6 Hz；幅度 0.085, 0.065, 0.05, 0.035 rad，同相时最多约 0.235 rad，即 13.5°。
+//   - 位置同时抖动：x 使用 29, 47, 61 周期，振幅 4, 3, 2 px；y 使用 37, 53 周期，振幅 2.4, 1.8 px。
+//   - 每个频率在 4.7 秒内均为整数周期，保证循环；周期数无共同因数，避免规则感。
+//   - 珊瑚色铃舌半径 13，反向摆动，位移为角度 × 70 px；两侧白色振动弧半径 86 和 110、线宽 6，持续闪现。
+// 适用场景: 适合通知、来电等吸引注意的元素，也可表现躁动或手持感。
+// 标签: wiggle, jitter, shake, random, noise, bell, notification
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#124
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 04
+// 04 ウィグル（ベルが、小刻みに不規則に揺れ続ける。1回の衝撃ではなく、ずっと続く細かい揺れ）
+const WGF = 2 * Math.PI / CYC;
+const wsum = (u, arr) => arr.reduce((s, [kk, am, ph]) => s + am * Math.sin(WGF * kk * u + ph), 0);
+CELLS[3] = (k, w, h, u) => {
+  stage(k);
+  const rot = wsum(u, [[23, 0.085, 0.3], [31, 0.065, 1.9], [43, 0.05, 4.2], [59, 0.035, 2.6]]);
+  const dx = wsum(u, [[29, 4, 0.7], [47, 3, 3.1], [61, 2, 5.0]]), dy = wsum(u, [[37, 2.4, 2.2], [53, 1.8, 0.4]]);
+  const X = w / 2 + dx, Y = 34 + dy;
+  // 両わきの振動の線（揺れているあいだ、ずっと出ている）
+  k.strokeStyle = '#fff'; k.lineCap = 'round'; k.lineWidth = 6;
+  [[86, 0.85], [110, 0.5]].forEach(([r, al], j) => { const fl = 0.55 + 0.45 * Math.abs(Math.sin(WGF * (41 + j * 12) * u)); k.globalAlpha = al * fl;[0, Math.PI].forEach(base => { k.beginPath(); k.arc(w / 2, 104, r, base - 0.42, base + 0.42); k.stroke(); }); });
+  k.globalAlpha = 1;
+  k.save(); k.translate(X, Y); k.rotate(rot);
+  // 舌（ベルと逆にふれる）
+  k.fillStyle = C.coral; k.beginPath(); k.arc(-rot * 70, 128, 13, 0, 7); k.fill();
+  k.fillStyle = C.yel;
+  k.beginPath(); k.arc(0, 8, 10, 0, 7); k.fill();
+  k.beginPath(); k.moveTo(-50, 112); k.quadraticCurveTo(-42, 100, -42, 76); k.bezierCurveTo(-42, 36, -22, 18, 0, 18); k.bezierCurveTo(22, 18, 42, 36, 42, 76); k.quadraticCurveTo(42, 100, 50, 112); k.closePath(); k.fill();
+  rr(k, -60, 106, 120, 16, 8); k.fill();
+  k.fillStyle = 'rgba(255,255,255,.35)'; rr(k, -28, 40, 12, 50, 6); k.fill();
+  k.restore();
+};

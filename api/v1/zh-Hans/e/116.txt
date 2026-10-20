@@ -1,0 +1,26 @@
+// Motion Prompt #116 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#116
+//
+// 双色调 / Duotone
+// 分类包: photo (摄影光线与风格) · element 20 · 子分类: 色调与后期风格
+// 动画表现: 同一风景的颜色被替换为两色之间的层次，暗部靛蓝、亮部粉色。
+// 运动规格:
+//   - 场景 3：左侧半身像的头部中心 x 140、y 82、半径 28 px；右侧有山丘、房屋、树与太阳，太阳 x 432、y 54、半径 15 px。
+//   - 暗端颜色 #1F2A5C，亮端颜色 #FF9FB2。
+//   - 按各颜色亮度 L 计算 t = ((L − 70) / 180)^2.4，再以 t 混合两色，拉开亮部层次。
+//   - 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+// 适用场景: 适合用品牌色统一海报、音乐封面或社交图片。
+// 标签: duotone, two-tone, gradient map, color overlay, poster, graphic
+// 尺寸: 539x208 px · 周期: 5 s
+// 依赖: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#116
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 20
+// デュオトーン: 暗い所を藍、明るい所をピンクの2色だけに置き換える
+CELLS[19] = cell((k, u) => {
+  const a = env(u);
+  const DUO = mapPal(BASE, c => mixc('#1F2A5C', '#FF9FB2', Math.pow(clamp((lum(c) - 70) / (250 - 70)), 2.4)));
+  stageLand(k, pal(BASE, DUO, a));
+});

@@ -1,49 +1,43 @@
 <!doctype html>
-<html lang="ja">
+<html lang="zh-Hans">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見つけた事例｜Motion Prompt</title>
-<meta name="description" content="AIに頼むための名前を、見本と一緒にまとめて公開している人たちのポストです。Xの埋め込みとリンクで紹介しています。">
-<link rel="canonical" href="https://showheyohtaki.github.io/motion-prompt/found.html">
+<title>社区案例｜Motion Prompt</title>
+<meta name="description" content="社区作者用专业名称和动态示例建立共同语言的案例，保留原帖链接与作者归属。">
+<link rel="canonical" href="https://rainman016.github.io/motion-prompt-zh/found.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Motion Prompt">
-<meta property="og:title" content="見つけた事例｜Motion Prompt">
-<meta property="og:description" content="名前と見本で共通言語を作っている人たちのポストを、Xの埋め込みとリンクで紹介しています。">
-<meta property="og:url" content="https://showheyohtaki.github.io/motion-prompt/found.html">
-<meta property="og:image" content="https://showheyohtaki.github.io/motion-prompt/assets/og.png">
-<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="社区案例｜Motion Prompt">
+<meta property="og:description" content="社区作者用专业名称和动态示例建立共同语言的案例，保留原帖链接与作者归属。">
+<meta property="og:url" content="https://rainman016.github.io/motion-prompt-zh/found.html">
+<meta property="og:image" content="https://rainman016.github.io/motion-prompt-zh/assets/og.png">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="ja_JP">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<script>
-/* Apply the saved theme and language before first paint (same keys as index.html). */
-(function () {
-  var d = document.documentElement, t = null, l = null;
-  try { t = localStorage.getItem('mp-theme'); l = localStorage.getItem('mp-lang'); } catch (e) {}
-  if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
-  if (l !== 'ja' && l !== 'en') l = /^ja\b/i.test(navigator.language || 'ja') ? 'ja' : 'en';
-  d.lang = l;
-})();
-</script>
+<script src="assets/site-config.js"></script>
+<script src="assets/language.js"></script>
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/found.css">
 </head>
 <body>
-<a class="skip" href="#list" data-t="skip">事例の一覧へ移動</a>
+<a class="skip" href="#list" data-t="skip">跳转到案例列表</a>
 
 <header class="top">
   <div class="wrap top-in">
     <a class="logo" href="./" aria-label="Motion Prompt">Motion Prompt</a>
-    <nav class="top-nav" aria-label="サイト内" data-t-attr="aria-label:navLabel">
-      <a class="top-link top-how" href="./" data-t="navGallery">見本</a>
-      <a class="top-link" href="found.html" aria-current="page" data-t="navFound">事例</a>
-      <a class="top-link top-gh" href="https://github.com/showheyohtaki/motion-prompt" rel="noopener">GitHub</a>
-      <div class="seg" role="group" aria-label="言語" data-t-attr="aria-label:langLabel">
-        <button type="button" class="seg-b" data-lang="ja" aria-pressed="true" aria-label="日本語">JA</button>
+    <nav class="top-nav" aria-label="站点导航" data-t-attr="aria-label:navLabel">
+      <a class="top-link top-how" href="./" data-t="navGallery">效果库</a>
+      <a class="top-link" href="found.html" aria-current="page" data-t="navFound">社区案例</a>
+      <a class="top-link top-gh" href="https://github.com/rainman016/motion-prompt-zh" data-repo-path="" rel="noopener">GitHub</a>
+      <div class="seg" role="group" aria-label="语言" data-t-attr="aria-label:langLabel">
+        <button type="button" class="seg-b" data-lang="zh-Hans" aria-pressed="true" aria-label="简体中文">ZH</button>
         <button type="button" class="seg-b" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+        <button type="button" class="seg-b" data-lang="ja" aria-pressed="false" aria-label="日本語">JA</button>
       </div>
-      <button type="button" class="icon-b" id="theme" aria-label="ダークモードに切り替える">
+      <button type="button" class="icon-b" id="theme" aria-label="切换深色模式">
         <svg class="i-moon" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a.6.6 0 0 0-.8-.7 7.6 7.6 0 1 0 10.3 10.3.6.6 0 0 0-.7-.8z" fill="currentColor"/></svg>
         <svg class="i-sun" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.6" fill="currentColor"/><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></g></svg>
       </button>
@@ -53,37 +47,37 @@
 
 <main>
   <section class="f-hero wrap" aria-labelledby="f-h">
-    <p class="eyebrow" data-t="eyebrow">見つけた事例</p>
-    <h1 id="f-h" class="f-h1" data-t="h1">名前と見本で、共通言語を作っている人たち</h1>
-    <p class="lead" data-t="lead">AIに頼むための名前を、動く見本や早見表と一緒にまとめて公開している人たちのポストです。分野も言語も見た目もそれぞれ違います。投稿者が自分で作った見本のあるポストを選んでいて、ポストの内容と権利は各投稿者にあります。</p>
-    <p class="f-small" data-t="leadNote">ここで紹介していることは、投稿者がこのサイトを支持しているという意味ではありません。紹介文はこのサイトが書いています。</p>
+    <p class="eyebrow" data-t="eyebrow">社区案例</p>
+    <h1 id="f-h" class="f-h1" data-t="h1">用名称和示例，建立共同语言</h1>
+    <p class="lead" data-t="lead">这些作者整理了向 AI 描述需求的专业名称，配有动态示例或速查表，领域、语言和风格各不相同。我们选择包含作者自制示例的帖子，内容与权利属于各位作者。</p>
+    <p class="f-small" data-t="leadNote">收录不代表作者认可或支持本站，案例介绍由本站编写。</p>
 
     <div class="xnote" id="xnote" role="region" aria-labelledby="xnote-h">
-      <h2 class="xnote-h" id="xnote-h" data-t="noteH">埋め込みについて</h2>
-      <p id="xnote-p" data-t="noteP">このページは、各ポストをX（旧Twitter）の埋め込みで表示しています。開くとXのサーバーから読み込まれ、XのCookieが使われます。Xはその閲覧を記録し、広告に使うことがあります。読み込むときは、パーソナライズに使わないよう求める設定（dnt）を付けています。</p>
-      <p class="xnote-links"><a href="https://x.com/en/privacy" rel="noopener" data-t="notePrivacy">Xのプライバシーポリシー</a> · <a href="https://help.x.com/en/rules-and-policies/x-cookies" rel="noopener" data-t="noteCookies">XのCookieについて</a></p>
+      <h2 class="xnote-h" id="xnote-h" data-t="noteH">关于嵌入内容</h2>
+      <p id="xnote-p" data-t="noteP">本页通过 X（原 Twitter）官方嵌入展示帖子。打开后将从 X 服务器加载内容并使用其 Cookie，X 可能记录浏览并用于广告。嵌入请求带有 dnt 设置，要求 X 不将其用于个性化。</p>
+      <p class="xnote-links"><a href="https://x.com/en/privacy" rel="noopener" data-t="notePrivacy">X 隐私政策</a> · <a href="https://help.x.com/en/rules-and-policies/x-cookies" rel="noopener" data-t="noteCookies">X 的 Cookie 使用说明</a></p>
     </div>
   </section>
 
   <section id="list" class="f-list wrap" aria-labelledby="list-h">
-    <h2 id="list-h" class="sr" data-t="listH">事例の一覧</h2>
+    <h2 id="list-h" class="sr" data-t="listH">案例列表</h2>
     <div id="themes"></div>
-    <p class="empty" id="f-empty" hidden data-t="loadListFailed">一覧を読み込めませんでした。</p>
-    <noscript><p class="empty">一覧の表示には JavaScript が必要です。データは <a href="examples/found.json">examples/found.json</a> で読めます。</p></noscript>
+    <p class="empty" id="f-empty" hidden data-t="loadListFailed">案例列表加载失败。</p>
+    <noscript><p class="empty">需要启用 JavaScript。也可直接阅读 <a href="examples/found.json">静态资料</a>。</p></noscript>
   </section>
 
   <section class="f-more wrap" aria-labelledby="more-h">
-    <h2 id="more-h" class="sec-h f-sec-h" data-t="moreH">事例を教えてください</h2>
+    <h2 id="more-h" class="sec-h f-sec-h" data-t="moreH">推荐你发现的案例</h2>
     <div class="f-more-grid">
       <div class="how-col">
-        <h3 data-t="recH">ポストを推薦する（自薦も歓迎）</h3>
-        <p data-t="recP">名前に見本を付けて公開しているポストを見つけたら、GitHub の Issue で知らせてください。自分のポストでもかまいません。載せるのは埋め込みとリンクだけで、画像や動画をこのサイトに写すことはしません。</p>
-        <p><a href="https://github.com/showheyohtaki/motion-prompt/issues/new?template=2-example.yml" rel="noopener" data-t="recLink">事例を推薦する（GitHub Issue）</a></p>
+        <h3 data-t="recH">推荐帖子，也欢迎自荐</h3>
+        <p data-t="recP">如果发现配有示例的专业术语帖子，可以通过 GitHub Issue 推荐。本站仅嵌入和链接，不复制图片或视频。</p>
+        <p><a href="https://github.com/rainman016/motion-prompt-zh/issues/new?template=2-example.yml" data-repo-path="/issues/new?template=2-example.yml" rel="noopener" data-t="recLink">推荐案例（GitHub Issue）</a></p>
       </div>
       <div class="how-col">
-        <h3 data-t="rmH">外してほしいとき</h3>
-        <p data-t="rmP">ご自分のポストを外したい、紹介文が正しくない、という場合は Issue のフォームから依頼してください。確認できたら、すみやかに外します。</p>
-        <p><a href="https://github.com/showheyohtaki/motion-prompt/issues/new?template=3-removal.yml" rel="noopener" data-t="rmLink">削除・訂正を依頼する（GitHub Issue）</a></p>
+        <h3 data-t="rmH">申请移除或更正</h3>
+        <p data-t="rmP">如需移除自己的帖子或更正介绍，请通过 Issue 表单提交，维护者核实后处理。</p>
+        <p><a href="https://github.com/rainman016/motion-prompt-zh/issues/new?template=3-removal.yml" data-repo-path="/issues/new?template=3-removal.yml" rel="noopener" data-t="rmLink">申请删除或更正（GitHub Issue）</a></p>
       </div>
     </div>
   </section>
@@ -91,15 +85,16 @@
 
 <footer class="foot">
   <div class="wrap foot-in">
-    <p><strong>Motion Prompt</strong> · MIT License · <span data-t="author">作者</span> <span data-t="authorName">大滝昇平</span>（<a href="https://x.com/showheyohtaki" rel="noopener">@showheyohtaki</a>）</p>
+    <p><span data-t="localizationNotice">本项目是 Motion Prompt 的非官方简体中文本地化版本，基于 Shohei Ohtaki 的开源项目开发。</span> <a href="https://github.com/showheyohtaki/motion-prompt" rel="noopener" data-t="sourceLink">原始项目</a></p>
+    <p><strong>Motion Prompt</strong> · MIT License · <span data-t="author">原作者</span> <span data-t="authorName">Shohei Ohtaki</span>（<a href="https://x.com/showheyohtaki" rel="noopener">@showheyohtaki</a>）</p>
     <p class="foot-links">
-      <a href="https://github.com/showheyohtaki/motion-prompt/blob/main/README.ja.md#なぜ作ったか" data-href-ja="https://github.com/showheyohtaki/motion-prompt/blob/main/README.ja.md#なぜ作ったか" data-href-en="https://github.com/showheyohtaki/motion-prompt#why-i-made-this" rel="noopener" data-t="whyLink">なぜ作ったか</a>
-      <a href="https://github.com/showheyohtaki/motion-prompt/tree/main/packs" rel="noopener" data-t="listLink">名前の一覧（GitHub）</a>
-      <a href="https://github.com/showheyohtaki/motion-prompt/blob/main/make-your-own/README.ja.md" data-href-ja="https://github.com/showheyohtaki/motion-prompt/blob/main/make-your-own/README.ja.md" data-href-en="https://github.com/showheyohtaki/motion-prompt/tree/main/make-your-own" rel="noopener" data-t="makeLink">自分の分野・自分の言語で作る</a>
-      <a href="https://github.com/showheyohtaki/motion-prompt/blob/main/CONTRIBUTING.ja.md" data-href-ja="https://github.com/showheyohtaki/motion-prompt/blob/main/CONTRIBUTING.ja.md" data-href-en="https://github.com/showheyohtaki/motion-prompt/blob/main/CONTRIBUTING.md" rel="noopener" data-t="addLink">あなたの分野の名前を足す</a>
+      <a href="https://github.com/showheyohtaki/motion-prompt/blob/main/README.ja.md#なぜ作ったか" data-href-ja="https://github.com/showheyohtaki/motion-prompt/blob/main/README.ja.md#なぜ作ったか" data-href-en="https://github.com/showheyohtaki/motion-prompt#why-i-made-this" rel="noopener" data-t="whyLink">原作者的创作缘起</a>
+      <a href="https://github.com/rainman016/motion-prompt-zh/tree/main/packs" data-repo-path="/tree/main/packs" rel="noopener" data-t="listLink">中文名称列表（GitHub）</a>
+      <a href="https://github.com/rainman016/motion-prompt-zh/tree/main/make-your-own" data-repo-path="/tree/main/make-your-own" rel="noopener" data-t="makeLink">制作自己的领域或语言版本</a>
+      <a href="https://github.com/rainman016/motion-prompt-zh/blob/main/CONTRIBUTING.md" data-repo-path="/blob/main/CONTRIBUTING.md" rel="noopener" data-t="addLink">贡献专业术语</a>
     </p>
-    <p class="foot-remove"><span data-t="removeP1">掲載の削除・訂正は</span><a href="https://github.com/showheyohtaki/motion-prompt/issues/new?template=3-removal.yml" rel="noopener" data-t="removeLink">GitHub の Issue のフォーム</a><span data-t="removeP2">から依頼できます。確認後、すみやかに対応します。</span></p>
-    <p class="foot-thanks"><span data-t="thanks1">動く見本を並べて、プロンプトをコピーして使う形は</span> <a href="https://lucianlabs.dev/uxui-prompt/" rel="noopener">Lucian UX/UI Prompt</a> <span data-t="thanks2">から着想を得ました。ありがとうございます。</span></p>
+    <p class="foot-remove"><span data-t="removeP1">如需删除或更正本站介绍，请通过</span><a href="https://github.com/rainman016/motion-prompt-zh/issues/new?template=3-removal.yml" data-repo-path="/issues/new?template=3-removal.yml" rel="noopener" data-t="removeLink">GitHub Issue 表单</a><span data-t="removeP2">提交，维护者核实后处理。</span></p>
+    <p class="foot-thanks"><span data-t="thanks1">动态示例与可复制 Prompt 相结合的形式，受到</span> <a href="https://lucianlabs.dev/uxui-prompt/" rel="noopener">Lucian UX/UI Prompt</a> <span data-t="thanks2">的启发，谨致谢意。</span></p>
   </div>
 </footer>
 

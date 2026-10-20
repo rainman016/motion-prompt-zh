@@ -1,0 +1,28 @@
+// Motion Prompt #114 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#114
+//
+// 低调摄影 / Low-key
+// 分类包: photo (摄影光线与风格) · element 18 · 子分类: 色调与后期风格
+// 动画表现: 画面大部分沉入黑暗，太阳消失，只有半身像右侧受光边缘明亮，直方图峰移到左侧。
+// 运动规格:
+//   - 场景 3：左侧半身像的头部中心 x 140、y 82、半径 28 px；右侧有山丘、房屋、树与太阳，太阳 x 432、y 54、半径 15 px。
+//   - 天空 #FAF9F7 → #2B2D33，山丘变 #313339 与 #36383E，地面变 #24252A，人物变 #25272E；太阳及光环取天空色并消失。
+//   - 半身像右侧亮边保留，#FFC75A → #FFB547。
+//   - 直方图峰中心 0.56 → 0.14，宽度 0.2 → 0.08。
+//   - 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+// 适用场景: 适合奢华、紧张或神秘氛围。
+// 标签: low-key, low key, dark, black background, moody, dramatic, chiaroscuro
+// 尺寸: 539x208 px · 周期: 5 s
+// 依赖: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#114
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 18
+// ローキー: 画面の大半が暗く沈み、横からの光が当たる縁だけが浮かぶ
+CELLS[17] = cell((k, u) => {
+  const a = env(u);
+  const LOW = Object.assign({}, DARK, { sun: DARK.sky, glow: DARK.sky, person: '#25272E', lit: '#FFB547' });
+  stageLand(k, pal(BASE, LOW, a));
+  histo(k, lerp(0.56, 0.14, a), lerp(0.2, 0.08, a));
+});

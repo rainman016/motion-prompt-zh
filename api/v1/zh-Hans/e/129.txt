@@ -1,0 +1,40 @@
+// Motion Prompt #129 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#129
+//
+// 文字乱码解码 / Text scramble
+// 分类包: motion2 (动态图形进阶) · element 09 · 子分类: 文字与图形
+// 动画表现: 随机字符持续变化，随后从左到右固定成正确单词。
+// 运动规格:
+//   - 前 2.35 秒显示“HELLO”，后半显示“WORLD”；五个 92 px 等宽字符。
+//   - 未锁定位置从 A–Z 中排除 I、O，加上 0–9 和 #$%&@? 随机选字，每 4.7 秒变化 76 次，约每 0.062 秒一次，薄荷色、透明度 75%。
+//   - 从左向右锁定，第 i 位在 0.45 + 0.18i 秒锁定，最后一位为 1.17 秒；新锁定字符先黄 0.22 秒再变白，缩放按 1 + 0.2·e^(−14t) 回落。
+//   - 从 1.85 秒起由右向左恢复随机，第 i 位在 1.85 + 0.08 × (4 − i) 秒解锁。
+//   - 每个字符下有横条：已锁定蓝色、下一个待锁定黄色，其余深蓝。
+// 适用场景: 适合标题、数字或代号的解码、黑客、科技感入场。
+// 标签: text-scramble, scramble, decode, shuffle, random, text, hacker
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#129
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 09
+// 09 テキストスクランブル（ランダムな文字が入れ替わり続け、左から順に正しい単語に決まる）
+const SCR_GL = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#$%&@?';
+CELLS[8] = (k, w, h, u) => {
+  u = snapU(u);
+  stage(k);
+  const T = CYC / 2, n = Math.floor(u / T), lu = u - n * T, word = n ? 'WORLD' : 'HELLO', N = 5;
+  const f = `700 92px Menlo, "SF Mono", monospace`; k.font = f;
+  const cw = k.measureText('M').width + 16, x0 = w / 2 - cw * (N - 1) / 2, Y = h / 2 - 8;
+  const step = Math.floor(u / (CYC / 76));
+  for (let i = 0; i < N; i++) {
+    const tl = 0.45 + i * 0.18, tu = 1.85 + (N - 1 - i) * 0.08, locked = lu >= tl && lu < tu;
+    let ch, col, sc = 1;
+    if (locked) { ch = word[i]; const age = lu - tl; col = age < 0.22 ? C.yel : '#fff'; sc = 1 + 0.2 * Math.exp(-age * 14); }
+    else { ch = SCR_GL[Math.floor(H01(step * 131 + i * 977 + n * 31) * SCR_GL.length)]; col = C.mint; }
+    k.save(); k.translate(x0 + i * cw, Y); k.scale(sc, sc); k.globalAlpha = locked ? 1 : 0.75; txt(k, ch, 0, 0, f, col, 'center', 'middle'); k.restore();
+    const next = !locked && lu < tl && (i === 0 || lu >= 0.45 + (i - 1) * 0.18);
+    k.fillStyle = locked ? C.blue : next ? C.yel : C.navy3; rr(k, x0 + i * cw - cw / 2 + 8, Y + 58, cw - 16, 8, 4); k.fill();
+  }
+};

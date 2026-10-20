@@ -1,0 +1,18 @@
+请使用“轻提示通知（Toast notification）”，属于“UI 组件”。
+Motion Prompt #056
+
+效果解释：角落短暂出现消息，随后自动消失
+动画表现：点击“保存”后，深色通知滑入右下角；倒计时条走完后滑出。
+实现规格与关键运动参数：
+- 542×191 卡片，周期 4.5 秒。光标于 1.0 秒点击左下角 110×36 蓝色“保存”按钮，再移向左下方离开。
+- 通知色 #26282c，尺寸 214×52、圆角 10，距右侧 18 px、底部 16 px；1.05–1.4 秒以 easeOutCubic 从右侧 240 px 外滑入。
+- 内部为蓝圆中的白色对勾和 15 px 白色“已保存”文字。
+- 底部倒计时线高 3 px，在 1.4–3.2 秒从 194 px 线性缩至 0。
+- 3.2–3.55 秒用 easeInOutCubic 向右滑出 240 px。
+适用场景：适合不打断用户地确认保存、发送等操作结果。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#056
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/056.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/ui.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

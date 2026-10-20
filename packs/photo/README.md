@@ -2,7 +2,7 @@
 
 # Photo looks, lighting & styles
 
-24 names · #097–120 · pack `photo` · Languages: [日本語](README.ja.md)
+24 names · #097–120 · pack `photo` · Languages: [日本語](README.ja.md) / [简体中文](README.zh-Hans.md)
 
 Find the name, then say it to your AI. Add how long, how strong and what moves, and the result gets closer to what you had in mind.
 
@@ -10,40 +10,40 @@ Find the name, then say it to your AI. Add how long, how strong and what moves, 
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#097](https://showheyohtaki.github.io/motion-prompt/#097) | **Backlighting** | The light source sits behind the subject | Backlit portrait of a person in a meadow, the low sun right behind their head, glowing hair outline and soft haze. |
-| [#098](https://showheyohtaki.github.io/motion-prompt/#098) | **Rim light** | A light from behind that outlines the subject's edge | Portrait on a black background with rim lights from both rear sides; the face stays dark and only the outline of the head and shoulders glows. |
-| [#099](https://showheyohtaki.github.io/motion-prompt/#099) | **Silhouette** | The subject shows as a black shape against a bright sky | Silhouette of a person jumping on a beach at sunset; expose for the sky so the person and the palm tree turn pure black. |
-| [#100](https://showheyohtaki.github.io/motion-prompt/#100) | **Split lighting** | Light from the side splits the face into lit and dark halves | Portrait with split lighting: the light at 90° to the side, the face divided down the nose, the far half in shadow. |
-| [#101](https://showheyohtaki.github.io/motion-prompt/#101) | **Rembrandt lighting** | High side light that leaves a lit triangle on the shadow cheek | Portrait of an old man in Rembrandt lighting: light from 45° to the side and above, leaving a small triangle of light on the shadow-side cheek. |
-| [#102](https://showheyohtaki.github.io/motion-prompt/#102) | **Butterfly lighting** | High frontal light that casts a butterfly shadow under the nose | Beauty portrait with butterfly lighting: light straight in front and 45° above, a small butterfly-shaped shadow under the nose. |
-| [#103](https://showheyohtaki.github.io/motion-prompt/#103) | **Golden hour** | The low, warm light just after sunrise or before sunset | A person in a field at golden hour: the sun near the horizon, long shadows, everything warm orange. |
-| [#104](https://showheyohtaki.github.io/motion-prompt/#104) | **Blue hour** | The time after sunset or before sunrise when the sky turns deep blue | Harbour city at blue hour: deep blue sky, warm windows and streetlights reflected in the water. |
+| [#097](https://rainman016.github.io/motion-prompt-zh/#097) | **Backlighting** | The light source sits behind the subject | Backlit portrait of a person in a meadow, the low sun right behind their head, glowing hair outline and soft haze. |
+| [#098](https://rainman016.github.io/motion-prompt-zh/#098) | **Rim light** | A light from behind that outlines the subject's edge | Portrait on a black background with rim lights from both rear sides; the face stays dark and only the outline of the head and shoulders glows. |
+| [#099](https://rainman016.github.io/motion-prompt-zh/#099) | **Silhouette** | The subject shows as a black shape against a bright sky | Silhouette of a person jumping on a beach at sunset; expose for the sky so the person and the palm tree turn pure black. |
+| [#100](https://rainman016.github.io/motion-prompt-zh/#100) | **Split lighting** | Light from the side splits the face into lit and dark halves | Portrait with split lighting: the light at 90° to the side, the face divided down the nose, the far half in shadow. |
+| [#101](https://rainman016.github.io/motion-prompt-zh/#101) | **Rembrandt lighting** | High side light that leaves a lit triangle on the shadow cheek | Portrait of an old man in Rembrandt lighting: light from 45° to the side and above, leaving a small triangle of light on the shadow-side cheek. |
+| [#102](https://rainman016.github.io/motion-prompt-zh/#102) | **Butterfly lighting** | High frontal light that casts a butterfly shadow under the nose | Beauty portrait with butterfly lighting: light straight in front and 45° above, a small butterfly-shaped shadow under the nose. |
+| [#103](https://rainman016.github.io/motion-prompt-zh/#103) | **Golden hour** | The low, warm light just after sunrise or before sunset | A person in a field at golden hour: the sun near the horizon, long shadows, everything warm orange. |
+| [#104](https://rainman016.github.io/motion-prompt-zh/#104) | **Blue hour** | The time after sunset or before sunrise when the sky turns deep blue | Harbour city at blue hour: deep blue sky, warm windows and streetlights reflected in the water. |
 
 ## Lens & camera effects
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#105](https://showheyohtaki.github.io/motion-prompt/#105) | **Bokeh** | Out-of-focus points of light melt into soft discs | Person in a city at night with big round bokeh from the street lights behind; f/1.4, focus on the person. |
-| [#106](https://showheyohtaki.github.io/motion-prompt/#106) | **Tilt-shift** | Blur top and bottom so a real scene looks like a miniature | High-angle view of a town with a tilt-shift look: a narrow sharp band across the middle, strong blur above and below, boosted colour, like a miniature model. |
-| [#107](https://showheyohtaki.github.io/motion-prompt/#107) | **Long exposure** | Keep the shutter open long so moving lights become lines | Night road as a long exposure, 8-second shutter: the cars disappear and only their headlights and tail lights remain as white and red trails. |
-| [#108](https://showheyohtaki.github.io/motion-prompt/#108) | **Panning shot** | Follow a moving subject so only the background streaks | Panning shot of a red car driving past, 1/15 s shutter: the car sharp, the trees and buildings behind streaked sideways. |
-| [#109](https://showheyohtaki.github.io/motion-prompt/#109) | **Lens flare** | Rings and spots of light from a bright source in the lens | Mountain landscape with the sun in frame and lens flare: coloured ghosts lined up from the sun through the centre to the opposite side. |
-| [#110](https://showheyohtaki.github.io/motion-prompt/#110) | **Fisheye lens** | Ultra-wide lens that bulges the centre and bends straight lines | City street through a fisheye lens, 180° view, the building edges bowing outward. |
-| [#111](https://showheyohtaki.github.io/motion-prompt/#111) | **Chromatic aberration** | Red and blue-violet colour fringes along high-contrast edges | Black branches against a white sky with slight chromatic aberration: red and blue-violet fringes on the edges, stronger toward the corners. |
-| [#112](https://showheyohtaki.github.io/motion-prompt/#112) | **Vignette** | The corners darken and draw the eye to the centre | Beach photo with a strong vignette: the corners darken gradually so the eye goes to the person in the middle. |
+| [#105](https://rainman016.github.io/motion-prompt-zh/#105) | **Bokeh** | Out-of-focus points of light melt into soft discs | Person in a city at night with big round bokeh from the street lights behind; f/1.4, focus on the person. |
+| [#106](https://rainman016.github.io/motion-prompt-zh/#106) | **Tilt-shift** | Blur top and bottom so a real scene looks like a miniature | High-angle view of a town with a tilt-shift look: a narrow sharp band across the middle, strong blur above and below, boosted colour, like a miniature model. |
+| [#107](https://rainman016.github.io/motion-prompt-zh/#107) | **Long exposure** | Keep the shutter open long so moving lights become lines | Night road as a long exposure, 8-second shutter: the cars disappear and only their headlights and tail lights remain as white and red trails. |
+| [#108](https://rainman016.github.io/motion-prompt-zh/#108) | **Panning shot** | Follow a moving subject so only the background streaks | Panning shot of a red car driving past, 1/15 s shutter: the car sharp, the trees and buildings behind streaked sideways. |
+| [#109](https://rainman016.github.io/motion-prompt-zh/#109) | **Lens flare** | Rings and spots of light from a bright source in the lens | Mountain landscape with the sun in frame and lens flare: coloured ghosts lined up from the sun through the centre to the opposite side. |
+| [#110](https://rainman016.github.io/motion-prompt-zh/#110) | **Fisheye lens** | Ultra-wide lens that bulges the centre and bends straight lines | City street through a fisheye lens, 180° view, the building edges bowing outward. |
+| [#111](https://rainman016.github.io/motion-prompt-zh/#111) | **Chromatic aberration** | Red and blue-violet colour fringes along high-contrast edges | Black branches against a white sky with slight chromatic aberration: red and blue-violet fringes on the edges, stronger toward the corners. |
+| [#112](https://rainman016.github.io/motion-prompt-zh/#112) | **Vignette** | The corners darken and draw the eye to the centre | Beach photo with a strong vignette: the corners darken gradually so the eye goes to the person in the middle. |
 
 ## Tones & finishing looks
 
 | # | Name | What it is | How to ask an AI |
 |---|---|---|---|
-| [#113](https://showheyohtaki.github.io/motion-prompt/#113) | **High-key** | A bright, white-toned image with very light shadows | High-key still life of a cup and a bottle on a white table: pure white background, very faint shadows, only light tones. |
-| [#114](https://showheyohtaki.github.io/motion-prompt/#114) | **Low-key** | A dark image where only the lit parts stand out | Low-key shot of a whisky bottle on black, a single side light, only the lit edges showing and most of the frame in deep black. |
-| [#115](https://showheyohtaki.github.io/motion-prompt/#115) | **Black and white** | Remove colour and show brightness only | Beach snapshot in black and white, contrast slightly raised, keeping the difference in brightness between sky and sand. |
-| [#116](https://showheyohtaki.github.io/motion-prompt/#116) | **Duotone** | Show the image in two colours, one for darks and one for lights | Portrait photo as a navy-and-pink duotone: darks in navy, lights in pink, nothing else. |
-| [#117](https://showheyohtaki.github.io/motion-prompt/#117) | **Teal and orange** | Pushes shadows to teal and skin and highlights to orange | Person walking in the city with a cinematic teal and orange grade: shadows and sky toward teal, skin and sunlight toward orange. |
-| [#118](https://showheyohtaki.github.io/motion-prompt/#118) | **Film grain** | Fine, film-like grain over the image | Add film grain to the beach photo: fine grain all over, blacks slightly lifted and warm. |
-| [#119](https://showheyohtaki.github.io/motion-prompt/#119) | **Light leak** | Red-orange glow as if light leaked onto the film | Summer memory photo with a light leak coming in from the right edge, red and orange light bleeding in. |
-| [#120](https://showheyohtaki.github.io/motion-prompt/#120) | **Double exposure** | Two photos layered into one frame | Double exposure of a profile silhouette and a forest-and-mountain landscape on a white background, the landscape visible only inside the head. |
+| [#113](https://rainman016.github.io/motion-prompt-zh/#113) | **High-key** | A bright, white-toned image with very light shadows | High-key still life of a cup and a bottle on a white table: pure white background, very faint shadows, only light tones. |
+| [#114](https://rainman016.github.io/motion-prompt-zh/#114) | **Low-key** | A dark image where only the lit parts stand out | Low-key shot of a whisky bottle on black, a single side light, only the lit edges showing and most of the frame in deep black. |
+| [#115](https://rainman016.github.io/motion-prompt-zh/#115) | **Black and white** | Remove colour and show brightness only | Beach snapshot in black and white, contrast slightly raised, keeping the difference in brightness between sky and sand. |
+| [#116](https://rainman016.github.io/motion-prompt-zh/#116) | **Duotone** | Show the image in two colours, one for darks and one for lights | Portrait photo as a navy-and-pink duotone: darks in navy, lights in pink, nothing else. |
+| [#117](https://rainman016.github.io/motion-prompt-zh/#117) | **Teal and orange** | Pushes shadows to teal and skin and highlights to orange | Person walking in the city with a cinematic teal and orange grade: shadows and sky toward teal, skin and sunlight toward orange. |
+| [#118](https://rainman016.github.io/motion-prompt-zh/#118) | **Film grain** | Fine, film-like grain over the image | Add film grain to the beach photo: fine grain all over, blacks slightly lifted and warm. |
+| [#119](https://rainman016.github.io/motion-prompt-zh/#119) | **Light leak** | Red-orange glow as if light leaked onto the film | Summer memory photo with a light leak coming in from the right edge, red and orange light bleeding in. |
+| [#120](https://rainman016.github.io/motion-prompt-zh/#120) | **Double exposure** | Two photos layered into one frame | Double exposure of a profile silhouette and a forest-and-mountain landscape on a white background, the landscape visible only inside the head. |
 
 Each number opens the moving sample in the gallery. Timings, easing values and reference code for one name: `api/v1/en/e/<id>.txt` ([#097](../../api/v1/en/e/097.txt)).
 

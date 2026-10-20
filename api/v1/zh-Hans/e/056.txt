@@ -1,0 +1,35 @@
+// Motion Prompt #056 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#056
+//
+// 轻提示通知 / Toast notification
+// 分类包: ui (UI 组件) · element 08 · 子分类: 弹出与覆盖
+// 动画表现: 点击“保存”后，深色通知滑入右下角；倒计时条走完后滑出。
+// 运动规格:
+//   - 542×191 卡片，周期 4.5 秒。光标于 1.0 秒点击左下角 110×36 蓝色“保存”按钮，再移向左下方离开。
+//   - 通知色 #26282c，尺寸 214×52、圆角 10，距右侧 18 px、底部 16 px；1.05–1.4 秒以 easeOutCubic 从右侧 240 px 外滑入。
+//   - 内部为蓝圆中的白色对勾和 15 px 白色“已保存”文字。
+//   - 底部倒计时线高 3 px，在 1.4–3.2 秒从 194 px 线性缩至 0。
+//   - 3.2–3.55 秒用 easeInOutCubic 向右滑出 240 px。
+// 适用场景: 适合不打断用户地确认保存、发送等操作结果。
+// 标签: toast, snackbar, notification, alert, message, auto-dismiss
+// 尺寸: 542x191 px · 周期: 4.5 s
+// 依赖: kit ui -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/ui.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#056
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 08
+// 08 トースト（Toast notification）
+CELLS[7] = ui((w, h, t) => {
+  bar(24, 16, 90, C.line2, 10); strokeRR(24, 34, 300, 34, 7, C.line2, 1.5); bar(24, 82, 90, C.line2, 10); strokeRR(24, 100, 300, 34, 7, C.line2, 1.5);
+  fillRR(24, 146, 110, 36, 8, C.blue); text('保存', 79, 164, 16, '#fff', 600, 'center');
+  const tin = eo(seg(t, 1.05, 1.4)), tout = eio(seg(t, 3.2, 3.55));
+  if (tin > 0 && tout < 1) {
+    const tw0 = 214, th = 52, tx = w - 18 - tw0 + (1 - tin) * 240 + tout * 240, ty = h - 16 - th;
+    shadowed(() => fillRR(tx, ty, tw0, th, 10, C.dark), 18, 6, .25);
+    circle(tx + 26, ty + 24, 11, C.blue); check(tx + 26, ty + 24, 5, '#fff', 2.4);
+    text('保存しました', tx + 46, ty + 24, 15, '#fff', 600);
+    const life = 1 - seg(t, 1.4, 3.2); fillRR(tx + 10, ty + th - 7, (tw0 - 20) * life, 3, 1.5, C.sb);
+  }
+  pointer([[.3, -30, h + 30], [.95, 84, 168], [1.5, 84, 168], [2.2, -40, h + 40]], [1.0], t);
+});

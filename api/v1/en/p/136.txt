@@ -10,6 +10,6 @@ Spec:
 - The offsets are a hash of the frame number and the point number, so the same frame always looks the same.
 When to use it: Use it on hand-drawn illustrations, icons or lettering to make even a still picture feel drawn by hand.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/136.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/136.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

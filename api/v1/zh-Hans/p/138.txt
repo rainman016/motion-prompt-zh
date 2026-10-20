@@ -1,0 +1,16 @@
+请使用“百叶窗转场（Blinds transition）”，属于“动态图形进阶”。
+Motion Prompt #138
+
+效果解释：通过多条窄带逐渐打开下一场景
+动画表现：一组窄条中的开口不断扩大，直到完整显露下一场景。
+实现规格与关键运动参数：
+- 日景→夜景→日景，各占 2.35 秒；七条横带，每条 208 ÷ 7 ≈ 29.7 px。
+- 0.4–1.65 秒，持续 1.25 秒，二次缓入缓出；每条同时从顶部向下揭示下一场景，开口由 0 增至整条高度。
+- 前场景保持在下层，两幅画面都不移动。
+适用场景：适合日夜、前后对比等明确场景切换，也可营造复古感。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#138
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/138.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

@@ -1,0 +1,17 @@
+请使用“阅读进度条（Scroll progress bar）”，属于“落地页与网页动效”。
+Motion Prompt #079
+
+效果解释：顶部进度条显示阅读位置
+动画表现：逐段阅读时，顶部线条从左向右增长，到页面底部时填满。
+实现规格与关键运动参数：
+- 文章以四个 110 px 步长从 0→430 px 滚动，每次运动 0.45 秒再停 0.4 秒，采用三次缓入缓出。
+- 3.75–4.55 秒从 430→0 返回。
+- 视口顶部进度条高 6 px，浅灰轨道、橙色填充。
+- 填充宽度 = 511 px × scroll / 430，与滚动比例直接对应，类似 CSS animation-timeline: scroll()。
+适用场景：适合长文章，提示剩余阅读量。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#079
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/079.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

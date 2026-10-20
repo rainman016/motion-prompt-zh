@@ -11,6 +11,6 @@ Motion Prompt #129
 - 各文字の下に横棒: 決まった文字は青、次に決まる文字は黄、それ以外は紺
 使いどころ: 見出し・数字・コードネームの登場に。解読・ハッキング・テック系の雰囲気を出したいとき。
 
-参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://showheyohtaki.github.io/motion-prompt/api/v1/ja/e/129.txt
-共通の補助コード: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://rainman016.github.io/motion-prompt-zh/api/v1/ja/e/129.txt
+共通の補助コード: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 参考実装の形・タイミング・イージングの数値はそのまま使い、中の文字・色・素材だけ、いま作っている物に合わせてください。

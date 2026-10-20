@@ -1,0 +1,17 @@
+请使用“动态渐变（Animated gradient）”，属于“落地页与网页动效”。
+Motion Prompt #095
+
+效果解释：背景颜色持续漂移融合
+动画表现：标题后方柔和的橙、浅橙、蓝、浅蓝色块沿圆弧漂移，持续形成不同混色。
+实现规格与关键运动参数：
+- 底色 #FFF1EB，上叠四个径向渐变，中心为实色、边缘透明，每个透明度 0.85。
+- 橙色半径 230，浅橙 #FFB08F 为 210，蓝色为 240，浅蓝 #9DB6FB 为 200。
+- 各中心每 4.8 秒走完椭圆；横向半径 70, 60, 80, 50，纵向半径 30, 40, 30, 35，初始角 0, 2.1, 4.2, 1.0 rad。
+- 上方叠加 34 px 白色标题和按钮，仅渐变运动。
+适用场景：适合无需照片的首屏或标题背景，增添颜色与轻微动感。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#095
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/095.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

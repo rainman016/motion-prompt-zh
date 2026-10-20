@@ -1,0 +1,37 @@
+// Motion Prompt #108 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#108
+//
+// 追随摄影 / Panning shot
+// 分类包: photo (摄影光线与风格) · element 12 · 子分类: 镜头与相机效果
+// 动画表现: 相机跟随行驶的车，车在画面中央保持清晰，只有后方建筑、树和路灯横向模糊。
+// 运动规格:
+//   - 街角建筑、树和路灯位于 y 132–162 的道路后方，无前景大人物。
+//   - 无效果时汽车在 5 秒内从 x −80 行驶到 620；有效果时停留在 x 270 ±10 px。
+//   - 背景横向分散 46 px 绘制12 次并取平均，分散量 0 → 46 px。
+//   - 车轮辐条每 5 秒旋转12 圈。
+//   - 右上快门 1/1000 → 1/15。
+//   - 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+// 适用场景: 适合静态照片表现汽车、自行车或跑者的速度。
+// 标签: panning, panning shot, motion blur, speed, sports photography, slow shutter
+// 尺寸: 539x208 px · 周期: 5 s
+// 依赖: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#108
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 12
+// 流し撮り: 走る車を追ってカメラを振ると、車はくっきり、背景だけ横に流れる
+CELLS[11] = cell((k, u) => {
+  const a = env(u);
+  const drive = lerp(-80, 620, u / CYC), x = lerp(drive, 270 + 10 * Math.sin(u / CYC * TAU), a);
+  const S = 46 * a, n = S < 0.5 ? 1 : 12;
+  for (let i = 0; i < n; i++) {   // 背景を横にずらして重ね、平均をとる（流れ）
+    k.save(); k.globalAlpha = 1 / (i + 1); k.translate(n > 1 ? lerp(-S / 2, S / 2, i / (n - 1)) : 0, 0); stageStreet(k, BASE, { car: false, person: false }); k.restore();
+  }
+  const D = pen(k); car(D, x, BASE, { head: BASE.lit });
+  // 車輪の回転（1周に12回転＝継ぎ目なし）
+  k.save(); k.strokeStyle = BASE.tire; k.lineWidth = 1.6;
+  for (const wx of [x - 21, x + 21]) { const t = u / CYC * TAU * 12; k.beginPath(); k.moveTo(wx - Math.cos(t) * 5, 156 - Math.sin(t) * 5); k.lineTo(wx + Math.cos(t) * 5, 156 + Math.sin(t) * 5); k.stroke(); }
+  k.restore();
+  hud(k, a > 0.5 ? '1/15' : '1/1000');
+});

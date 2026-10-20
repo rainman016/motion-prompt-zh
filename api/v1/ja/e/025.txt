@@ -13,8 +13,8 @@
 // 使いどころ: 横に広い場所を見せるとき、または視線を左右の別の対象へ移すとき。
 // タグ: pan, panning, yaw, rotate, horizontal, camera move, reveal
 // サイズ: 539x208 px · 1周: 9.4 s
-// Needs: kit camera -> https://showheyohtaki.github.io/motion-prompt/api/v1/kit/camera.js
-// 動く見本: https://showheyohtaki.github.io/motion-prompt/#025
+// Needs: kit camera -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/camera.js
+// 動く見本: https://rainman016.github.io/motion-prompt-zh/?lang=ja#025
 //
 // cells[i](k, w, h, u) … k = CanvasRenderingContext2D（呼ぶ側でクリアと save/restore 済み）、w・h = サイズ、u = 秒（0 以上 1周 未満）。u だけで絵が決まる。
 // ここから要素のコード。CELLS や定数・補助関数は kit にある。

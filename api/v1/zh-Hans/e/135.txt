@@ -1,0 +1,43 @@
+// Motion Prompt #135 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#135
+//
+// 万花筒 / Kaleidoscope
+// 分类包: motion2 (动态图形进阶) · element 15 · 子分类: 文字与图形
+// 动画表现: 八向对称图案从中心旋转扩散，像万花筒。
+// 运动规格:
+//   - 中心周围分为八个 45° 扇区，隔一个扇区做镜像，形成八向镜面对称。
+//   - 每个扇区含13 个圆、菱形或三角，四色、固定随机种子；每 4.7 秒从中心走到半径 300，再回到中心循环。
+//   - 图形向外时增大，尺寸 ((5 + 0.1r) × 0.7–1.4)，每 px 旋转 0.02 rad；前 30 px 淡入，后 70 px 淡出；每 4.7 秒左右摆动 ±0.08 rad 一次。
+//   - 整幅图案每 4.7 秒转 90°，即两个扇区，使循环对齐。
+//   - 中央为白色八角星，半径 20 ± 4，每 4.7 秒脉动两次。
+// 适用场景: 适合音乐视频、现场背景或梦幻转场，可持续循环观看。
+// 标签: kaleidoscope, symmetry, mirror, mandala, pattern, radial, psychedelic
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#135
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 15
+// 15 カレイドスコープ（万華鏡のように、8分割の対称な模様が回りながら広がる）
+const KAL = (() => { const R = rand(1515), a = []; for (let i = 0; i < 13; i++) a.push({ r0: R() * 300, th: 0.06 + R() * 0.66, kind: i % 3, col: PAL[i % 4], sz: 0.7 + R() * 0.7, ph: R() * 6 }); return a; })();
+CELLS[14] = (k, w, h, u) => {
+  stage(k);
+  const X = w / 2, Y = h / 2, RM = 300, rot = (Math.PI / 2) * u / CYC, W8 = Math.PI / 4;
+  for (let s = 0; s < 8; s++) {
+    k.save(); k.translate(X, Y);
+    if (s % 2) { k.rotate(rot + (s + 1) * W8); k.scale(1, -1); } else k.rotate(rot + s * W8);
+    k.beginPath(); k.moveTo(0, 0); k.arc(0, 0, RM + 60, -0.006, W8 + 0.006); k.closePath(); k.clip();
+    for (const it of KAL) {
+      const r = mod(it.r0 + (u / CYC) * RM, RM), th = it.th + 0.08 * Math.sin(2 * Math.PI * u / CYC + it.ph), sz = (5 + r * 0.1) * it.sz;
+      const a = smooth(P(r, 0, 30)) * (1 - smooth(P(r, RM - 70, RM))); if (a <= 0) continue;
+      k.globalAlpha = a; k.fillStyle = it.col; k.save(); k.translate(Math.cos(th) * r, Math.sin(th) * r); k.rotate(r * 0.02);
+      if (it.kind === 0) { k.beginPath(); k.arc(0, 0, sz, 0, 7); k.fill(); }
+      else if (it.kind === 1) { k.beginPath(); k.moveTo(0, -sz * 1.2); k.lineTo(sz * 0.8, 0); k.lineTo(0, sz * 1.2); k.lineTo(-sz * 0.8, 0); k.closePath(); k.fill(); }
+      else { k.beginPath(); k.moveTo(0, -sz); k.lineTo(sz * 0.95, sz * 0.7); k.lineTo(-sz * 0.95, sz * 0.7); k.closePath(); k.fill(); }
+      k.restore();
+    }
+    k.globalAlpha = 1; k.restore();
+  }
+  k.fillStyle = '#fff'; star(k, X, Y, 20 + 4 * Math.sin(2 * Math.PI * 2 * u / CYC), rot, 0.5, 8); k.fill();
+};

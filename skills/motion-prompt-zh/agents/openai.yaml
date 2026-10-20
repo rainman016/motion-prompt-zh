@@ -1,0 +1,6 @@
+interface:
+  display_name: "Motion Prompt 中文动效库"
+  short_description: "预览并选择 144 个中文动效，读取真实规格与代码应用到当前项目"
+  default_prompt: "使用 $motion-prompt-zh 打开中文动效库，让我选择效果并应用到当前项目。"
+policy:
+  allow_implicit_invocation: true

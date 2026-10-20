@@ -9,6 +9,6 @@ Spec:
 - The previous scene stays underneath. Neither picture moves.
 When to use it: Use it for a clear switch between two scenes, such as day and night or before and after, or for a retro feel.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/138.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/138.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

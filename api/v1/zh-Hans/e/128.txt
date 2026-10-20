@@ -1,0 +1,43 @@
+// Motion Prompt #128 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#128
+//
+// 定格动画风格 / Stop-motion style
+// 分类包: motion2 (动态图形进阶) · element 08 · 子分类: 运动技法
+// 动画表现: 星形以约每秒八帧的顿挫节奏跳过画面，每帧略有偏差。
+// 运动规格:
+//   - 每 4.7 秒38 帧，约每秒 8 帧，每帧保持约 0.124 秒；只绘制这些帧，不做帧间补间。
+//   - 黄色星形半径 38，从 x = −44 跳至 583，沿三段高度 54·|sin(3πt)| 的弧线前进，并转两圈。
+//   - 每帧使用固定随机扰动：横向 ±5 px、纵向 ±4.5 px、旋转 ±0.15 rad、尺寸 ±5%。
+//   - 前两帧保留为淡残影，透明度 0.28 和 0.12，类似洋葱皮。
+//   - 上下各有高 26 px、带齿孔的黑色胶片条，并显示帧率标签。
+// 适用场景: 适合手工、黏土或拼贴风格，避免过于光滑的运动。
+// 标签: stop-motion, choppy, frame-rate, on-twos, jitter, handmade, claymation
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#128
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 08
+// 08 ストップモーション風（1秒8コマのカクカクした動き。コマごとに位置が少しずつぶれる）
+CELLS[7] = (k, w, h, u) => {
+  u = snapU(u);
+  stage(k);
+  k.fillStyle = '#0A1230'; k.fillRect(0, 0, w, 26); k.fillRect(0, h - 26, w, 26);
+  k.fillStyle = C.navy3; for (let x = 12; x < w; x += 34) { rr(k, x, 8, 18, 11, 3); k.fill(); rr(k, x, h - 19, 18, 11, 3); k.fill(); }
+  const NS = 38, st = CYC / NS, fi = Math.floor(u / st), floor = h - 44;
+  const pose = f => { const t = f / NS, j = i => H01(f * 7919 + i * 131 + 77) - 0.5; return { x: lerp(-44, w + 44, t) + j(1) * 10, y: floor - 36 - 54 * Math.abs(Math.sin(t * Math.PI * 3)) + j(2) * 9, r: t * Math.PI * 4 + j(3) * 0.3, s: 1 + j(4) * 0.1 }; };
+  const draw = (p, a) => {
+    k.globalAlpha = a;
+    k.save(); k.translate(p.x + 5, p.y + 6); k.rotate(p.r); k.scale(p.s, p.s); k.fillStyle = 'rgba(0,0,0,.35)'; star(k, 0, 0, 38, 0, 0.5); k.fill(); k.restore();
+    k.save(); k.translate(p.x, p.y); k.rotate(p.r); k.scale(p.s, p.s); k.fillStyle = C.yel; star(k, 0, 0, 38, 0, 0.5); k.fill();
+    k.fillStyle = C.coral; k.beginPath(); k.arc(0, 2, 9, 0, 7); k.fill(); k.restore();
+    k.globalAlpha = 1;
+  };
+  draw(pose(mod(fi - 2, NS)), 0.12); draw(pose(mod(fi - 1, NS)), 0.28);
+  const p = pose(fi);
+  k.fillStyle = 'rgba(0,0,0,.3)'; k.beginPath(); k.ellipse(p.x, floor + 6, 30, 5, 0, 0, 7); k.fill();
+  draw(p, 1);
+  // 1秒あたりのコマ数
+  txt(k, '8コマ/秒', w - 16, 50, `800 24px ${JP}`, C.dim, 'right', 'middle');
+};

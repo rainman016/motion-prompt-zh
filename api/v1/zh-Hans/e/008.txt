@@ -1,0 +1,54 @@
+// Motion Prompt #008 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#008
+//
+// 动态字体编排 / Kinetic typography
+// 分类包: motion (动态图形基础) · element 08 · 子分类: 入场与文字
+// 动画表现: 词语按含义运动：拉伸、弹跳、旋转，最后猛然砸下。
+// 运动规格:
+//   - 四个词各持续 1.175 秒，字体为 88 px 粗体；每个词在最后 0.2 秒内上移 46 px 并淡出，采用三次缓入。
+//   - Stretch（蓝色）：水平缩放 0.3→1，采用弹簧公式 1 − e^(−4.2t)·cos(12t)；纵向缩放为 1/√(水平缩放)。
+//   - Bounce（黄色）：字符交错 0.1 秒；弹跳高度为 78 px × |sin(πt/0.4)| × e^(−2.6t)；每次触地时纵向最多压扁 16%。
+//   - Spin（薄荷色）：字符交错 0.12 秒；用 backOut（s = 1.3）在 0.62 秒内从 −360° 转到 0°；缩放用三次缓出在 0.25 秒内从 0→1。
+//   - Slam（珊瑚色、100 px、倾斜）：在 0.02–0.2 秒以三次缓入从缩放 3.4→1。
+//   - 撞击后水平抖动 10 px × e^(−9t) × sin(38t)，纵向压扁 20% × e^(−11t)，并显示8 根放射线，持续 0.4 秒。
+// 适用场景: 适合用运动方式强化旁白或歌词中的关键词。
+// 标签: kinetic-typography, text, typography, lyric, word, bounce, spin, slam
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#008
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 08
+// 08 キネティックタイポグラフィ（言葉の意味に合わせて文字が動く：のびる／はねる／まわる／ドン！）
+CELLS[7] = (k, w, h, u) => {
+  stage(k);
+  const T = CYC / 4, n = Math.min(3, Math.floor(u / T)), lu = u - n * T, X = w / 2, Y = h / 2 + 6;
+  const out = P(lu, T - 0.2, T - 0.02), oa = 1 - out, oy = -46 * eIn(out);
+  const f = `800 88px ${JP}`;
+  k.save(); k.translate(X, Y + oy); k.globalAlpha = oa;
+  if (n === 0) {
+    const sp = spring(lu - 0.05, 12, 4.2), sx = 0.3 + 0.7 * sp, sy = 1 / Math.sqrt(Math.max(0.75, sx));
+    k.globalAlpha = oa * P(lu, 0.03, 0.12); k.scale(sx, sy); txt(k, 'のびる', 0, 0, f, C.blue, 'center', 'middle', '4px');
+  } else if (n === 1) {
+    chars(k, 'はねる', f, 6).forEach((c, i) => {
+      const tt = lu - 0.06 - i * 0.1; if (tt < 0) return;
+      const y = -78 * Math.abs(Math.sin(Math.PI * tt / 0.4)) * Math.exp(-2.6 * tt), near = Math.abs(Math.sin(Math.PI * tt / 0.4)) < 0.25 ? 1 : 0;
+      const sq = 1 - 0.16 * near * Math.exp(-2.6 * tt), a = P(tt, 0, 0.08);
+      k.save(); k.globalAlpha = oa * a; k.translate(c.x, y + 44); k.scale(2 - sq, sq); txt(k, c.ch, 0, -44, f, C.yel, 'center', 'middle'); k.restore();
+    });
+  } else if (n === 2) {
+    chars(k, 'まわる', f, 6).forEach((c, i) => {
+      const tt = lu - 0.05 - i * 0.12; if (tt < 0) return;
+      const q = backOut(P(tt, 0, 0.62), 1.3), sc = eOut(P(tt, 0, 0.25));
+      k.save(); k.translate(c.x, 0); k.rotate((1 - q) * -Math.PI * 2); k.scale(sc, sc); txt(k, c.ch, 0, 0, f, C.mint, 'center', 'middle'); k.restore();
+    });
+  } else {
+    const hit = 0.2, tt = lu - hit, sc = tt < 0 ? lerp(3.4, 1, eIn(P(lu, 0.02, hit))) : 1;
+    const dx = tt > 0 ? 10 * Math.exp(-9 * tt) * Math.sin(38 * tt) : 0, sy = tt > 0 ? 1 - 0.2 * Math.exp(-11 * tt) : 1;
+    k.globalAlpha = oa * P(lu, 0.02, 0.1);
+    if (tt > 0 && tt < 0.4) { const q = eOut(tt / 0.4); k.strokeStyle = C.yel; k.lineWidth = 7 * (1 - q); k.lineCap = 'round'; for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2 + 0.2, r0 = 120 + 50 * q, r1 = r0 + 26; k.beginPath(); k.moveTo(Math.cos(a) * r0 * 1.35, Math.sin(a) * r0 * 0.5); k.lineTo(Math.cos(a) * r1 * 1.35, Math.sin(a) * r1 * 0.5); if (q < 0.97) k.stroke(); } }
+    k.translate(dx, 44); k.scale(sc * (2 - sy), sc * sy); k.transform(1, 0, -0.14, 1, 0, 0); txt(k, 'ドン!', 0, -44, `800 100px ${JP}`, C.coral, 'center', 'middle');
+  }
+  k.restore();
+};

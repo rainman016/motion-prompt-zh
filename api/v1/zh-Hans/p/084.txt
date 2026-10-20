@@ -1,0 +1,17 @@
+请使用“磁吸按钮（Magnetic button）”，属于“落地页与网页动效”。
+Motion Prompt #084
+
+效果解释：按钮被附近的光标轻微吸引
+动画表现：光标靠近时按钮被吸引并跟随，离开后晃动回原位。
+实现规格与关键运动参数：
+- 居中橙色按钮为 168 × 52、圆角 26，吸引范围为距按钮中心半径 110 px。
+- 范围内目标偏移 = (光标 − 按钮中心) × 0.35；每帧按 60 fps 计算，完成到目标距离的 18%。
+- 离开范围后，在 1.1 秒内从当前偏移回到 0，使用 elastic.out(1, 0.3)：2^(−10x)·sin((x − 0.075)·2π/0.3) + 1。
+- 光标从左侧进入，绕按钮后从右侧离开。
+适用场景：适合重点突出注册、联系等关键按钮。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#084
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/084.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

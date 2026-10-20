@@ -1,0 +1,17 @@
+请使用“无缝跑马灯（Marquee）”，属于“落地页与网页动效”。
+Motion Prompt #094
+
+效果解释：文字或标志沿条带持续循环滚动
+动画表现：深蓝色条带中，大号服务名称以橙点分隔，持续向左移动，没有空隙。
+实现规格与关键运动参数：
+- 条带高 58、深蓝、视口全宽；文字为 30 px 粗体、字距 1 px、白色。
+- 一组为四个词 WEB DESIGN / BRANDING / MOTION / UI/UX，间隔 64 px，每个间隙有半径 6 的橙点。
+- 每 4.8 秒匀速左移一组的宽度，本例约 881 px；测量组宽并按组宽循环偏移，避免可见接缝。
+- 重复整组直到铺满视口宽度。
+适用场景：适合有动感地展示服务名称、客户标志或标语。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#094
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/094.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

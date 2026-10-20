@@ -12,8 +12,8 @@
 // When to use it: Use it to bring in a headline, a number or a code name with a decoding, hacker or tech feel.
 // Tags: text-scramble, scramble, decode, shuffle, random, text, hacker
 // Size: 539x208 px · Cycle: 4.7 s
-// Needs: kit motion2 -> https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
-// Live demo: https://showheyohtaki.github.io/motion-prompt/#129
+// Needs: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// Live demo: https://rainman016.github.io/motion-prompt-zh/?lang=en#129
 //
 // cells[i](k, w, h, u): k = CanvasRenderingContext2D (already cleared and wrapped in save/restore by the caller), w,h = size, u = seconds in [0, cycle). The picture depends only on u.
 // Element code starts here. CELLS, constants and helpers live in the kit.

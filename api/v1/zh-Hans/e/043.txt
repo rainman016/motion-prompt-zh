@@ -1,0 +1,34 @@
+// Motion Prompt #043 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#043
+//
+// 甩镜转场 / Whip pan
+// 分类包: camera (镜头运动与剪辑) · element 19 · 子分类: 剪辑与转场
+// 动画表现: 相机高速横向转动，在条纹状模糊最强时替换场景。
+// 运动规格:
+//   - 转场持续 0.8 秒，从 1.7 秒到 2.5 秒；前 0.4 秒前镜头甩出，后 0.4 秒后镜头甩入并稳定。
+//   - 前半段偏航从 0 → +0.45 rad，约 26°，采用二次缓入缓出；后半段从 -0.45 rad → 0，使用相同缓动。
+//   - 在进度 50% 时直接替换，此时模糊最强，掩盖切换。
+//   - 模糊取9 次渲染平均，采样范围为 ±1.6 帧，按 30 fps 计算。
+//   - 机位高 1.4 m，除甩镜外固定；主体静止，A 为人物，B 为汽车与城市。
+//   - 每 4.7 秒交替 A→B 与 B→A，往返 9.4 秒；右上角显示“A → B”或“B → A”。
+// 适用场景: 适合保持动势地切换地点或话题。
+// 标签: whip pan, swish pan, motion blur, fast pan, transition, energy
+// 尺寸: 539x208 px · 周期: 9.4 s
+// 依赖: kit camera -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/camera.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#043
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 19
+// 19 ホイップパン（ブレで次の場面へ）
+CELLS[18] = shot(abCell((k, w, h, u, A, B) => {
+  const t0 = 1.7, t1 = 2.5;
+  const at = (kk, s) => {   // s: 0..1 の進み。前半 A を右へ振り、後半 B が左から止まる
+    if (s < .5) world(kk, w, h, cam({ y: 1.4, yaw: eIOs(s * 2) * 0.45 }), A === sceneA ? { person: { x: -0.6, z: 7 } } : SB);
+    else world(kk, w, h, cam({ y: 1.4, yaw: -(1 - eIOs((s - .5) * 2)) * 0.45 }), B === sceneA ? { person: { x: -0.6, z: 7 } } : SB);
+  };
+  if (u < t0) return A(k, w, h);
+  if (u > t1) return B(k, w, h);
+  const s = P(u, t0, t1), ds = 1 / FPS / (t1 - t0);
+  mblur(k, at, clamp(s - ds * 1.6), clamp(s + ds * 1.6), 9);
+}));

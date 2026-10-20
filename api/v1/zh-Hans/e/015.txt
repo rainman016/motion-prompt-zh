@@ -1,0 +1,39 @@
+// Motion Prompt #015 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#015
+//
+// 粒子喷发 / Particles
+// 分类包: motion (动态图形基础) · element 15 · 子分类: 运动润饰
+// 动画表现: 粒子从发射器持续向上喷出，散开后落下。
+// 运动规格:
+//   - 84 个粒子，从底部中心发射，水平居中、距底边 20 px。
+//   - 初速度：水平 ±190 px/s，向上 250–400 px/s；重力 470 px/s²，轨迹为抛物线。
+//   - 每个粒子以 2.35 秒或约 1.57 秒为周期重复，初始时间随机错开；固定随机种子，保证每次结果一致。
+//   - 生命周期最长 1.5 秒，前 0.06 秒淡入，最后 30% 淡出；缩放 1.15→0.7。
+//   - 形状为圆、方、三角，尺寸 5–11 px；颜色为蓝、珊瑚、黄、薄荷色，旋转速度最高 ±4.5 rad/s。
+// 适用场景: 适合用彩纸或火花般的粒子增添庆祝氛围与活力。
+// 标签: particles, confetti, emitter, fountain, gravity, celebration, sparks
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#015
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 15
+// 15 パーティクル（粒が次々と噴き出して、飛び散って落ちる）
+const PARTS = (() => { const R = rand(15), a = []; for (let i = 0; i < 84; i++) { const n = R() < 0.5 ? 2 : 3; a.push({ T: CYC / n, ph: R() * CYC, vx: (R() - 0.5) * 2 * 190, vy: -(250 + R() * 150), sz: 5 + R() * 6, col: PAL[i % 4], kind: i % 3, spin: (R() - 0.5) * 9 }); } return a; })();
+CELLS[14] = (k, w, h, u) => {
+  stage(k);
+  const X = w / 2, Y = h - 20, G = 470;
+  for (const p of PARTS) {
+    const t = mod(u + p.ph, p.T), life = Math.min(p.T, 1.5); if (t > life) continue;
+    const x = X + p.vx * t, y = Y + p.vy * t + 0.5 * G * t * t, a = Math.min(1, t / 0.06) * (1 - smooth(P(t, life * 0.7, life))), sc = lerp(1.15, 0.7, t / life);
+    k.globalAlpha = a; k.fillStyle = p.col; k.save(); k.translate(x, y); k.rotate(t * p.spin); k.scale(sc, sc);
+    if (p.kind === 0) { k.beginPath(); k.arc(0, 0, p.sz, 0, 7); k.fill(); }
+    else if (p.kind === 1) { k.fillRect(-p.sz, -p.sz, p.sz * 2, p.sz * 2); }
+    else { k.beginPath(); k.moveTo(0, -p.sz * 1.3); k.lineTo(p.sz * 1.2, p.sz); k.lineTo(-p.sz * 1.2, p.sz); k.closePath(); k.fill(); }
+    k.restore();
+  }
+  k.globalAlpha = 1;
+  k.fillStyle = C.navy3; rr(k, X - 70, h - 12, 140, 30, 10); k.fill();
+  k.fillStyle = '#fff'; rr(k, X - 30, h - 22, 60, 30, 10); k.fill();
+};

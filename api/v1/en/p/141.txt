@@ -9,6 +9,6 @@ Spec:
 - Method: shrink the frame to width ÷ block size with smoothing on, then scale it back up with smoothing off.
 When to use it: Use it for game-like, retro or digital scene changes, or to blur something out as the scene switches.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/141.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/141.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

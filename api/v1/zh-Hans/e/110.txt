@@ -1,0 +1,29 @@
+// Motion Prompt #110 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#110
+//
+// 鱼眼镜头 / Fisheye lens
+// 分类包: photo (摄影光线与风格) · element 14 · 子分类: 镜头与相机效果
+// 动画表现: 街景中央向外鼓起，建筑竖线和道路线弯曲，四角保持原位。
+// 运动规格:
+//   - 场景 2：街角的建筑、树和路灯位于 y 132–162 的道路后方，路灯 x 114, 292, 494；人物站在左前方，脚底 x 176、y 200，高 124 px。
+//   - 变形：距中心 d 的点，其距离乘以 g = (1 + k) / (1 + k·d²/R²)，R 为中心到角的距离，即 289 px。
+//   - k 从 0 → 1.25，中央放大 2.25×，四角不动。
+//   - 变形前每隔 6 px 细分轮廓，使直线可弯曲。
+//   - 右上焦距 24mm → 8mm。
+//   - 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+// 适用场景: 适合大胆、趣味或窥视孔风格，如滑板和音乐视频。
+// 标签: fisheye, fisheye lens, barrel distortion, ultra wide, 8mm, distortion
+// 尺寸: 539x208 px · 周期: 5 s
+// 依赖: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#110
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 14
+// 魚眼レンズ: 中心がふくらみ、建物の縦の線が外側へ丸く曲がる
+CELLS[13] = cell((k, u) => {
+  const a = env(u), kk = 1.25 * a, cx = CW / 2, cy = CH / 2, R2 = cx * cx + cy * cy;
+  const M = kk < 0.002 ? null : (x, y) => { const dx = x - cx, dy = y - cy, g = (1 + kk) / (1 + kk * (dx * dx + dy * dy) / R2); return [cx + dx * g, cy + dy * g]; };
+  stageStreet(k, BASE, { M });
+  hud(k, `${Math.round(lerp(24, 8, a))}mm`);
+});

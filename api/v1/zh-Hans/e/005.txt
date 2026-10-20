@@ -1,0 +1,38 @@
+// Motion Prompt #005 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#005
+//
+// 遮罩揭示 / Mask reveal
+// 分类包: motion (动态图形基础) · element 05 · 子分类: 入场与文字
+// 动画表现: 标题从一条分隔线所标记的不可见边缘后方滑出。
+// 运动规格:
+//   - 每 2.35 秒一轮。珊瑚色分隔线为 380 × 6，y = 124；在 0.1–0.5 秒从中心向两侧伸长，采用三次缓入缓出，于 2.05–2.3 秒缩回消失。
+//   - 上方文字为 98 px 白色粗体，裁剪到线条上方区域（y 8–119）；在 0.35–1.0 秒从下方 120 px 处上移到位，采用五次缓出。
+//   - 下方文字为 32 px 黄色，裁剪到线条下方区域（y 129–181）；在 0.55–1.15 秒从上方 60 px 处下移到位，采用五次缓出。
+//   - 退场：上方文字在 1.7–2.05 秒上移 150 px，采用 backIn（s = 1.2），先轻微下沉；下方文字在 1.75–2.05 秒下移 70 px，采用三次缓入。
+//   - 不改变透明度；文字只在离开裁剪区域后被隐藏。
+// 适用场景: 适合简洁、沉稳的标题和大字入场。
+// 标签: mask, reveal, clip, wipe, title, text, slide-up, headline
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#005
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 05
+// 05 マスクリビール（見えない枠＝線の向こうから、見出しがせり上がる）
+CELLS[4] = (k, w, h, u) => {
+  stage(k);
+  const T = CYC / 2, lu = mod(u, T), X = w / 2, LY = 124;
+  const lg = eIO(P(lu, 0.1, 0.5)) * (1 - eIO(P(lu, 2.05, 2.3)));
+  // 上の段：線の下から上へ
+  const up = (1 - eOut5(P(lu, 0.35, 1.0))) * 120 + backIn(P(lu, 1.7, 2.05), 1.2) * -150;
+  k.save(); k.beginPath(); k.rect(0, 8, w, LY - 8 - 5); k.clip();
+  txt(k, 'Hello!', X, LY - 14 + up, `800 98px ${DISP}`, '#fff', 'center', 'alphabetic', '1px');
+  k.restore();
+  // 下の段：線の上から下へ
+  const dn = (1 - eOut5(P(lu, 0.55, 1.15))) * -60 + eIn(P(lu, 1.75, 2.05)) * 70;
+  k.save(); k.beginPath(); k.rect(0, LY + 5, w, 52); k.clip();
+  txt(k, 'はじめまして', X, LY + 44 + dn, `700 32px ${JP}`, C.yel, 'center', 'alphabetic', '6px');
+  k.restore();
+  if (lg > 0.005) { k.fillStyle = C.coral; rr(k, X - 190 * lg, LY - 3, 380 * lg, 6, 3); k.fill(); }
+};

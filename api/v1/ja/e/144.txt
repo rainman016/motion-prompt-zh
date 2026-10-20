@@ -10,8 +10,8 @@
 // 使いどころ: 比較・同時進行・複数の人や場所を並べて見せたいとき。ビフォーアフターや選択肢の紹介に。
 // タグ: split-screen, multi-screen, panels, side-by-side, comparison, layout
 // サイズ: 539x208 px · 1周: 4.7 s
-// Needs: kit motion2 -> https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
-// 動く見本: https://showheyohtaki.github.io/motion-prompt/#144
+// Needs: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 動く見本: https://rainman016.github.io/motion-prompt-zh/?lang=ja#144
 //
 // cells[i](k, w, h, u) … k = CanvasRenderingContext2D（呼ぶ側でクリアと save/restore 済み）、w・h = サイズ、u = 秒（0 以上 1周 未満）。u だけで絵が決まる。
 // ここから要素のコード。CELLS や定数・補助関数は kit にある。

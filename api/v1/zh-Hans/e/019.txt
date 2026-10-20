@@ -1,0 +1,37 @@
+// Motion Prompt #019 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#019
+//
+// 液态转场 / Liquid transition
+// 分类包: motion (动态图形基础) · element 19 · 子分类: 转场与强调
+// 动画表现: 油漆般的液体从顶部滴入，逐渐填满画面并变为下一场景。
+// 运动规格:
+//   - 日景→夜景→日景，各占 2.35 秒；两层液体均由上向下，采用二次缓入缓出。
+//   - 第 1 层为纯色，日转夜用蓝色、夜转日用珊瑚色，时间 0.35–1.5 秒；第 2 层把下一场景裁剪为液体形状，时间 0.7–1.8 秒。
+//   - 液面从 y = −110 移至底边下方 130 px；边缘叠加振幅为 13 px 和 8 px 的两条正弦波，中途最强。
+//   - 七条末端圆润、宽 30–54 px 的液滴从液面垂下，长度 = 基准 30–110 px × (0.25 + 0.9 × 波动强度)，中途最长。
+//   - 融合效果：白色画形状→模糊 7 px→对透明度做阈值处理→填充颜色或下一场景。
+// 适用场景: 适合食品、美妆、创意视频等柔和、有机的场景切换。
+// 标签: liquid, transition, drip, paint, goo, fluid, wipe, scene-change
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#019
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 19
+// 19 リキッドトランジション（ペンキのような液体が上から垂れて流れ込み、次の画面になる）
+const DRIPS = [0, 1].map(s => { const R = rand(190 + s * 7), a = []; for (let i = 0; i < 7; i++) a.push({ x: 36 + i * 78 + (R() - 0.5) * 30, len: 30 + R() * 80, wd: 15 + R() * 12, ph: R() * 6 }); return a; });
+function liquidShape(g, w, h, p, set, u) {
+  const base = lerp(-110, h + 130, p), amp = Math.sin(Math.PI * clamp(p * 1.1));
+  g.beginPath(); g.moveTo(-20, -40);
+  for (let x = -20; x <= w + 20; x += 10) g.lineTo(x, base + amp * (13 * Math.sin(x * 0.021 + u * 3 + set) + 8 * Math.sin(x * 0.05 + u * 4.3)));
+  g.lineTo(w + 20, -40); g.closePath(); g.fill();
+  for (const d of DRIPS[set]) { const L = d.len * (0.25 + amp * 0.9), y0 = base - 20; g.beginPath(); g.roundRect(d.x - d.wd, y0, d.wd * 2, L + 20, d.wd); g.fill(); g.beginPath(); g.arc(d.x, y0 + L + 18, d.wd * 1.25, 0, 7); g.fill(); }
+}
+CELLS[18] = abCell((k, w, h, u, a, b) => {
+  const p1 = eIOs(P(u, TA - 0.15, TB)), p2 = eIOs(P(u, TA + 0.2, TB + 0.3));
+  SCR[a](k, w, h);
+  if (p1 > 0 && p2 < 1) k.drawImage(goo(g => liquidShape(g, w, h, p1, 0, u), 7, g => { g.fillStyle = a === 0 ? C.blue : C.coral; g.fillRect(0, 0, w, h); }), 0, 0);
+  if (p2 >= 1) SCR[b](k, w, h);
+  else if (p2 > 0) k.drawImage(goo(g => liquidShape(g, w, h, p2, 1, u + 1), 7, g => SCR[b](g, w, h)), 0, 0);
+});

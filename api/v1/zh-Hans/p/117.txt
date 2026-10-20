@@ -1,0 +1,17 @@
+请使用“青橙调色（Teal and orange）”，属于“摄影光线与风格”。
+Motion Prompt #117
+
+效果解释：暗部偏青，肤色与高光偏橙
+动画表现：天空、山、地面与人物暗部变青，人物受光边缘和太阳变橙，形成互补色对比。
+实现规格与关键运动参数：
+- 场景 3：左侧半身像的头部中心 x 140、y 82、半径 28 px；右侧有山丘、房屋、树与太阳，太阳 x 432、y 54、半径 15 px。
+- 青色：天空 #CFE6E3，山丘 #8CC1BE 与 #62A2A1，地面 #3F8083，树 #2F6A6E，人物 #1D4E53。
+- 橙色：人物亮部 #FF9248，太阳 #FF8236，太阳光环 #FFC48C。
+- 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+适用场景：适合色彩反差强烈的商业电影或预告片风格。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#117
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/117.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

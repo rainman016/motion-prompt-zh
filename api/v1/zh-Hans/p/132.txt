@@ -1,0 +1,16 @@
+请使用“可变字重动画（Variable font animation）”，属于“动态图形进阶”。
+Motion Prompt #132
+
+效果解释：字形粗细连续变化
+动画表现：同一单词由细到极粗再变细，下方滑块显示当前字重。
+实现规格与关键运动参数：
+- “MOTION”为 112 px、system-ui、字距 2 px；每 4.7 秒字重往返两次，v = 0.5 − 0.5·cos(2π × 2 × time ÷ 4.7)，两端自然减速。
+- 字重 = round(100 + 800v)，从 100 到 900，直接设置 font-weight。
+- 下方滑轨 x = 112→427、y = 180，左标细、右标粗；黄色滑块半径 14，跟随 v，上方显示当前字重。
+适用场景：适合标题、标志或单词，用字体本身表达音量或情绪。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#132
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/132.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

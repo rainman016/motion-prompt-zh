@@ -11,6 +11,6 @@ Motion Prompt #142
 - 破片には白いふち（線幅2.5）。下には次の画面
 使いどころ: 衝撃・破壊・どんでん返しの場面転換に。タイトルや結果を強く見せる直前に。
 
-参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://showheyohtaki.github.io/motion-prompt/api/v1/ja/e/142.txt
-共通の補助コード: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://rainman016.github.io/motion-prompt-zh/api/v1/ja/e/142.txt
+共通の補助コード: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 参考実装の形・タイミング・イージングの数値はそのまま使い、中の文字・色・素材だけ、いま作っている物に合わせてください。

@@ -1,0 +1,47 @@
+// Motion Prompt #123 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#123
+//
+// 落地弹跳 / Bounce
+// 分类包: motion2 (动态图形进阶) · element 03 · 子分类: 运动技法
+// 动画表现: 球落下并逐次弹得更低，最后静止。
+// 运动规格:
+//   - 每 2.35 秒落下一次，每 4.7 秒两次，先黄色再珊瑚色；球半径 26。
+//   - 从 0.1 秒起由地面上方 190 px 落下，重力 1900 px/s²；每次反弹保留 56% 速度，恢复系数 0.56；反弹速度低于 35 px/s 时停止。
+//   - 横向在 0.1–1.8 秒由 x = 150→390，采用三次缓出。
+//   - 每次碰撞前后各 0.045 秒挤压，宽 1 + sq、高 1 − sq，sq 最大为 0.4 × min(1, 撞击速度 ÷ 850)；撞击速度超过 200 px/s 时，左右闪出白色短线，持续 0.3 秒。
+//   - 阴影随高度增加而变小；1.95–2.25 秒退场，缩放乘以 (1 − backIn, s = 2)。
+// 适用场景: 适合需要重量与弹性的图标、文字或产品落地动作。
+// 标签: bounce, drop, gravity, ball, physics, landing, easing
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#123
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 03
+// 03 バウンス（ボールが落ちて、だんだん低く弾みながら止まる）
+const BNC = (() => { const g = 1900, e = 0.56, d = 190, t0 = Math.sqrt(2 * d / g), v0 = g * t0; const segs = []; let t = t0, v = v0 * e; while (v > 35) { segs.push({ t, v }); t += 2 * v / g; v *= e; } const imp = [{ t: t0, v: v0 }]; segs.forEach((s, i) => { if (i) imp.push({ t: s.t, v: segs[i - 1].v }); }); return { g, d, t0, segs, imp, end: t }; })();
+function bounceH(t) { const B = BNC; if (t < B.t0) return B.d - 0.5 * B.g * Math.max(0, t) * Math.max(0, t) * (t < 0 ? 0 : 1); for (const s of B.segs) { const tau = t - s.t; if (tau >= 0 && tau < 2 * s.v / B.g) return s.v * tau - 0.5 * B.g * tau * tau; } return 0; }
+CELLS[2] = (k, w, h, u) => {
+  u = snapU(u);
+  stage(k);
+  const T = CYC / 2, n = Math.floor(u / T), lu = u - n * T, t = lu - 0.1;
+  const floor = h - 26, R = 26, rest = floor - R, x = lerp(150, 390, eOut(P(lu, 0.1, 1.8)));
+  const hg = t < 0 ? BNC.d : bounceH(t), out = 1 - backIn(P(lu, 1.95, 2.25), 2);
+  k.fillStyle = C.navy3; rr(k, 26, floor, w - 52, 5, 2.5); k.fill();
+  // 着地の印
+  let sq = 0;
+  for (const im of BNC.imp) {
+    const dtI = t - im.t;
+    if (Math.abs(dtI) < 0.045) sq = Math.max(sq, clamp(im.v / 850) * 0.4 * (1 - Math.abs(dtI) / 0.045));
+    if (dtI > 0 && dtI < 0.3 && im.v > 200) { const q = dtI / 0.3, ix = lerp(150, 390, eOut(P(im.t + 0.1, 0.1, 1.8))); k.strokeStyle = '#fff'; k.globalAlpha = 1 - q; k.lineWidth = 5; k.lineCap = 'round';[-1, 1].forEach(s => { k.beginPath(); k.moveTo(ix + s * (34 + 14 * q), floor - 6 - 8 * q); k.lineTo(ix + s * (48 + 22 * q), floor - 16 - 14 * q); k.stroke(); }); k.globalAlpha = 1; }
+  }
+  const sh = clamp(1 - hg / BNC.d);
+  k.fillStyle = 'rgba(0,0,0,.32)'; k.beginPath(); k.ellipse(x, floor + 7, R * (0.4 + 0.8 * sh) * out, 5 * (0.4 + 0.6 * sh) * out, 0, 0, 7); k.fill();
+  if (out > 0.01) {
+    k.save(); k.translate(x, rest - hg + R); k.scale((1 + sq) * out, (1 - sq) * out);
+    k.fillStyle = n ? C.coral : C.yel; k.beginPath(); k.arc(0, -R, R, 0, 7); k.fill();
+    k.fillStyle = 'rgba(255,255,255,.7)'; k.beginPath(); k.ellipse(-9, -R - 9, 8, 5, -0.6, 0, 7); k.fill();
+    k.restore();
+  }
+};

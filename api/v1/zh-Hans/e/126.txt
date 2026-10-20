@@ -1,0 +1,38 @@
+// Motion Prompt #126 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#126
+//
+// 运动路径 / Motion path
+// 分类包: motion2 (动态图形进阶) · element 06 · 子分类: 运动技法
+// 动画表现: 纸飞机沿点线路径飞行，随路径转向，中途绕一个环。
+// 运动规格:
+//   - 每 4.7 秒从左画外到右画外一轮；路径 x = 270 + 112θ − 150·sinθ，y = 106 − 74·cosθ，θ = −π→π，在顶部中央形成环。
+//   - θ 与时间成正比，因此沿路径速度不恒定，绕环时看起来更慢。
+//   - 飞机按路径方向转动，角度 = atan2(74·sinθ, 112 − 150·cosθ)。
+//   - 路径提前显示为点线，宽 6、虚线节距 2/15；后方跟随24 段薄荷色拖尾，每段 θ 差 0.03，越靠后越细越淡。
+// 适用场景: 适合飞行物、汽车或地图行程等需要固定路线的运动。
+// 标签: motion-path, path, curve, trajectory, follow-path, orient-to-path, loop
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#126
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 06
+// 06 モーションパス（点線の道に沿って、紙飛行機が向きを変えながら進む）
+const MPX = th => 270 + 112 * th - 150 * Math.sin(th), MPY = th => 106 - 74 * Math.cos(th);
+const MP = (() => { const pts = []; for (let i = 0; i <= 400; i++) { const th = -Math.PI + 2 * Math.PI * i / 400; pts.push([MPX(th), MPY(th)]); } return pts; })();
+CELLS[5] = (k, w, h, u) => {
+  stage(k);
+  k.save(); k.setLineDash([2, 15]); k.lineCap = 'round'; k.strokeStyle = C.dim; k.lineWidth = 6; k.beginPath(); MP.forEach((p, i) => i ? k.lineTo(p[0], p[1]) : k.moveTo(p[0], p[1])); k.stroke(); k.restore();
+  const th = -Math.PI + 2 * Math.PI * (u / CYC);
+  // 通ったあとの線
+  k.lineCap = 'round';
+  for (let j = 0; j < 24; j++) { const a = th - j * 0.03, b = th - (j + 1) * 0.03; k.strokeStyle = C.mint; k.globalAlpha = 0.9 * (1 - j / 24); k.lineWidth = 7 * (1 - j / 30); k.beginPath(); k.moveTo(MPX(a), MPY(a)); k.lineTo(MPX(b), MPY(b)); k.stroke(); }
+  k.globalAlpha = 1;
+  const x = MPX(th), y = MPY(th), ang = Math.atan2(74 * Math.sin(th), 112 - 150 * Math.cos(th));
+  k.save(); k.translate(x, y); k.rotate(ang);
+  k.fillStyle = '#fff'; k.beginPath(); k.moveTo(32, 0); k.lineTo(-22, -22); k.lineTo(-12, 0); k.closePath(); k.fill();
+  k.fillStyle = '#C9D6FF'; k.beginPath(); k.moveTo(32, 0); k.lineTo(-22, 22); k.lineTo(-12, 0); k.closePath(); k.fill();
+  k.fillStyle = '#9FB3F0'; k.beginPath(); k.moveTo(32, 0); k.lineTo(-12, 0); k.lineTo(-6, 9); k.closePath(); k.fill();
+  k.restore();
+};

@@ -10,8 +10,8 @@
 // When to use it: Use it for game-like, retro or digital scene changes, or to blur something out as the scene switches.
 // Tags: pixelate, mosaic, pixel, transition, retro, 8-bit, scene-change
 // Size: 539x208 px · Cycle: 4.7 s
-// Needs: kit motion2 -> https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
-// Live demo: https://showheyohtaki.github.io/motion-prompt/#141
+// Needs: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// Live demo: https://rainman016.github.io/motion-prompt-zh/?lang=en#141
 //
 // cells[i](k, w, h, u): k = CanvasRenderingContext2D (already cleared and wrapped in save/restore by the caller), w,h = size, u = seconds in [0, cycle). The picture depends only on u.
 // Element code starts here. CELLS, constants and helpers live in the kit.

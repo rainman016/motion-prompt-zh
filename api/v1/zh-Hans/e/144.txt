@@ -1,0 +1,30 @@
+// Motion Prompt #144 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#144
+//
+// 分屏 / Split screen
+// 分类包: motion2 (动态图形进阶) · element 24 · 子分类: 转场与强调
+// 动画表现: 全幅场景先分成两个面板，再分成三个，各面板中的场景持续运动。
+// 运动规格:
+//   - 全幅海景在 0.45–0.95 秒分成两屏，分隔位置 539→269.5；1.4–1.9 秒变三屏，分隔在 1/3 和 2/3；3.75–4.4 秒合回一屏，均用三次缓入缓出。
+//   - 海、城市、田野各自在面板内居中并裁剪，内部继续运动：海浪与帆船、城市窗户每 4.7 秒切换8 次、风车每 4.7 秒转两圈。
+//   - 面板间为宽 6 的白色分隔线。
+// 适用场景: 适合前后对比、同时发生的事件、多个人物或地点以及方案比较。
+// 标签: split-screen, multi-screen, panels, side-by-side, comparison, layout
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#144
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 24
+// 24 スプリットスクリーン（1枚の画面が2つ、3つに分かれて、別々の場面が同時に動く）
+CELLS[23] = (k, w, h, u) => {
+  u = snapU(u);
+  const s2 = eIO(P(u, 0.45, 0.95)), s3 = eIO(P(u, 1.4, 1.9)), m = eIO(P(u, 3.75, 4.4));
+  let b1 = lerp(lerp(w, w / 2, s2), w / 3, s3), b2 = lerp(w, 2 * w / 3, s3);
+  b1 = lerp(b1, w, m); b2 = lerp(b2, w, m);
+  pnSea(k, 0, b1, h, u, false);
+  if (b1 < w - 0.5) pnCity(k, b1, Math.max(b1, b2), h, u, false);
+  if (b2 < w - 0.5) pnField(k, b2, w, h, u, false);
+  k.fillStyle = '#fff';[b1, b2].forEach(b => { if (b < w - 0.5) k.fillRect(b - 3, 0, 6, h); });
+};

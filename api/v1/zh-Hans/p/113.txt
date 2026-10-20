@@ -1,0 +1,17 @@
+请使用“高调摄影（High-key）”，属于“摄影光线与风格”。
+Motion Prompt #113
+
+效果解释：整体明亮偏白，阴影很浅
+动画表现：风景和人物变为近白浅色，阴影很淡，右下直方图峰向右侧移动。
+实现规格与关键运动参数：
+- 场景 3：左侧半身像的头部中心 x 140、y 82、半径 28 px；右侧有山丘、房屋、树与太阳，太阳 x 432、y 54、半径 15 px。
+- 天空 #FAF9F7 → #FFFFFF，山丘 #EAEDF1 → #F5F6F8，人物 #4D5A75 → #B9C0CE，阴影 #33405A → #A6AEBF，太阳 #F5A524 → #FFD889。
+- 直方图为 96×46 px、20 根柱；峰中心 0.56 → 0.85，宽度 0.2 → 0.09。
+- 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+适用场景：适合干净、轻盈、柔和的产品照与人像。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#113
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/113.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

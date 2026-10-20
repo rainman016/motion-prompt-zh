@@ -1,0 +1,35 @@
+// Motion Prompt #052 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#052
+//
+// 折叠面板 / Accordion
+// 分类包: ui (UI 组件) · element 04 · 子分类: 弹出与覆盖
+// 动画表现: 点击三个标题中的第一项，内容展开并推开下方行，再次点击则收起。
+// 运动规格:
+//   - 542×191 卡片，周期 4.5 秒。三个标题宽 494、高 34、圆角 8、间隔 6，右侧有向下箭头。
+//   - 光标于 0.95 秒到达首个标题，在 1.0 秒和 3.3 秒点击。
+//   - 展开量 ex 在 1.0–1.35 秒由 0→1，再于 3.3–3.62 秒由 1→0，使用 easeInOutCubic。
+//   - 首行高度由 34 增至 92，增量 +58·ex，并推开下方各行；两行内容裁剪在行内，以透明度 ex 淡入。
+//   - 展开时箭头旋转 180°·ex，边框变浅蓝，标题变蓝。
+// 适用场景: 适合常见问题或较长详情，便于先浏览标题再按需展开。
+// 标签: accordion, collapsible, expand, collapse, disclosure, faq, details
+// 尺寸: 542x191 px · 周期: 4.5 s
+// 依赖: kit ui -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/ui.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#052
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 04
+// 04 アコーディオン（Accordion）
+CELLS[3] = ui((w, h, t) => {
+  const ex = eio(seg(t, 1.0, 1.35)) * (1 - eio(seg(t, 3.3, 3.62)));
+  let y = 12; const H0 = 34, EX = 58;
+  for (let i = 0; i < 3; i++) {
+    const extra = i === 0 ? EX * ex : 0;
+    strokeRR(24, y, 494, H0 + extra, 8, i === 0 && ex > .05 ? C.sb : C.line2, 1.5);
+    bar(42, y + 12, [180, 220, 150][i], i === 0 && ex > .05 ? C.blue : C.line2, 10);
+    chevron(494, y + 17, 6, i === 0 ? Math.PI * ex : 0, i === 0 && ex > .05 ? C.blue : '#9a9896');
+    if (i === 0 && ex > 0) { X.save(); rr(24, y, 494, H0 + extra, 8); X.clip(); X.globalAlpha = ex; bar(42, y + H0 + 6, 420); bar(42, y + H0 + 24, 320); X.restore(); }
+    y += H0 + extra + 6;
+  }
+  pointer([[.3, w + 30, h + 30], [.95, 300, 31], [1.6, 300, 31], [3.0, 300, 31], [3.55, 300, 31], [4.2, w + 30, h + 30]], [1.0, 3.3], t);
+});

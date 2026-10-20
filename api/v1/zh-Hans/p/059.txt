@@ -1,0 +1,17 @@
+请使用“开关（Toggle switch）”，属于“UI 组件”。
+Motion Prompt #059
+
+效果解释：在开启和关闭之间切换设置
+动画表现：三个设置行中，前两个开关依次打开，再依次关闭。
+实现规格与关键运动参数：
+- 542×191 卡片，周期 4.5 秒。三个设置行间隔 60 px，带分隔线；x 450 处放 64×34、圆角半径 17 的轨道和半径 13、带阴影的白色滑块。
+- 点击：第 1 行在 1.0 秒开，第 2 行在 1.8 秒开，第 1 行在 3.0 秒关，第 2 行在 3.6 秒关；第 3 行保持关闭。
+- 每次切换持续 0.2 秒，使用 easeOutCubic；滑块移动 30 px，从 17 → 47。
+- 轨道随切换进度从灰色 #d9d7d5 混合到蓝色 #1f5ae8。
+适用场景：适合只有两种状态且即时生效的设置。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#059
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/059.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/ui.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

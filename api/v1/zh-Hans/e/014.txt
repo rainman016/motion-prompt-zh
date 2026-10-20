@@ -1,0 +1,36 @@
+// Motion Prompt #014 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#014
+//
+// 运动拖尾 / Motion trail
+// 分类包: motion (动态图形基础) · element 14 · 子分类: 运动润饰
+// 动画表现: 圆球沿八字轨迹运动，身后留下逐渐变淡的残影。
+// 运动规格:
+//   - 珊瑚色球半径 25、白色内芯半径 11，每 4.7 秒走完一次八字：x = 196·sin(a)，y = 62·sin(2a)，a 匀速增加。
+//   - 15 个残影，每个沿路径后退 0.105 rad，约 0.079 秒。
+//   - 残影半径从 22→6，透明度为 0.9 × (1 − i/15) + 0.05；越早的残影越小越淡。
+//   - 残影颜色从新到旧依次为珊瑚→黄→蓝。
+//   - 先绘制最旧残影，最后绘制球体本身。
+// 适用场景: 适合表现速度或路径，如飞行物、光点和光标。
+// 标签: trail, motion-trail, echo, afterimage, ghost, path, speed
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#014
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 14
+// 14 モーショントレイル（動いた跡に、残像が尾を引く）
+CELLS[13] = (k, w, h, u) => {
+  stage(k);
+  const X = w / 2, Y = h / 2 + 2, A = 196, B = 62, th = u / CYC * Math.PI * 2;
+  const pt = a => [X + A * Math.sin(a), Y + B * Math.sin(2 * a)];
+  const N = 15;
+  for (let i = N; i >= 1; i--) {
+    const [x, y] = pt(th - i * 0.105), f = i / N;
+    k.globalAlpha = 0.9 * (1 - f) + 0.05; k.fillStyle = f < 0.5 ? mix(C.coral, C.yel, f * 2) : mix(C.yel, C.blue, (f - 0.5) * 2);
+    k.beginPath(); k.arc(x, y, lerp(22, 6, f), 0, 7); k.fill();
+  }
+  k.globalAlpha = 1; const [x, y] = pt(th);
+  k.fillStyle = C.coral; k.beginPath(); k.arc(x, y, 25, 0, 7); k.fill();
+  k.fillStyle = '#fff'; k.beginPath(); k.arc(x, y, 11, 0, 7); k.fill();
+};

@@ -1,0 +1,41 @@
+// Motion Prompt #071 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#071
+//
+// 数字角标 / Badge
+// 分类包: ui (UI 组件) · element 23 · 子分类: 导航与状态
+// 动画表现: 每收到通知，页头铃铛上的蓝点依次显示 1、2、3，点击铃铛后清空。
+// 运动规格:
+//   - 542×191 卡片，周期 4.5 秒。页头高 54，右侧 (482, 27) 处有线描铃铛。
+//   - 角标为半径 12 的蓝圆，位于铃铛右上方 (+12, −12)，白边 2.5 px，数字为白色 14 px。
+//   - 通知在 0.7, 1.3, 1.9 秒到达，计数 1 → 2 → 3；第一次在 0.7–0.9 秒以 easeOutCubic 放大出现。
+//   - 每次到达时，缩放在 0.3 秒内从 1.3 回到 1，并在 0.5 秒内发出波纹，半径 12 → 28、透明度 0.5 → 0。
+//   - 光标于 2.95 秒到达铃铛，3.0 秒点击；角标在 3.0–3.25 秒用 easeInOutCubic 缩至 0。
+// 适用场景: 适合提示未读消息数、购物车数量等计数。
+// 标签: badge, notification-badge, counter, count, dot, unread
+// 尺寸: 542x191 px · 周期: 4.5 s
+// 依赖: kit ui -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/ui.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#071
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 23
+// 23 バッジ（Badge）
+CELLS[22] = ui((w, h, t) => {
+  X.fillStyle = '#fff'; X.fillRect(0, 0, w, 54); X.fillStyle = C.line; X.fillRect(0, 54, w, 1.5);
+  fillRR(24, 19, 76, 16, 4, C.mb);
+  // ベル
+  const bx = w - 60, by = 27; X.save(); X.translate(bx, by);
+  X.beginPath(); X.moveTo(-12, 8); X.quadraticCurveTo(-11, -12, 0, -13); X.quadraticCurveTo(11, -12, 12, 8); X.lineTo(15, 11); X.lineTo(-15, 11); X.closePath();
+  X.strokeStyle = '#333'; X.lineWidth = 2.4; X.lineJoin = 'round'; X.stroke(); X.beginPath(); X.arc(0, 14, 4, 0, Math.PI); X.stroke(); X.restore();
+  const arr = [.7, 1.3, 1.9]; let n = 0; arr.forEach(c => { if (t >= c) n++; });
+  const clear = eio(seg(t, 3.0, 3.25));
+  if (n > 0 && clear < 1) {
+    const last = arr.filter(c => t >= c).pop(), pop = 1 - seg(t, last, last + .3);
+    const s = (n === 1 ? eo(seg(t, .7, .9)) : 1) * (1 + .3 * pop) * (1 - clear);
+    // 届いた合図の波紋
+    const k = seg(t, last, last + .5); if (k > 0 && k < 1) ring(bx + 12, by - 12, 12 + 16 * k, `rgba(31,90,232,${.5 * (1 - k)})`, 2.5);
+    X.save(); X.translate(bx + 12, by - 12); X.scale(s, s); circle(0, 0, 12, C.blue); ring(0, 0, 12, '#fff', 2.5); text(String(n), 0, 1, 14, '#fff', 800, 'center', NUMF); X.restore();
+  }
+  bar(24, 76, 220, C.line2, 12); bar(24, 102, 494); bar(24, 120, 400); fillRR(24, 140, 494, 40, 8, C.block);
+  pointer([[.3, w + 30, h + 30], [2.3, w + 30, h + 30], [2.95, bx + 2, by + 4], [3.4, bx + 2, by + 4], [4.1, w + 30, h + 30]], [3.0], t);
+});

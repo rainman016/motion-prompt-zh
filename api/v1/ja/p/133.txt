@@ -10,6 +10,6 @@ Motion Prompt #133
 - 文字の外では景色を不透明度12%で見せ、3.45〜3.85秒に100%まで上げ、4.25〜4.65秒に12%へ戻す（smoothstep）
 使いどころ: タイトル・ブランド名の中に写真や映像を見せたいとき。言葉とイメージを1つにまとめたいとき。
 
-参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://showheyohtaki.github.io/motion-prompt/api/v1/ja/e/133.txt
-共通の補助コード: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://rainman016.github.io/motion-prompt-zh/api/v1/ja/e/133.txt
+共通の補助コード: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 参考実装の形・タイミング・イージングの数値はそのまま使い、中の文字・色・素材だけ、いま作っている物に合わせてください。

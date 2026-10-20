@@ -1,0 +1,17 @@
+请使用“点击涟漪（Ripple effect）”，属于“落地页与网页动效”。
+Motion Prompt #085
+
+效果解释：波纹从按下位置向外扩散
+动画表现：每次点击都会从点击位置扩散出白圆，覆盖按钮后消失。
+实现规格与关键运动参数：
+- 橙色按钮为 280 × 56、圆角 10；0.7 秒点击中心偏左，2.9 秒点击中心偏右。
+- 圆心为点击点；半径在 0.6 秒内从 0 增至该点到按钮最远角的距离，采用三次缓出。
+- 白色透明度 0.4，在点击后 0.3 到 0.8 秒之间淡至 0。
+- 圆裁剪在按钮内，对应 overflow: hidden，按钮文字在圆上方。
+适用场景：适合在实际点击位置反馈按钮或列表项的按下动作。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#085
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/085.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

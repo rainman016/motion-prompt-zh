@@ -1,0 +1,12 @@
+{
+  "owner": "rainman016",
+  "repository": "motion-prompt-zh",
+  "branch": "main",
+  "site": "https://rainman016.github.io/motion-prompt-zh/",
+  "repo": "https://github.com/rainman016/motion-prompt-zh",
+  "upstream": "https://github.com/showheyohtaki/motion-prompt",
+  "defaultLanguage": "zh-Hans",
+  "skillName": "motion-prompt-zh",
+  "apiBase": null,
+  "rawApiBase": null
+}

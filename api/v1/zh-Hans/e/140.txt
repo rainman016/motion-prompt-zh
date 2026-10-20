@@ -1,0 +1,47 @@
+// Motion Prompt #140 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#140
+//
+// 卷页转场 / Page curl
+// 分类包: motion2 (动态图形进阶) · element 20 · 子分类: 转场与强调
+// 动画表现: 页面从角落揭起并翻折，露出下方下一页。
+// 运动规格:
+//   - 白色第 1 页→奶油色第 2 页→第 1 页，各占 2.35 秒；从右下角开始，在 0.35–1.75 秒卷起，持续 1.4 秒，二次缓入缓出。
+//   - 折线沿归一化方向 (−1, −0.42) 从角落移动 0→600 px。
+//   - 折线外部分沿折线镜像，形成浅灰或米色纸背；投影模糊 14、偏移 4, 4，带白色 2 px 边缘。
+//   - 纸张抬起处显露下一页，折线沿边有 50 px 的阴影渐变。
+// 适用场景: 适合书籍、目录、相册和章节切换，强调纸张与阅读感。
+// 标签: page-curl, page-turn, page-peel, paper, book, transition
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#140
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 20
+// 20 ページめくり（角から紙がめくれて裏返り、下から次のページが現れる）
+function paper(k, w, h, i) {
+  k.fillStyle = i ? C.cream : '#FFFFFF'; k.fillRect(0, 0, w, h);
+  txt(k, i ? 'PAGE 2' : 'PAGE 1', 30, 58, `800 46px ${DISP}`, C.navy, 'left', 'middle', '1px');
+  k.fillStyle = i ? '#EBD9B4' : '#D7DCEA';[[96, 230], [122, 250], [148, 200], [174, 236]].forEach(([y, ww]) => { rr(k, 30, y, ww, 12, 6); k.fill(); });
+  k.fillStyle = i ? C.mint : C.coral; rr(k, 310, 26, 200, 156, 14); k.fill();
+  k.fillStyle = '#fff'; k.beginPath(); k.arc(462, 66, 18, 0, 7); k.fill();
+  k.beginPath(); k.moveTo(326, 168); k.lineTo(390, 92); k.lineTo(440, 150); k.lineTo(462, 126); k.lineTo(496, 168); k.closePath(); k.fill();
+}
+function clipHalf(poly, d, s0, keepLess) { const out = [], f = p => (p[0] - CW) * d[0] + (p[1] - CH) * d[1] - s0; for (let i = 0; i < poly.length; i++) { const A = poly[i], B = poly[(i + 1) % poly.length], fa = f(A), fb = f(B), ia = keepLess ? fa <= 0 : fa >= 0, ib = keepLess ? fb <= 0 : fb >= 0; if (ia) out.push(A); if (ia !== ib) { const t = fa / (fa - fb); out.push([lerp(A[0], B[0], t), lerp(A[1], B[1], t)]); } } return out; }
+CELLS[19] = abCell((k, w, h, u, a, b) => {
+  const dl = Math.hypot(1, 0.42), d = [-1 / dl, -0.42 / dl], sM = 600 * eIOs(P(u, TA - 0.15, TB + 0.25));
+  paper(k, w, h, b);
+  if (sM >= 599) return;
+  const rect = [[0, 0], [w, 0], [w, h], [0, h]], rest = clipHalf(rect, d, sM, false), corner = clipHalf(rect, d, sM, true);
+  if (rest.length > 2) { k.save(); polyPath(k, rest); k.clip(); paper(k, w, h, a); k.restore(); }
+  if (corner.length > 2 && sM > 0.5) {
+    // 折り目の影（下のページ側）
+    k.save(); polyPath(k, corner); k.clip();
+    const mx = w + d[0] * sM, my = h + d[1] * sM, gr = k.createLinearGradient(mx, my, mx - d[0] * 50, my - d[1] * 50);
+    gr.addColorStop(0, 'rgba(15,26,61,.35)'); gr.addColorStop(1, 'rgba(15,26,61,0)'); k.fillStyle = gr; k.fillRect(0, 0, w, h); k.restore();
+    const flap = corner.map(p => { const s = (p[0] - w) * d[0] + (p[1] - h) * d[1], m = 2 * (sM - s); return [p[0] + m * d[0], p[1] + m * d[1]]; });
+    k.save(); k.shadowColor = 'rgba(0,0,0,.35)'; k.shadowBlur = 14; k.shadowOffsetX = 4; k.shadowOffsetY = 4;
+    polyPath(k, flap); k.fillStyle = a ? '#EADBB8' : '#E3E6EF'; k.fill(); k.restore();
+    k.strokeStyle = 'rgba(255,255,255,.8)'; k.lineWidth = 2; polyPath(k, flap); k.stroke();
+  }
+});

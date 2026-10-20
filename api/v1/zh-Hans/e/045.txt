@@ -1,0 +1,29 @@
+// Motion Prompt #045 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#045
+//
+// 划像转场 / Wipe
+// 分类包: camera (镜头运动与剪辑) · element 21 · 子分类: 剪辑与转场
+// 动画表现: 竖直边界从左向右移动，边界后方逐渐替换为下一画面。
+// 运动规格:
+//   - 转场持续 1.1 秒，从 1.7 秒到 2.8 秒；边界从左侧外 x = -4 px 移至右侧外 x = 543 px。
+//   - 采用三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+//   - 边界左侧显示后画面，右侧显示前画面；两幅画面均不移动，通过裁剪揭示，而非推移。
+//   - 边界为 4 px 宽蓝色竖线，仅在运动中可见。
+//   - 两画面的机位与主体均固定。
+//   - 每 4.7 秒交替 A→B 与 B→A，往返 9.4 秒；右上角显示“A → B”或“B → A”。
+// 适用场景: 适合明确划分场景或话题，也可切换对比的两侧。
+// 标签: wipe, linear wipe, reveal, clip, edge, left to right, transition
+// 尺寸: 539x208 px · 周期: 9.4 s
+// 依赖: kit camera -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/camera.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#045
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 21
+// 21 ワイプ
+CELLS[20] = shot(abCell((k, w, h, u, A, B) => {
+  const p = eIO(P(u, 1.7, 2.8)), ex = p * (w + 8) - 4;
+  A(k, w, h);
+  if (p > 0) { k.save(); k.beginPath(); k.rect(0, 0, ex, h); k.clip(); k.fillStyle = '#fff'; k.fillRect(0, 0, w, h); B(k, w, h); k.restore(); }
+  if (p > 0 && p < 1) { k.fillStyle = C.blue; k.fillRect(ex - 2, 0, 4, h); }
+}));

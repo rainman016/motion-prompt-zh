@@ -13,8 +13,8 @@
 // When to use it: To build anticipation for the next scene, or to make a change of scene or speaker feel natural.
 // Tags: j-cut, j cut, split edit, audio lead, sound first, audio transition, edit
 // Size: 539x208 px · Cycle: 9.4 s
-// Needs: kit camera -> https://showheyohtaki.github.io/motion-prompt/api/v1/kit/camera.js
-// Live demo: https://showheyohtaki.github.io/motion-prompt/#047
+// Needs: kit camera -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/camera.js
+// Live demo: https://rainman016.github.io/motion-prompt-zh/?lang=en#047
 //
 // cells[i](k, w, h, u): k = CanvasRenderingContext2D (already cleared and wrapped in save/restore by the caller), w,h = size, u = seconds in [0, cycle). The picture depends only on u.
 // Element code starts here. CELLS, constants and helpers live in the kit.

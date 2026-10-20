@@ -15,6 +15,11 @@
   --top-h: 56px;
   color-scheme: light;
 }
+:root:lang(zh-Hans) { --font: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif; }
+:lang(zh-Hans) h1 { line-height: 1.15; word-break: normal; letter-spacing: -.025em; }
+.hero-phrase { display: inline-block; }
+.seg { flex: none; }
+.tile-meaning { grid-column: 2; color: var(--muted); font-size: 12.5px; line-height: 1.55; margin-top: 3px; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #101012; --surface: #19191c; --ink: #ecebe6; --muted: #a29f97; --line: #2b2b30; --line-strong: #45454c;
@@ -299,4 +304,13 @@ html.has-tray { scroll-padding-bottom: calc(var(--tray-h, 0px) + 16px); }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 400px) {
+  .logo { font-size: 14px; }
+  .top-in { gap: 6px; }
+  .top-nav { gap: 2px; }
+  .top-link { font-size: 12px; padding-inline: 4px; }
+  .seg { margin-left: 0; }
+  .seg-b { padding-inline: 5px; }
+  .top-nav > .icon-b { width: 30px; height: 30px; }
 }

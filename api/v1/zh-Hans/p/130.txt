@@ -1,0 +1,17 @@
+请使用“波浪文字（Wave text）”，属于“动态图形进阶”。
+Motion Prompt #130
+
+效果解释：字符依次上下起伏，形成波浪
+动画表现：“WAVE TEXT”的字符依次升降，像波浪一样传播。
+实现规格与关键运动参数：
+- “WAVE TEXT”为 70 px 粗体、字距 4 px；每 4.7 秒三次波动，每次 1.567 秒。
+- 第 i 字符纵向偏移 = −28·sin(φ − 0.62i)，φ = 2π × 3 × time ÷ 4.7；各字符比前一个延迟 0.62 rad。
+- 上升字符纵向拉伸为 (1 + 0.06·s)，颜色由白趋黄；s 为正弦值，着色时限制在 0–1。
+- 各字符下的椭圆阴影在字符升高时缩小。
+适用场景：适合标志、短标题或配乐字幕，增加趣味和节奏。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#130
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/130.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

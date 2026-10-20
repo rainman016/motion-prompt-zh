@@ -11,8 +11,8 @@
 // When to use it: Use it whenever something should follow a set route: a flying object, a car, a journey on a map.
 // Tags: motion-path, path, curve, trajectory, follow-path, orient-to-path, loop
 // Size: 539x208 px · Cycle: 4.7 s
-// Needs: kit motion2 -> https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
-// Live demo: https://showheyohtaki.github.io/motion-prompt/#126
+// Needs: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// Live demo: https://rainman016.github.io/motion-prompt-zh/?lang=en#126
 //
 // cells[i](k, w, h, u): k = CanvasRenderingContext2D (already cleared and wrapped in save/restore by the caller), w,h = size, u = seconds in [0, cycle). The picture depends only on u.
 // Element code starts here. CELLS, constants and helpers live in the kit.

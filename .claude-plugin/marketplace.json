@@ -1,13 +1,13 @@
 {
-  "name": "motion-prompt",
-  "description": "Marketplace for the Motion Prompt skill (gallery: showheyohtaki.github.io/motion-prompt)",
+  "name": "motion-prompt-zh",
+  "description": "Unofficial Simplified Chinese localization of Motion Prompt by Shohei Ohtaki (gallery: https://rainman016.github.io/motion-prompt-zh/)",
   "owner": {
-    "name": "Shohei Ohtaki",
-    "url": "https://x.com/showheyohtaki"
+    "name": "rainman016",
+    "url": "https://github.com/rainman016"
   },
   "plugins": [
     {
-      "name": "motion-prompt",
+      "name": "motion-prompt-zh",
       "source": "./",
       "description": "A library of names to use with AI (motion-graphics moves, camera moves and transitions, UI components, landing-page and web effects, photo looks and lighting), each with a moving sample. Ask the agent to open the library, pick in the browser, and it applies your picks to your video, web or image project with the published timings and easing.",
       "category": "design"

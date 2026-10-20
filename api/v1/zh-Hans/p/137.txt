@@ -1,0 +1,17 @@
+请使用“推移转场（Push transition）”，属于“动态图形进阶”。
+Motion Prompt #137
+
+效果解释：下一场景滑入，同时把当前场景推出
+动画表现：下一场景从侧面滑入，与当前场景一起运动并将其推出。
+实现规格与关键运动参数：
+- 海景→山景→海景，各占 2.35 秒；每半段的 0.45–1.6 秒转场，持续 1.15 秒，采用三次缓入缓出。
+- 两场景保持相接，同时移动整个画面宽度 539 px，无重叠、无淡化。
+- 海转山向左移动，下一场景从右侧进入；山转海向右移动。
+- 两场景接缝用线宽 6 的深蓝线标记。
+适用场景：适合连续前进的幻灯片、照片或步骤切换。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#137
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/137.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

@@ -1,0 +1,32 @@
+// Motion Prompt #098 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#098
+//
+// 轮廓光 / Rim light
+// 分类包: photo (摄影光线与风格) · element 02 · 子分类: 布光与时段
+// 动画表现: 周围变暗，后方左右两灯只在头肩两边勾出细亮边，右下角示意灯位。
+// 运动规格:
+//   - 场景 1：地平线 y 150 前的头肩人物，头部中心 x 270、y 78、半径 29 px，不绘制五官和头发。
+//   - 亮场变为暗场，天空 #2B2D33、地面 #24252A；人物 #4D5A75 → #1F2128。
+//   - 将人物复制两份，填琥珀色 #FFC75A，分别左右偏移 3.5 px、上移 2.5 px，放在暗人物后方，形成宽 3.5 px 的亮边。
+//   - 右下角俯视灯位图为 66×66 px；两灯在后方左右 ±135°，右上角显示“±135°”。
+//   - 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+// 适用场景: 适合让人物或产品从暗背景中分离，并展示形状。
+// 标签: rim light, rim lighting, edge light, backlight, kicker, outline, studio
+// 尺寸: 539x208 px · 周期: 5 s
+// 依赖: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#098
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 02
+// リムライト: 周りが暗くなり、斜め後ろ左右の2灯で頭と肩の輪郭だけが細く光る
+CELLS[1] = cell((k, u) => {
+  const a = env(u);
+  stagePortrait(k, pal(BASE, DARK, a));
+  k.save(); k.globalAlpha = a; k.fillStyle = BASE.lit;
+  for (const dx of [-3.5, 3.5]) { k.save(); k.translate(dx, -2.5); bustPath(k, PX, PY, PR); k.fill(); k.restore(); }
+  k.restore();
+  bust(k, PX, PY, PR, mixc(BASE.person, DARK.person, a));
+  plan(k, [[Math.PI * 0.75, a], [-Math.PI * 0.75, a]]);
+  hud(k, '±135°');
+});

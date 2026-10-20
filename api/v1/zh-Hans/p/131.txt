@@ -1,0 +1,17 @@
+请使用“沿路径文字（Text on a path）”，属于“动态图形进阶”。
+Motion Prompt #131
+
+效果解释：文字沿线条或曲线流动
+动画表现：一行文字沿波浪曲线流动，每个字符随路径方向旋转。
+实现规格与关键运动参数：
+- 路径 y = 118 + 42·sin(2πx ÷ 330 + 0.6)，x = −70 至 609；下移 6 px 显示深蓝虚线，节距 14/10、线宽 5。
+- 重复“ALONG THE LINE • ”，42 px 粗体、字距 2 px；各字符按路径弧长定位，并旋转至路径方向。
+- 文字每 4.7 秒沿路径移动一个完整字符串的长度，保证无缝循环。
+- 字母白色，圆点黄色。
+适用场景：适合沿标志、道路、河流或波浪排字，也可做循环文字带。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#131
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/131.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

@@ -10,6 +10,6 @@ Motion Prompt #139
 - 奥へ行く面は最大55%まで暗く（0.55·sinφ）、出てくる面は55%の暗さから明るくする（0.55·cosφ）。床の影の幅は見えている幅に合わせる
 使いどころ: 商品・プラン・画面を次々に見せるとき。立体感を出して、横に並んでいる物を順に見せたいとき。
 
-参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://showheyohtaki.github.io/motion-prompt/api/v1/ja/e/139.txt
-共通の補助コード: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/motion2.js
+参考実装（Canvas 2D・時刻だけで絵が決まる関数）: https://rainman016.github.io/motion-prompt-zh/api/v1/ja/e/139.txt
+共通の補助コード: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
 参考実装の形・タイミング・イージングの数値はそのまま使い、中の文字・色・素材だけ、いま作っている物に合わせてください。

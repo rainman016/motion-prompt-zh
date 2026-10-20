@@ -1,0 +1,18 @@
+请使用“横向滚动（Horizontal scroll）”，属于“落地页与网页动效”。
+Motion Prompt #077
+
+效果解释：向下滚动，内容横向移动
+动画表现：页面向下滚动时分区固定，四张带编号的作品卡片向左移动。
+实现规格与关键运动参数：
+- 滚动：0.3–3.0 秒为 0→420 px，3.5–4.5 秒为 420→0，采用三次缓入缓出。
+- “WORKS”标题滚走，滚动到 40 px 时分区到达顶部并固定。
+- 四张卡片各 200 × 112，间隔 20，两侧留白 34；横移距离 = 34·2 + 200·4 + 20·3 − 511 = 417 px。
+- 卡片 x = 初始 x − p × 417，p = (scroll − 40) / 380；与滚动线性对应，无缓动。
+- 卡片横移时滚动条滑块仍向下移动。
+适用场景：适合在纵向长页中成排展示作品、案例或产品。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#077
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/077.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。

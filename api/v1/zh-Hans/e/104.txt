@@ -1,0 +1,33 @@
+// Motion Prompt #104 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#104
+//
+// 蓝调时刻 / Blue hour
+// 分类包: photo (摄影光线与风格) · element 08 · 子分类: 布光与时段
+// 动画表现: 日落后天空变成两段深蓝，窗户与路灯亮起琥珀色，人物变为深蓝轮廓。
+// 运动规格:
+//   - 场景 1：地平线 y 150 前的头肩人物，头部中心 x 270、y 78、半径 29 px，不绘制五官和头发。
+//   - 太阳半径 18 px，x 120；效果到 70% 时，y 从 40 下沉至 190，在 40% 到 80% 之间淡出。
+//   - 天空顶部 #2C3B5E、近地平线 #4A6191，地面 #283452，建筑 #34446B，人物 #1C2439。
+//   - 每三扇窗有一扇与灯泡变为 #FFC75A；灯泡外有 13 px 和 8 px 平涂光环，#FFE3A3，透明度分别 35% 与 60%。
+//   - 右上时间 12:00 → 18:35。
+//   - 效果在 0.4 秒至 1.4 秒进入，保持到 4.0 秒，在 4.8 秒前消失；每轮 5 秒，三次缓入缓出，约 cubic-bezier(0.65,0,0.35,1)。
+// 适用场景: 适合同时保留蓝色天空和发光灯火的城市夜景。
+// 标签: blue hour, twilight, dusk, night city, cityscape, deep blue sky
+// 尺寸: 539x208 px · 周期: 5 s
+// 依赖: kit photo -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/photo.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#104
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 08
+// ブルーアワー: 日が沈んだ後、空が深い青になり、窓と街灯の暖かい光が灯る
+CELLS[7] = cell((k, u) => {
+  const a = env(u);
+  const p = pal(BASE, NIGHT, a);
+  stagePortrait(k, p, {
+    sun: [120, lerp(40, 190, P(a, 0, 0.7)), 18, 1 - P(a, 0.4, 0.8)],
+    after: D => { const k2 = D.k; k2.save(); k2.globalAlpha = 0.35 * a; D.circ(413, HZ - 53, 13, BASE.glow); k2.globalAlpha = 0.6 * a; D.circ(413, HZ - 53, 8, BASE.glow); k2.restore(); D.circ(413, HZ - 53, 4, p.bulb); }
+  });
+  bust(k, PX, PY, PR, p.person);
+  hud(k, clock(lerp(720, 1115, a)));
+});

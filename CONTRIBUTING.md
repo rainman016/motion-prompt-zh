@@ -1,3 +1,5 @@
+> 中文版维护：先阅读 [README.md](README.md) 与 [本地化说明](docs/LOCALIZATION.md)。本版网站和 CLI 支持 zh-Hans / en / ja，144 项正式内容要求完整中文，aliases 为可选搜索扩展。下方保留原贡献指南，涉及上游地址的链接仍指向原项目。
+
 # Contributing: add the names of your field
 
 **English** | [日本語](CONTRIBUTING.ja.md)

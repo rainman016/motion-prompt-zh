@@ -1,0 +1,54 @@
+// Motion Prompt #136 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#136
+//
+// 手绘线条抖动 / Line boil
+// 分类包: motion2 (动态图形进阶) · element 16 · 子分类: 文字与图形
+// 动画表现: 画面本身静止，手绘轮廓每隔几帧轻微晃动。
+// 运动规格:
+//   - 静态线描包括黄色星形、白云、薄荷色闪光线和浅地面线，线宽 6–8、圆形端点。
+//   - 画面不移动，每 4.7 秒重画47 次，约每 0.1 秒一次；各点使用固定随机偏移，x、y 最大均为 ±3.5 px。
+//   - 各线先按每 6–13 px 取点，云轮廓96 点，再以相邻点中点构建二次曲线，形成逐帧手绘抖动。
+//   - 偏移由帧号与点号的哈希决定，同一帧始终相同。
+// 适用场景: 适合手绘插画、图标或字体，让静态画面仍有手绘生命感。
+// 标签: line-boil, boil, hand-drawn, wobble, jitter, sketch, frame-by-frame
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#136
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 16
+// 16 ラインボイル（手描き風の線の絵が、数コマごとに小刻みに揺らぐ。絵は動かない）
+function densify(pts, closed, step) { const out = [], n = pts.length, m = closed ? n : n - 1; for (let i = 0; i < m; i++) { const a = pts[i], b = pts[(i + 1) % n], d = Math.hypot(b[0] - a[0], b[1] - a[1]), c = Math.max(1, Math.round(d / step)); for (let j = 0; j < c; j++) out.push([lerp(a[0], b[0], j / c), lerp(a[1], b[1], j / c)]); } if (!closed) out.push(pts[n - 1]); return out; }
+const LB = (() => {
+  const st = []; for (let i = 0; i < 10; i++) { const r = i % 2 ? 30 : 70, a = -Math.PI / 2 + i * Math.PI / 5; st.push([150 + Math.cos(a) * r, 112 + Math.sin(a) * r]); }
+  const CIR = [[318, 132, 26], [354, 104, 36], [408, 94, 42], [456, 122, 30]], O = [388, 130], cl = [];
+  for (let i = 0; i < 96; i++) {
+    const a = i / 96 * Math.PI * 2, dx = Math.cos(a), dy = Math.sin(a); let tm = 0;
+    const tx = dx > 0 ? (470 - O[0]) / dx : dx < 0 ? (310 - O[0]) / dx : 1e9, ty = dy > 0 ? (150 - O[1]) / dy : dy < 0 ? (118 - O[1]) / dy : 1e9; tm = Math.min(tx, ty);
+    for (const [ccx, ccy, r] of CIR) { const ox = O[0] - ccx, oy = O[1] - ccy, b = ox * dx + oy * dy, c2 = ox * ox + oy * oy - r * r, D = b * b - c2; if (D >= 0) { const t = -b + Math.sqrt(D); if (t > tm) tm = t; } }
+    cl.push([O[0] + dx * tm, O[1] + dy * tm]);
+  }
+  return [
+    { pts: densify(st, true, 13), col: C.yel, closed: true, w: 8 },
+    { pts: cl, col: '#fff', closed: true, w: 8 },
+    { pts: densify([[248, 44], [266, 62]], false, 6), col: C.mint, closed: false, w: 7 },
+    { pts: densify([[254, 104], [280, 104]], false, 6), col: C.mint, closed: false, w: 7 },
+    { pts: densify([[60, 34], [74, 52]], false, 6), col: C.mint, closed: false, w: 7 },
+    { pts: densify([[318, 178], [460, 178]], false, 10), col: C.dim, closed: false, w: 6 },
+  ];
+})();
+CELLS[15] = (k, w, h, u) => {
+  u = snapU(u);
+  stage(k);
+  const fi = Math.floor(u / (CYC / 47));
+  k.lineCap = 'round'; k.lineJoin = 'round';
+  LB.forEach((sh, si) => {
+    const q = sh.pts.map((p, j) => [p[0] + (H01(fi * 7919 + j * 131 + si * 17) - 0.5) * 7, p[1] + (H01(fi * 6007 + j * 97 + si * 29 + 5) - 0.5) * 7]);
+    k.strokeStyle = sh.col; k.lineWidth = sh.w; k.beginPath();
+    const n = q.length, mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    if (sh.closed) { const m0 = mid(q[n - 1], q[0]); k.moveTo(m0[0], m0[1]); for (let j = 0; j < n; j++) { const m = mid(q[j], q[(j + 1) % n]); k.quadraticCurveTo(q[j][0], q[j][1], m[0], m[1]); } k.closePath(); }
+    else { k.moveTo(q[0][0], q[0][1]); for (let j = 1; j < n - 1; j++) { const m = mid(q[j], q[j + 1]); k.quadraticCurveTo(q[j][0], q[j][1], m[0], m[1]); } k.lineTo(q[n - 1][0], q[n - 1][1]); }
+    k.stroke();
+  });
+};

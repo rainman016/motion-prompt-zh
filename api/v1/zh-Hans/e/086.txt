@@ -1,0 +1,42 @@
+// Motion Prompt #086 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#086
+//
+// 下划线动画 / Underline animation
+// 分类包: lp (落地页与网页动效) · element 14 · 子分类: 悬停与点击交互
+// 动画表现: 光标所在链接下方的橙线从左伸展，移开时向右缩短消失。
+// 运动规格:
+//   - 三个链接为 20 px 粗体、间隔 56；光标从左到右各停约1 秒，命中区在文字两侧各加宽 6 px。
+//   - 橙色下划线粗 3，位于基线下方 8 px。
+//   - 悬停时宽度在 0.3 秒内从 0→100%，由左端展开，采用三次缓出。
+//   - 移开后左端在 0.3 秒内向右移动，使线条向右退出，类似以右侧为 transform-origin 的 scaleX。
+// 适用场景: 适合菜单和文字链接，以轻量方式提示悬停位置。
+// 标签: underline, hover, link, navigation, menu, text-link, scalex
+// 尺寸: 539x208 px · 周期: 4.8 s
+// 依赖: kit lp -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#086
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 14
+// 14 下線アニメーション（リンクにカーソルを乗せると下線が左から伸び、離れると右へ抜ける）
+CELLS[13] = (k, w, h, u) => {
+  frame(k);
+  const LINKS = ['サービス', '実績', '会社概要'], F = `800 20px ${JP}`, GAP = 56, LY = 84, DUR = 0.3;
+  const cur = t => path([[0, 120, 150], [0.45, 170, 80], [1.3, 186, 84], [1.55, 268, 80], [2.4, 282, 84], [2.65, 372, 80], [3.5, 390, 84], [3.95, 430, 150], [4.8, 120, 150]], t);
+  view(k, () => {
+    logo(k, 22, 28); bars(k, 90, 132, 331, 2, C.faint, 6, 12, 0.6);
+    k.font = F; const ws = LINKS.map(s => k.measureText(s).width); let x = (VW - ws.reduce((a, b) => a + b, 0) - GAP * (LINKS.length - 1)) / 2;
+    LINKS.forEach((s, i) => {
+      const x0 = x, x1 = x + ws[i], inside = t => { const [a, b] = cur(t); return a > x0 - 6 && a < x1 + 6 && b > LY - 22 && b < LY + 14; };
+      txt(k, s, x0, LY, F, C.ink);
+      // 最後に乗った・離れた時刻から 0.3秒（乗る: 左端から伸びる / 離れる: 左端から縮んで右へ抜ける）
+      const on = inside(u); let tc = null; for (let j = 0, t = u; j < 600; j++, t -= 1 / 120) if (inside(t - 1 / 120) !== on) { tc = t; break; }
+      if (tc !== null) {
+        const q = eOut(P(u, tc, tc + DUR)), a = on ? 0 : q, b = on ? q : 1;
+        if (b > a) { k.fillStyle = C.acc; k.fillRect(x0 + ws[i] * a, LY + 8, ws[i] * (b - a), 3); }
+      }
+      x += ws[i] + GAP;
+    });
+    const [cx, cy] = cur(u); cursor(k, cx, cy);
+  });
+};

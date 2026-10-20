@@ -1,14 +1,14 @@
 {
-  "name": "motion-prompt",
-  "displayName": "Motion Prompt",
-  "version": "0.1.0",
-  "description": "A numbered library of the names of motion-graphics moves, camera moves and transitions, UI components, landing-page and web effects, and photo looks and lighting, each with a moving sample. Ask your agent to open the library, pick what you like in the browser, and it applies your picks to your video, web or image project with the published timings and easing.",
+  "name": "motion-prompt-zh",
+  "displayName": "Motion Prompt 中文版",
+  "version": "0.2.0",
+  "description": "Unofficial Simplified Chinese Motion Prompt skill: preview, select and apply 144 effects using their published specifications and code.",
   "author": {
     "name": "Shohei Ohtaki",
     "url": "https://x.com/showheyohtaki"
   },
-  "homepage": "https://showheyohtaki.github.io/motion-prompt/",
-  "repository": "https://github.com/showheyohtaki/motion-prompt",
+  "homepage": "https://rainman016.github.io/motion-prompt-zh/",
+  "repository": "https://github.com/rainman016/motion-prompt-zh",
   "license": "MIT",
   "keywords": [
     "motion-graphics",

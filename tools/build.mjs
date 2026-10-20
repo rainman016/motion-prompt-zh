@@ -11,18 +11,25 @@ import path from 'node:path';
 import vm from 'node:vm';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { resolveConfig } from '../skills/motion-prompt-zh/scripts/config.mjs';
 
-const SITE = 'https://showheyohtaki.github.io/motion-prompt/';
-const REPO = 'https://github.com/showheyohtaki/motion-prompt';
 const LICENCE = 'MIT License (c) 2026 Shohei Ohtaki';
+// Attribution is immutable; deployment/demo/resource links use the Chinese site's configuration.
+const ATTRIBUTION_SITE = 'https://showheyohtaki.github.io/motion-prompt/';
 const VERSION = 1;
-const LANGS = ['ja', 'en'];   // languages of the gallery, the API folders and the copyable prompt
+const LANGS = ['zh-Hans', 'en', 'ja'];   // one canonical folder for Simplified Chinese
 const BASE_LANG = 'en';       // every text field needs this one; any other language code is optional
 
 const args = process.argv.slice(2);
 const flag = n => args.includes(n);
 const opt = n => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null; };
 const ROOT = path.resolve(opt('--root') || path.join(path.dirname(fileURLToPath(import.meta.url)), '..'));
+const CONFIG = resolveConfig(JSON.parse(fs.readFileSync(path.join(ROOT, 'site.config.json'), 'utf8')));
+const SITE = CONFIG.site;
+const REPO = CONFIG.repo;
+if (!/^https:\/\/[^<>\s]+\/$/.test(SITE) || !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(REPO)) {
+  throw new Error('site.config.json needs a real HTTPS site (trailing slash) and GitHub repository URL.');
+}
 const CHECK_ONLY = flag('--check');
 const PARTIAL = flag('--partial');
 
@@ -36,14 +43,32 @@ const isStr = v => typeof v === 'string' && v.trim() !== '';
 // ---------------------------------------------------------------- prompt template
 // This function is also written into assets/catalog.js (as source text), so the site's
 // "copy prompt" button and api/v1/<lang>/p/<id>.txt can never drift apart. Keep it self-contained.
-function mpPrompt(el, packTitle, lang) {
-  var base = 'https://showheyohtaki.github.io/motion-prompt/';
+function mpPrompt(el, packTitle, lang, site, apiBase) {
+  lang = lang === 'zh' ? 'zh-Hans' : lang;
+  var base = site || (typeof window !== 'undefined' && window.MP_SITE_CONFIG ? window.MP_SITE_CONFIG.site : '');
   var en = lang === 'en';
-  var spec = el.spec[lang].map(function (s) { return '- ' + s; }).join('\n');
-  var ref = base + 'api/v1/' + lang + '/e/' + el.id + '.txt';
-  var kit = base + 'api/v1/kit/' + el.pack + '.js';
+  var spec = (el.spec[lang] || el.spec.en).map(function (s) { return '- ' + s; }).join('\n');
+  var api = apiBase || (typeof window !== 'undefined' && window.MP_SITE_CONFIG && window.MP_SITE_CONFIG.apiBase) || base + 'api/v1';
+  api = api.replace(/\/+$/, '');
+  var ref = api + '/' + lang + '/e/' + el.id + '.txt';
+  var kit = api + '/kit/' + el.pack + '.js';
   var same = el.name.en === el.name.ja;
   var mean = el.meaning && (el.meaning[lang] || el.meaning.en);
+  if (lang === 'zh-Hans') {
+    return [
+      '请使用“' + (el.name[lang] || el.name.en) + '（' + el.name.en + '）”，属于“' + packTitle + '”。',
+      'Motion Prompt #' + el.id, '',
+      '效果解释：' + mean,
+      '动画表现：' + (el.summary[lang] || el.summary.en),
+      '实现规格与关键运动参数：', spec,
+      '适用场景：' + (el.use[lang] || el.use.en), '',
+      '动画演示：' + base + '?lang=zh-Hans#' + el.id,
+      '参考实现（Canvas 2D，画面仅由时间决定）：' + ref,
+      '共享辅助代码：' + kit,
+      '保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。',
+      '使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。'
+    ].join('\n');
+  }
   if (en) {
     return [
       'Please use "' + el.name.en + '"' + (same ? '' : ' (' + el.name.ja + ')') + ', one of the names in "' + packTitle + '".',
@@ -188,6 +213,7 @@ function validateMeta(meta, where) {
   if (!isStr(meta.pack)) err(where, 'pack is missing');
   if (!Number.isInteger(meta.order) || meta.order < 1) err(where, 'order must be a positive integer');
   bi(meta.title, where, 'title');
+  if (!isStr(meta.title?.['zh-Hans'])) err(where, 'title.zh-Hans is required');
   for (const l of packLangs(meta)) if (!LANG_CODE.test(l)) err(where, `title has a key "${l}" that is not a language code (use codes such as en, ja, es, zh-Hans)`);
   if (!Array.isArray(meta.categories) || !meta.categories.length) err(where, 'categories is missing or empty');
   const slugs = new Set();
@@ -196,6 +222,7 @@ function validateMeta(meta, where) {
     else if (slugs.has(c.slug)) err(where, `category slug "${c.slug}" is used twice`);
     slugs.add(c.slug);
     if (!isStr(c[BASE_LANG])) err(where, `category "${c.slug}": ${BASE_LANG} is missing or empty`);
+    if (!isStr(c['zh-Hans'])) err(where, `category "${c.slug}": zh-Hans is required`);
   }
   if (!Array.isArray(meta.elements) || !meta.elements.length) { err(where, 'elements is missing or empty'); return; }
   const seen = new Set();
@@ -218,6 +245,16 @@ function validateMeta(meta, where) {
     else bi(e.ask, w, 'ask');
     bi(e.summary, w, 'summary');
     bi(e.use, w, 'use');
+    for (const key of ['name', 'meaning', 'ask', 'summary', 'use']) {
+      if (!isStr(e[key]?.['zh-Hans']) || !/[\u3400-\u9fff]/.test(e[key]['zh-Hans'])) err(w, `${key}.zh-Hans needs complete Chinese text`);
+    }
+    if (!Array.isArray(e.spec?.['zh-Hans']) || !Array.isArray(e.spec?.en) || e.spec['zh-Hans'].length !== e.spec.en.length) err(w, 'spec.zh-Hans must match spec.en line count');
+    else e.spec.en.forEach((line, i) => {
+      const tokens = s => (String(s ?? '').match(/(?:\d+(?:,\d{3})*(?:\.\d+)?|\.\d+)/g) || []).sort().join('|');
+      if (tokens(line) !== tokens(e.spec['zh-Hans'][i])) err(w, `spec.zh-Hans line ${i + 1}: numeric values differ from English`);
+      if (!/[\u3400-\u9fff]/.test(e.spec['zh-Hans'][i])) err(w, `spec.zh-Hans line ${i + 1}: Chinese text is missing`);
+    });
+    if (e.aliases && Object.values(e.aliases).some(a => !Array.isArray(a) || a.some(s => !isStr(s)))) err(w, 'aliases must contain arrays of non-empty strings');
     if (!e.spec || typeof e.spec !== 'object' || Array.isArray(e.spec)) err(w, `spec is missing (needs at least { ${BASE_LANG}: [] })`);
     else {
       if (!Array.isArray(e.spec[BASE_LANG])) err(w, `spec.${BASE_LANG} is missing`);
@@ -305,6 +342,7 @@ const PIXEL_BOUND = /\b(setTransform|resetTransform|getTransform|getImageData|pu
 
 // The version changes whenever any pack source changes, so the skill CLI's cache never serves stale elements.
 const contentHash = crypto.createHash('sha256');
+contentHash.update(JSON.stringify(CONFIG)).update(mpPrompt.toString());
 for (const d of fs.readdirSync(path.join(ROOT, 'packs')).sort()) {
   for (const f of ['pack.js', 'meta.json']) {
     const fp = path.join(ROOT, 'packs', d, f);
@@ -324,6 +362,7 @@ for (const p of packs) {
       id, pack: meta.pack, no: e.no, slug: e.slug, category: e.category,
       width: info.width, height: info.height, cycle: info.cycle,
       name: e.name, meaning: e.meaning, ...(e.ask ? { ask: e.ask } : {}), summary: e.summary, spec: e.spec, use: e.use, tags: e.tags,
+      ...(e.aliases ? { aliases: e.aliases } : {}),
     });
     codeById[id] = cut.elements[i].code;
   });
@@ -340,6 +379,9 @@ const kitOf = Object.fromEntries(packs.map(p => [p.dir, p.cut.kitText]));
 
 // ---------------------------------------------------------------- text renderers
 const T = {
+  'zh-Hans': { what: '动画表现', spec: '运动规格', use: '适用场景', size: '尺寸', cycle: '周期', needs: '依赖', demo: '动画演示', pack: '分类包', cat: '子分类', tags: '标签',
+    sig: 'cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。',
+    code: '以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。' },
   ja: { what: '何が起きるか', spec: '動きの仕様', use: '使いどころ', size: 'サイズ', cycle: '1周', needs: 'Needs', demo: '動く見本', pack: 'パック', cat: 'カテゴリ', tags: 'タグ',
     sig: 'cells[i](k, w, h, u) … k = CanvasRenderingContext2D（呼ぶ側でクリアと save/restore 済み）、w・h = サイズ、u = 秒（0 以上 1周 未満）。u だけで絵が決まる。',
     code: 'ここから要素のコード。CELLS や定数・補助関数は kit にある。' },
@@ -351,9 +393,9 @@ const T = {
 function elementTxt(el, lang) {
   const t = T[lang], p = packOf[el.pack];
   const cat = p.categories.find(c => c.slug === el.category);
-  const name = lang === 'ja' ? `${el.name.ja} / ${el.name.en}` : `${el.name.en} / ${el.name.ja}`;
+  const name = lang === 'zh-Hans' ? `${el.name[lang]} / ${el.name.en}` : lang === 'ja' ? `${el.name.ja} / ${el.name.en}` : `${el.name.en} / ${el.name.ja}`;
   const head = [
-    `Motion Prompt #${el.id} · ${LICENCE} · ${SITE}#${el.id}`,
+    `Motion Prompt #${el.id} · ${LICENCE} · ${ATTRIBUTION_SITE}#${el.id}`,
     '',
     name,
     `${t.pack}: ${el.pack} (${p.title[lang]}) · element ${el.no} · ${t.cat}: ${cat ? cat[lang] : el.category}`,
@@ -363,8 +405,8 @@ function elementTxt(el, lang) {
     `${t.use}: ${el.use[lang]}`,
     `${t.tags}: ${el.tags.join(', ')}`,
     `${t.size}: ${el.width}x${el.height} px · ${t.cycle}: ${el.cycle} s`,
-    `${t.needs}: kit ${el.pack} -> ${SITE}api/v1/kit/${el.pack}.js`,
-    `${t.demo}: ${SITE}#${el.id}`,
+    `${t.needs}: kit ${el.pack} -> ${CONFIG.apiBase}/kit/${el.pack}.js`,
+    `${t.demo}: ${SITE}?lang=${lang}#${el.id}`,
     '',
     t.sig,
     t.code,
@@ -376,10 +418,10 @@ function kitJs(p) {
   const range = p.first === p.last ? `#${p.first}` : `#${p.first}-${p.last}`;
   const W = p.width, H = p.height, C = p.cycle;
   const head = [
-    `Motion Prompt ${range} · ${LICENCE} · ${SITE}#${p.first}`,
+    `Motion Prompt ${range} · ${LICENCE} · ${ATTRIBUTION_SITE}#${p.first}`,
     '',
     `Kit for pack "${p.pack}" (${p.title.en} / ${p.title.ja}): the constants and helpers its elements share.`,
-    `Elements ${range} · ${W}x${H} px · cycle ${C} s. Element code: ${SITE}api/v1/en/e/<id>.txt (or /ja/).`,
+    `Elements ${range} · ${W}x${H} px · cycle ${C} s. Element code: ${CONFIG.apiBase}/zh-Hans/e/<id>.txt (or /en/, /ja/).`,
     ...(p.fonts.length ? [`Fonts used: ${p.fonts.map(f => `${f.family} (${SITE}packs/${p.pack}/${f.url})`).join(', ')}. Load them before drawing.`] : []),
     '',
     'Run one element standalone in a browser:',
@@ -404,7 +446,7 @@ function catalogTsv(lang) {
   const head = `# Motion Prompt catalog (${lang}) · ${catalog.count} elements · ${SITE} · columns: id\tpack\tcategory\ttitle\ttags\tsummary`;
   const rows = catalog.elements.map(el => {
     const cat = packOf[el.pack].categories.find(c => c.slug === el.category);
-    const title = lang === 'ja' ? `${el.name.ja} (${el.name.en})` : `${el.name.en} (${el.name.ja})`;
+    const title = lang === 'zh-Hans' ? `${el.name[lang]} (${el.name.en})` : lang === 'ja' ? `${el.name.ja} (${el.name.en})` : `${el.name.en} (${el.name.ja})`;
     return [el.id, el.pack, cat ? cat[lang] : el.category, title, el.tags.join(','), el.summary[lang]].map(tsvCell).join('\t');
   });
   return [head, ...rows].join('\n') + '\n';
@@ -414,6 +456,10 @@ function catalogTsv(lang) {
 // One file per language the pack is written in: README.md (en), README.<lang>.md (the others).
 // Headings fall back to English for a language that has no block here; add a block to translate them.
 const DOC = {
+  'zh-Hans': { gen: '由 tools/build.mjs 从 meta.json 生成，请修改源文件后重新构建。', names: '个效果', pack: '分类包', langs: '其他语言',
+    intro: '找到效果名称后，直接告诉 AI；补充持续时间、强度与运动对象，结果会更接近你的想法。',
+    no: '编号', name: '中文名称', en: '英文名称', meaning: '名称解释', ask: '向 AI 提需求的示例',
+    more: '点击编号查看动画演示。单项的时序、缓动和参考代码：', all: '全部分类包', preview: '预览' },
   en: { gen: 'Generated by tools/build.mjs from meta.json. Edit meta.json, not this file.', names: 'names', pack: 'pack', langs: 'Languages',
     intro: 'Find the name, then say it to your AI. Add how long, how strong and what moves, and the result gets closer to what you had in mind.',
     no: '#', name: 'Name', en: 'English', meaning: 'What it is', ask: 'How to ask an AI',
@@ -494,17 +540,74 @@ if (errors.length) {
 }
 
 const files = new Map();
+// Chinese static fallbacks and deployment metadata stay usable before JavaScript starts.
+// Only marked UI text, marked repository links and head metadata are updated.
+for (const [htmlFile, jsFile] of [['index.html', 'assets/site.js'], ['found.html', 'assets/found.js']]) {
+  const source = fs.readFileSync(path.join(ROOT, jsFile), 'utf8');
+  const start = source.indexOf('var I18N = ') + 'var I18N = '.length;
+  const end = source.indexOf('\n  };', start) + '\n  }'.length;
+  const dict = vm.runInNewContext('(' + source.slice(start, end) + ')', {}, { timeout: 1000 })['zh-Hans'];
+  const escape = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const text = key => String(dict[key] || key).replace('{n}', String(catalog.count)).replace('{repo}', REPO)
+    .replace(/motion-prompt (Skill|skill|スキル)/g, CONFIG.skillName + ' $1');
+  let html = fs.readFileSync(path.join(ROOT, htmlFile), 'utf8');
+  html = html.replace(/(<([a-z0-9]+)\b[^>]*\bdata-t="([^"]+)"[^>]*>)[\s\S]*?(<\/\2>)/gi,
+    (_, open, tag, key, close) => open + escape(text(key)) + close);
+  html = html.replace(/(<([a-z0-9]+)\b[^>]*\bdata-t-html="([^"]+)"[^>]*>)[\s\S]*?(<\/\2>)/gi,
+    (_, open, tag, key, close) => open + text(key) + close);
+  html = html.replace(/<[a-z0-9]+\b[^>]*\bdata-t-attr="([^"]+)"[^>]*>/gi, (tag, pairs) => {
+    for (const pair of pairs.split(',')) {
+      const [attr, key] = pair.split(':').map(x => x.trim());
+      const re = new RegExp('\\b' + attr + '="[^"]*"');
+      tag = re.test(tag) ? tag.replace(re, attr + '="' + escape(text(key)) + '"') : tag.replace(/>$/, ' ' + attr + '="' + escape(text(key)) + '">');
+    }
+    return tag;
+  });
+  const pageUrl = SITE + (htmlFile === 'index.html' ? '' : htmlFile);
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>' + escape(text('title')) + '</title>')
+    .replace(/(<link rel="canonical" href=")[^"]*/, '$1' + pageUrl)
+    .replace(/(<meta property="og:url" content=")[^"]*/, '$1' + pageUrl)
+    .replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*/g, '$1' + SITE + 'assets/og.png')
+    .replace(/(<meta (?:name="description"|property="og:description") content=")[^"]*/g, '$1' + escape(text('description')))
+    .replace(/(<meta property="og:title" content=")[^"]*/, '$1' + escape(text('title')));
+  html = html.replace(/<a\b[^>]*\bdata-repo-path="([^"]*)"[^>]*>/g, (tag, rel) => tag.replace(/href="[^"]*"/, 'href="' + REPO + rel + '"'));
+  html = html.replace(/(<code id="cmd">)[^<]*/, '$1npx skills add ' + CONFIG.owner + '/' + CONFIG.repository + ' --skill ' + CONFIG.skillName);
+  files.set(htmlFile, html);
+}
 files.set('api/v1/catalog.json', JSON.stringify(catalog, null, 1) + '\n');
 for (const lang of LANGS) {
   files.set(`api/v1/${lang}/catalog.tsv`, catalogTsv(lang));
   for (const el of catalog.elements) {
     files.set(`api/v1/${lang}/e/${el.id}.txt`, elementTxt(el, lang));
-    files.set(`api/v1/${lang}/p/${el.id}.txt`, mpPrompt(el, packOf[el.pack].title[lang], lang) + '\n');
+    files.set(`api/v1/${lang}/p/${el.id}.txt`, mpPrompt(el, packOf[el.pack].title[lang], lang, SITE, CONFIG.apiBase) + '\n');
   }
 }
 for (const p of catalog.packs) files.set(`api/v1/kit/${p.pack}.js`, kitJs(p));
 for (const src of packs) for (const lang of src.langs) files.set(`packs/${src.dir}/${readmeName(lang)}`, packReadme(src, packOf[src.dir], lang));
 files.set('packs/README.md', packsIndex());
+files.set('assets/site-config.js', `/* Generated by tools/build.mjs from site.config.json */\nwindow.MP_SITE_CONFIG = ${JSON.stringify(CONFIG)};\n`);
+files.set('skills/motion-prompt-zh/scripts/site-config.json', JSON.stringify(CONFIG, null, 2) + '\n');
+for (const name of ['2-example.yml', 'config.yml']) {
+  const rel = `.github/ISSUE_TEMPLATE/${name}`;
+  files.set(rel, fs.readFileSync(path.join(ROOT, rel), 'utf8')
+    .replace(/https:\/\/[\w.-]+\.github\.io\/[\w.-]+\//g, SITE)
+    .replace(/https:\/\/github\.com\/[\w.-]+\/[\w.-]+(?=\/blob\/main\/CONTRIBUTING)/g, REPO));
+}
+for (const name of ['plugin', 'marketplace']) {
+  const rel = `.claude-plugin/${name}.json`;
+  const data = JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+  data.name = CONFIG.skillName;
+  if (name === 'plugin') {
+    data.displayName = 'Motion Prompt 中文版'; data.version = '0.2.0';
+    data.description = 'Unofficial Simplified Chinese Motion Prompt skill: preview, select and apply 144 effects using their published specifications and code.';
+    data.homepage = SITE; data.repository = REPO;
+  }
+  else { data.owner = { name: CONFIG.owner, url: 'https://github.com/' + CONFIG.owner };
+    data.description = `Unofficial Simplified Chinese localization of Motion Prompt by Shohei Ohtaki (gallery: ${SITE})`;
+    for (const plugin of data.plugins) plugin.name = CONFIG.skillName;
+  }
+  files.set(rel, JSON.stringify(data, null, 2) + '\n');
+}
 files.set('assets/catalog.js',
   `/* Generated by tools/build.mjs — do not edit. Source of truth: packs/<pack>/{meta.json,pack.js} */\n` +
   `window.MP_CATALOG = ${JSON.stringify(catalog)};\n` +

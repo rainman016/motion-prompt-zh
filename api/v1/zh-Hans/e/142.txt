@@ -1,0 +1,60 @@
+// Motion Prompt #142 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#142
+//
+// 碎裂转场 / Shatter
+// 分类包: motion2 (动态图形进阶) · element 22 · 子分类: 转场与强调
+// 动画表现: 画面像玻璃一样开裂，碎片飞散，露出下一场景。
+// 运动规格:
+//   - 山景→日景→山景，各占 2.35 秒；撞击点为 (304, 92)。
+//   - 0.3–0.65 秒出现裂纹：十三条放射线与半径约 40, 98, 175 的环，各扰动 ±15%；由中心按距离依次展开，三次缓出延伸至 420 px；中央白色闪光星在 0.6 秒前淡出。
+//   - 0.82 秒碎裂：从旧场景裁出 52 片，即 13 × 4 环，向外速度 220–480 px/s；纵向速度 × 0.7 并额外最多向上 120，重力 1300 px/s²，旋转 ±4 rad/s，在 1 秒内最多缩小 35%。
+//   - 外圈更晚飞离，每圈延迟 0.035 秒，另加最多 0.03 秒随机延迟；各碎片在开始移动后 0.55–1.0 秒淡出。
+//   - 碎片带白色 2.5 px 边缘，下一场景位于下方。
+// 适用场景: 适合在强烈标题或结果出现前制造冲击、破裂或转折。
+// 标签: shatter, glass-break, broken-glass, shards, crack, transition, impact
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#142
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 22
+// 22 ガラス割れ（画面がガラスのようにひび割れ、破片が飛び散って次の画面が現れる）
+const SHARDS = (() => {
+  const R = rand(2222), I = [304, 92], NA = 13, RAD = [0, 40, 98, 175, 360], V = [];
+  const angs = []; for (let i = 0; i < NA; i++) angs.push((i + (R() - 0.5) * 0.6) / NA * Math.PI * 2);
+  for (let r = 0; r < RAD.length; r++) { V.push([]); for (let i = 0; i < NA; i++) { const rr_ = r ? RAD[r] * (0.85 + R() * 0.3) : 0, a = angs[i] + (r ? (R() - 0.5) * 0.12 : 0); V[r].push([I[0] + Math.cos(a) * rr_, I[1] + Math.sin(a) * rr_]); } }
+  const sh = [];
+  for (let r = 0; r < RAD.length - 1; r++) for (let i = 0; i < NA; i++) {
+    const j = (i + 1) % NA, poly = r ? [V[r][i], V[r][j], V[r + 1][j], V[r + 1][i]] : [I, V[1][j], V[1][i]];
+    const cxp = poly.reduce((s, p) => s + p[0], 0) / poly.length, cyp = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+    const dx = cxp - I[0], dy = cyp - I[1], dd = Math.hypot(dx, dy) || 1, sp = 220 + R() * 260;
+    sh.push({ poly, c: [cxp, cyp], vx: dx / dd * sp, vy: dy / dd * sp * 0.7 - 120 * R(), spin: (R() - 0.5) * 8, dl: r * 0.035 + R() * 0.03 });
+  }
+  return { I, V, RAD, NA, sh };
+})();
+CELLS[21] = abCell((k, w, h, u, a, b) => {
+  const S = [scMtn, scrA], crack = eOut(P(u, TA - 0.2, TA + 0.15)) * 420, tb = TA + 0.32;
+  if (u < tb) {
+    S[a](k, w, h);
+    if (crack > 0) {
+      const { I, V, RAD, NA } = SHARDS; k.strokeStyle = '#fff'; k.lineWidth = 3; k.lineCap = 'round'; k.lineJoin = 'round'; k.globalAlpha = 0.95;
+      for (let i = 0; i < NA; i++) { k.beginPath(); k.moveTo(I[0], I[1]); for (let r = 1; r < RAD.length; r++) { if (RAD[r] * 0.85 > crack) break; k.lineTo(V[r][i][0], V[r][i][1]); } k.stroke(); }
+      for (let r = 1; r < RAD.length - 1; r++) { if (RAD[r] * 1.4 > crack) break; k.beginPath(); for (let i = 0; i <= NA; i++) { const p = V[r][i % NA]; i ? k.lineTo(p[0], p[1]) : k.moveTo(p[0], p[1]); } k.stroke(); }
+      k.globalAlpha = 1;
+      const fl = 1 - P(u, TA - 0.2, TA + 0.1); if (fl > 0) { k.fillStyle = '#fff'; star(k, I[0], I[1], 26 * fl + 6, 0.3, 0.3, 6); k.fill(); }
+    }
+    return;
+  }
+  S[b](k, w, h);
+  TK.setTransform(1, 0, 0, 1, 0, 0); TK.globalCompositeOperation = 'source-over'; TK.clearRect(0, 0, w, h); S[a](TK, w, h);
+  for (const s of SHARDS.sh) {
+    const t = u - tb - s.dl; let al = 1, x = 0, y = 0, rt = 0, sc = 1;
+    if (t > 0) { x = s.vx * t; y = s.vy * t + 0.5 * 1300 * t * t; rt = s.spin * t; sc = 1 - 0.35 * Math.min(1, t); al = 1 - P(t, 0.55, 1.0); }
+    if (al <= 0) continue;
+    k.save(); k.globalAlpha = al; k.translate(s.c[0] + x, s.c[1] + y); k.rotate(rt); k.scale(sc, sc); k.translate(-s.c[0], -s.c[1]);
+    polyPath(k, s.poly); k.save(); k.clip(); k.drawImage(TMP, 0, 0); k.restore();
+    k.strokeStyle = 'rgba(255,255,255,.85)'; k.lineWidth = 2.5; polyPath(k, s.poly); k.stroke();
+    k.restore();
+  }
+});

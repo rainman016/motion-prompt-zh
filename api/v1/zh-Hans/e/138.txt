@@ -1,0 +1,26 @@
+// Motion Prompt #138 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#138
+//
+// 百叶窗转场 / Blinds transition
+// 分类包: motion2 (动态图形进阶) · element 18 · 子分类: 转场与强调
+// 动画表现: 一组窄条中的开口不断扩大，直到完整显露下一场景。
+// 运动规格:
+//   - 日景→夜景→日景，各占 2.35 秒；七条横带，每条 208 ÷ 7 ≈ 29.7 px。
+//   - 0.4–1.65 秒，持续 1.25 秒，二次缓入缓出；每条同时从顶部向下揭示下一场景，开口由 0 增至整条高度。
+//   - 前场景保持在下层，两幅画面都不移动。
+// 适用场景: 适合日夜、前后对比等明确场景切换，也可营造复古感。
+// 标签: blinds, venetian-blinds, stripes, transition, wipe, scene-change
+// 尺寸: 539x208 px · 周期: 4.7 s
+// 依赖: kit motion2 -> https://rainman016.github.io/motion-prompt-zh/api/v1/kit/motion2.js
+// 动画演示: https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#138
+//
+// cells[i](k, w, h, u)：k 为 CanvasRenderingContext2D，调用方已清空并包裹 save/restore；w、h 为尺寸，u 为 [0, cycle) 内的秒数。画面仅由 u 决定。
+// 以下为元素代码，CELLS、常量和辅助函数位于共享 kit 中。
+
+// @element 18
+// 18 ブラインド（細い帯ごとのすき間がだんだん広がって、次の画面が開く）
+CELLS[17] = abCell((k, w, h, u, a, b) => {
+  const p = eIOs(P(u, TA - 0.1, TB + 0.15)), N = 7, sh = h / N, S = [scrA, scrB];
+  S[a](k, w, h);
+  if (p <= 0) return;
+  k.save(); k.beginPath(); for (let i = 0; i < N; i++) k.rect(0, i * sh, w, sh * p + (p > 0.999 ? 1 : 0)); k.clip(); S[b](k, w, h); k.restore();
+});

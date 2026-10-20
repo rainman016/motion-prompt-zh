@@ -11,6 +11,6 @@ Spec:
 - When an element leaves the bottom of the view on the way back up, it is reset out of sight and plays again next time.
 When to use it: Use it on a long landing page to bring content in piece by piece as the reader scrolls.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/074.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/lp.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/074.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

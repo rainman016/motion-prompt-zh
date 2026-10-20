@@ -10,6 +10,6 @@ Spec:
 - Fill width = 511 px × scroll / 430, the scroll fraction itself (the same as CSS animation-timeline: scroll()).
 When to use it: Use it on long articles to show how much is left to read.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/079.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/lp.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/079.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

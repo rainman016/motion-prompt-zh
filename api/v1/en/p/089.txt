@@ -11,6 +11,6 @@ Spec:
 - At 4.25–4.75 s the screen comes back down from the top, at 0% (the next load).
 When to use it: Use it on image- or video-heavy sites to turn the loading wait into a brand moment.
 
-Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://showheyohtaki.github.io/motion-prompt/api/v1/en/e/089.txt
-Shared helper code: https://showheyohtaki.github.io/motion-prompt/api/v1/kit/lp.js
+Reference implementation (Canvas 2D, a function whose picture depends only on the time): https://rainman016.github.io/motion-prompt-zh/api/v1/en/e/089.txt
+Shared helper code: https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
 Keep the shapes, timing and easing values of the reference implementation as they are, and change only the text, colours and assets to fit what I am making.

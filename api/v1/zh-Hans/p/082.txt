@@ -1,0 +1,16 @@
+请使用“悬停图片放大（Image zoom on hover）”，属于“落地页与网页动效”。
+Motion Prompt #082
+
+效果解释：固定边框内的照片逐渐放大
+动画表现：光标下的照片缓慢放大，外框尺寸不变，移开后缩回。
+实现规格与关键运动参数：
+- 两个 222 × 118、圆角 8 的照片框；光标先停左侧再右侧，各约 1.5 秒。
+- 悬停时内容在 0.5 秒内以三次缓出从中心缩放 1→1.15，移开后用 0.5 秒返回。
+- 框外内容裁剪，对应 overflow: hidden；边框和说明文字不移动。
+适用场景：适合在作品、商品或文章图片网格中提示即将选中的项目。
+
+动画演示：https://rainman016.github.io/motion-prompt-zh/?lang=zh-Hans#082
+参考实现（Canvas 2D，画面仅由时间决定）：https://rainman016.github.io/motion-prompt-zh/api/v1/zh-Hans/e/082.txt
+共享辅助代码：https://rainman016.github.io/motion-prompt-zh/api/v1/kit/lp.js
+保留参考实现的形状、运动路径、时序、缓动和全部运动参数；按实际项目替换文字、颜色、图片、标志等素材，并接入项目现有实现方式。
+使用参考代码时保留 Shohei Ohtaki 的 MIT 版权标识。
